@@ -11,12 +11,17 @@
 <!--- required attributes --->
 <cfparam name="attributes.postid" type="uuid" />
 
+<!--- optional attributes --->
+<cfparam name="attributes.bComment" default="false" type="boolean" />
+
 <!--- comment list --->		
 <skin:view typename="farBlogPost" objectid="#attributes.postid#" webskin="displayComments" />
 
 <!--- comments form --->
-<cfset stProps = structNew() />
-<cfset stProps.parentid = attributes.postid /> 		
-<skin:view typename="farBlogComment" webskin="editAddComment" stProps="#stProps#" />
+<cfif attributes.bComment>
+	<cfset stProps = structNew() />
+	<cfset stProps.parentid = attributes.postid /> 		
+	<skin:view typename="farBlogComment" webskin="editAddComment" stProps="#stProps#" />
+</cfif>
 
 <cfsetting enablecfoutputonly="false" />

@@ -5,13 +5,14 @@
 <!--- @@Developer: Geoff Bowers (modius@daemon.com.au) --->
 <cfcomponent extends="farcry.core.packages.types.versions" displayname="Blog Post" hint="Blog post." bSchedule="true" bFriendly="true"
 	bObjectBroker="true" 
-	<!--- lObjectBrokerWebskins="display*" --->>
+	lObjectBrokerWebskins="display*">
 <!------------------------------------------------------------------------
 type properties
 ------------------------------------------------------------------------->	
 <cfproperty ftseq="1" ftfieldset="General Details" ftwizardstep="Start" name="Title" type="string" hint="News title." required="no" default="" ftlabel="Title" ftvalidation="required" />
 <cfproperty ftseq="3" ftfieldset="General Details" ftwizardstep="Start" name="publishDate" type="date" hint="The date that a news object is sent live and appears on the public website" required="no" default="" ftDefaultType="Evaluate" ftDefault="now()" ftType="datetime" ftDateFormatMask="dd mmm yyyy" ftTimeFormatMask="hh:mm tt" ftToggleOffDateTime="false" ftlabel="Publish Date" />
 <cfproperty ftseq="5" ftfieldset="General Details" ftwizardstep="Start" name="displayMethod" type="string" hint="Display method to render." required="yes" default="display" fttype="webskin" ftprefix="displayPage" ftlabel="Content Template" />
+<cfproperty ftseq="7" ftfieldset="General Details" ftwizardstep="Start" name="bComment" type="boolean" hint="Flag for enabling comments." default="1" required="no" ftlabel="Enable Comments?" />
 
 <cfproperty ftseq="10" ftfieldset="Related Content" ftwizardstep="Blog Post" name="aMedia" type="array" hint="Mixed media content for this content." required="no" default="" ftJoin="dmImage,dmfile,dmflash" ftlabel="Media Library" />
 <cfproperty name="lMedia" type="string" hint="Mixed media content for this content." required="no" default="" fttype="arrayList" ftArrayField="aMedia" />
@@ -23,8 +24,6 @@ type properties
 
 <cfproperty ftseq="30" ftfieldset="Categorisation" ftwizardstep="Categorisation" name="aCategories" type="array" hint="Blog categorisation." required="no" default="" fttype="array" ftjoin="farblogcategory" ftlabel="Blog Category" />
 <cfproperty ftseq="31" ftfieldset="Categorisation" ftwizardstep="Categorisation" name="catBlogPost" type="string" hint="Blog categorisation." required="no" default="" fttype="category" ftalias="farblogpost" ftlabel="Blog Category" />
-
-<cfproperty ftseq="40" ftfieldset="Commenting" name="bComment" type="boolean" hint="Flag for enabling comments." default="1" required="no" ftlabel="Enable Comments?" />
 
 
 <!--- system attribute --->

@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true" />
-<cfimport prefix="ft" taglib="/farcry/core/tags/formtools" />
 
-		
+<!--- import tag libraries --->
+<cfimport prefix="ft" taglib="/farcry/core/tags/formtools" />
 
 <!------------------------------- 
 ACTION:
