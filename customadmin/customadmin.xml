@@ -6,6 +6,7 @@
 			<menu label="Blog Tools">
 				<menuitem label="Blog Posts" link="/admin/customadmin.cfm?module=listblogpost.cfm&amp;plugin=farcryblog" />
 				<menuitem label="Blog Comments" link="/admin/customadmin.cfm?module=listblogcomment.cfm&amp;plugin=farcryblog" />
+				<menuitem label="Blog Category" link="/admin/customadmin.cfm?module=listblogcategory.cfm&amp;plugin=farcryblog" />
 			</menu>
 		</subsection>
 	</section>
