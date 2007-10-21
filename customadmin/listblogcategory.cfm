@@ -10,9 +10,9 @@
 	title="Blog Category"
 	typename="farblogcategory"
 	ColumnList="Title,Description,datetimelastupdated"
-	SortableColumns=""
-	lFilterFields=""
-	sqlorderby="" />
+	SortableColumns="Title,Description,datetimelastupdated"
+	lFilterFields="Title"
+	sqlorderby="Title" />
 
 <admin:footer />
 
