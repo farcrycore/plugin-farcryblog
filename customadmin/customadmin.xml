@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<webtop>
+	<section id="blogging" permission="MainNavAdminTab" label="Blogging">
+		<subsection id="blogger" permission="MainNavAdminTab" sidebar="custom/sidebar.cfm" content="inc/content_overview.html" label="Blogger Stuff">
+			<menu label="Blog Tools">
+				<menuitem label="Blog Posts" link="/admin/customadmin.cfm?module=listblogpost.cfm&amp;plugin=farcryblog" />
+				<menuitem label="Blog Comments" link="/admin/customadmin.cfm?module=listblogcomment.cfm&amp;plugin=farcryblog" />
+			</menu>
+		</subsection>
+	</section>
+</webtop>
