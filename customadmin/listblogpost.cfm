@@ -14,7 +14,8 @@
 	sortableColumns="title,catblogpost,publishdate"
 	lFilterFields="title"
 	sqlorderby="publishdate desc"
-	module="farcryblog/listblogpost.cfm" />
+	plugin="farcryblog"
+	module="listblogpost.cfm" />
 
 <!--- page footer --->
 <admin:footer />

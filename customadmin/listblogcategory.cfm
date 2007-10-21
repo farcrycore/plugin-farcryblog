@@ -12,7 +12,9 @@
 	ColumnList="Title,Description,datetimelastupdated"
 	SortableColumns="Title,Description,datetimelastupdated"
 	lFilterFields="Title"
-	sqlorderby="Title" />
+	sqlorderby="Title"
+	plugin="farcryblog"
+	module="listblogcategory.cfm" /> />
 
 <admin:footer />
 

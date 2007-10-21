@@ -13,7 +13,8 @@
 	columnList="subject,commenthandle,email,website,parentid,datetimecreated"
 	sortableColumns="subject,commenthandle,email,website,parentid,datetimecreated"
 	lFilterFields="subject,commenthandle,email,website"
-	sqlorderby="datetimecreated desc" 
+	sqlorderby="datetimecreated desc"
+	plugin="farcryblog"
 	module="farcryblog/listblogcomment.cfm" />
 
 <!--- page footer --->
