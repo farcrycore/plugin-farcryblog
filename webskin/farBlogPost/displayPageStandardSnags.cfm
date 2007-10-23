@@ -15,7 +15,7 @@ $Developer: Geoff Bowers (modius@daemon.com.au) $
 
 <!--- import tag library --->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
-<cfimport taglib="/farcry/projects/daemonite/tags" prefix="tag" />
+<cfimport taglib="../../tags" prefix="tag" />
 
 <cfmodule template="/farcry/projects/#application.applicationname#/webskin/includes/dmHeader.cfm" pageTitle="#stObj.title#">
 
