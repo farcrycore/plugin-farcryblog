@@ -20,7 +20,8 @@
 <!--- comments form --->
 <cfif attributes.bComment>
 	<cfset stProps = structNew() />
-	<cfset stProps.parentid = attributes.postid /> 		
+	<cfset stProps.parentid = attributes.postid />
+	<cfset stprops.bsubscribe = 0 />	
 	<skin:view typename="farBlogComment" webskin="editAddComment" stProps="#stProps#" />
 </cfif>
 

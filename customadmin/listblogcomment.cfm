@@ -15,7 +15,7 @@
 	lFilterFields="subject,commenthandle,email,website"
 	sqlorderby="datetimecreated desc"
 	plugin="farcryblog"
-	module="farcryblog/listblogcomment.cfm" />
+	module="listblogcomment.cfm" />
 
 <!--- page footer --->
 <admin:footer />

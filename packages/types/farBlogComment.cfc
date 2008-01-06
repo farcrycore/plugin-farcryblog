@@ -9,14 +9,13 @@
 <cfproperty ftseq="5" ftfieldset="Blog Comment" name="website" type="string" hint="Website address of poster." required="no" default="" fttype="url" ftlabel="Website" />
 <cfproperty ftseq="6" ftfieldset="Blog Comment" name="parentid" type="uuid" hint="Parent content object reference." required="no" ftjoin="farblogpost" ftlabel="Parent Blog Post" />
 
-<cfproperty ftseq="7" ftfieldset="Blog Comment" name="bCaptcha" type="boolean" hint="Flag for lylacaptcha." default="0" required="no" fttype="lylacaptcha" ftlabel="Captcha" />
+<cfproperty ftseq="10" ftfieldset="Blog Comment" name="bCaptcha" type="boolean" hint="Flag for lylacaptcha." default="0" required="no" fttype="lylacaptcha" ftlabel="Captcha" />
+<cfproperty ftseq="20" ftfieldset="Blog Comment" name="bSubscribe" type="boolean" hint="Flag for thread subscription." default="0" required="no" fttype="boolean" ftlabel="Subscribe to thread?" />
 
-
-
-
+<!--- getway methods --->
 <cffunction name="getcomments" returntype="query" output="false" access="public" hint="Returns all comments that match a specific content reference.">
-	<cfargument name="parentid" required="true" type="uuid" hint="Object reference for the parent content item.">
-	<cfset var qComments=querynew("blah")>
+	<cfargument name="parentid" required="true" type="uuid" hint="Object reference for the parent content item." />
+	<cfset var qComments=querynew("blah") />
 	<cfquery datasource="#application.dsn#" name="qComments">
 	SELECT objectid, subject, description, commenthandle, datetimecreated
 	FROM farBlogComment
@@ -41,22 +40,22 @@
 </cffunction>
 
 
+<!--- save events --->
 <cffunction name="AfterSave" access="public" output="false" returntype="struct" hint="Called from setData and createData and run after the object has been saved.">
-		<cfargument name="stProperties" required="yes" type="struct" hint="A structure containing the contents of the properties that were saved to the object.">
+	<cfargument name="stProperties" required="yes" type="struct" hint="A structure containing the contents of the properties that were saved to the object.">
 
-		<cfmail to="modius@daemon.com.au" from="modius@gmail.com" subject="farBlogComment.beforeSave() dump" type="html">
-			<cfdump var="#form#" label="FORM Variables" />
-			<cfdump var="#arguments#" label="Arguments" />
-		</cfmail>
-
-		<cfset arguments.stProperties = super.afterSave(stProperties=arguments.stProperties) />
-		
-		<!--- Flush the blog post this comment is refering too. --->
-		<cfset createObject("component", "farcry.core.packages.fourq.objectBroker").RemoveFromObjectBroker(lObjectIDs=arguments.stProperties.parentid, typename="farBlogPost") />		
-
-		<cfreturn stProperties />
-</cffunction> 
+	<cfset arguments.stProperties = super.afterSave(stProperties=arguments.stProperties) />
 	
+	<!--- Flush the blog post this comment is refering too. --->
+	<cfset createObject("component", "farcry.core.packages.fourq.objectBroker").RemoveFromObjectBroker(lObjectIDs=arguments.stProperties.parentid, typename="farBlogPost") />		
+	
+	<!--- send email alerts --->
+	<cfset sendAuthorAlert(objectid=arguments.stProperties.objectid) />
+	<cfset sendSubscriptionAlert(objectid=arguments.stProperties.objectid) />
+
+	<cfreturn stProperties />
+</cffunction> 
+
 <cffunction name="BeforeSave" access="public" output="false" returntype="struct">
 	<cfargument name="stProperties" required="true" type="struct">
 	<cfargument name="stFields" required="true" type="struct">
@@ -66,6 +65,90 @@
 	
 	<cfreturn arguments.stProperties />
 </cffunction>
+
+<cffunction name="unsubscribeUser" access="public" output="false" returntype="void">
+	<cfargument name="objectid" required="true" type="uuid" hint="UUID for the blog post of comment." />
+	<cfset var stobj=getData(objectid=arguments.objectid) />
+	
+	<cfquery datasource="#application.dsn#" name="qSubscribers">
+	UPDATE farBlogComment
+	SET bSubscribe = 0
+	WHERE parentid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#stobj.parentid#" />
+	AND email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#stobj.email#" />
+	</cfquery>
+		
+</cffunction>
+
+<!--- send alerts --->
+<cffunction name="sendAuthorAlert" access="private" output="false" returntype="void">
+	<cfargument name="objectid" required="true" type="uuid" />
+	<cfset var stobj=getData(objectid=arguments.objectid) />
+	<cfset var oPost=createObject("component", application.stcoapi["farblogpost"].typepath) />
+	<cfset var stPost=oPost.getData(objectid=stobj.parentid) />
+	
+	<cfmail to="modius@daemon.com.au" from="modius@gmail.com" subject="#application.config.general.sitetitle#: #left(stpost.title,"50")#" type="text">
+<cfoutput>
+There's been an update to the post you made at *#application.config.general.sitetitle#*
+
+#stpost.title#
+-------------------------------------------------
+#stpost.teaser#
+
+New Comment
+-------------------------------------------------
+#stobj.subject#
+#stobj.description#
+#stobj.commenthandle#
+
+
+Link back to the thread:
+http://#cgi.SERVER_NAME#/index.cfm?objectid=#stobj.parentid#
+</cfoutput>			
+	</cfmail>
+		
+</cffunction>
+
+<cffunction name="sendSubscriptionAlert" access="private" output="false" returntype="void">
+	<cfargument name="objectid" required="true" type="uuid" />
+	<cfset var stobj=getData(objectid=arguments.objectid) />
+	<cfset var oPost=createObject("component", application.stcoapi["farblogpost"].typepath) />
+	<cfset var stPost=oPost.getData(objectid=stobj.parentid) />
+	<cfset var qSubscribers=queryNew("objectid") />
+
+	<cfquery datasource="#application.dsn#" name="qSubscribers">
+	SELECT DISTINCT objectid
+	FROM farBlogComment
+	WHERE parentid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#stobj.parentid#" />
+	AND bSubscribe = 1
+	</cfquery>
+	
+	<cfloop query="qSubscribers">
+		<cfmail to="modius@daemon.com.au" from="modius@gmail.com" subject="#application.config.general.sitetitle#: #left(stpost.title,"50")#" type="text">
+<cfoutput>
+There's been an update to the thread you subscribed to at *#application.config.general.sitetitle#*
+
+#stpost.title#
+-------------------------------------------------
+#stpost.teaser#
+
+New Comment
+-------------------------------------------------
+#stobj.subject#
+#stobj.description#
+#stobj.commenthandle#
+
+
+Link back to the thread:
+http://#cgi.SERVER_NAME#/index.cfm?objectid=#stobj.parentid#
+
+If you would like to unsubscribe from this thread follow the link below:
+http://#cgi.SERVER_NAME#/index.cfm?objectid=#stobj.objectid#
+</cfoutput>			
+		</cfmail>
+	</cfloop>
+		
+</cffunction>
+
 
 
 </cfcomponent>

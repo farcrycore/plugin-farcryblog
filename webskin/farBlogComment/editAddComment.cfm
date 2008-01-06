@@ -17,6 +17,7 @@ ACTION:
 		<cfset description = ActivateURL(htmleditformat(stprops.description)) />
 
 		<cfscript>
+		// neutralise XS scripting
 		stprops.label=safetext(stprops.subject, "true");
 		stprops.subject=stprops.label;
 		stprops.description=description;
@@ -40,15 +41,16 @@ VIEW:
 <cfif NOT structkeyexists(URL, "commentAdded")>
 	
 	<!--- comments form --->
-	<cfoutput><a name="comment"></a></cfoutput>
+	<cfoutput>
+	<a name="comment"></a>
+	</cfoutput>
 	
 	<ft:form action="##comment">
-		<ft:object stobject="#stobj#" lexcludefields="label,parentid" format="edit" legend="Comment Details" />
-		<ft:farcrybutton value="Post Comment" /> 
+		<ft:object stobject="#stobj#" lexcludefields="label,parentid" format="edit" legend="Comment Details" helptext="HTML not allowed.  Links will be automatically activated." />
+		<ft:farcrybutton value="Post Comment" />
 	</ft:form>
 
 <cfelse>
-
 	
 	<cfoutput>
 	<a name="thanks" />
