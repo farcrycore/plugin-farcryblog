@@ -86,7 +86,7 @@
 	<cfset var oPost=createObject("component", application.stcoapi["farblogpost"].typepath) />
 	<cfset var stPost=oPost.getData(objectid=stobj.parentid) />
 	
-	<cfmail to="modius@daemon.com.au" from="modius@gmail.com" subject="#application.config.general.sitetitle#: #left(stpost.title,"50")#" type="text">
+	<cfmail to="#application.config.general.ADMINEMAIL#" from="#application.config.general.ADMINEMAIL#" subject="#application.config.general.sitetitle#: #left(stpost.title,"50")#" type="text">
 <cfoutput>
 There's been an update to the post you made at *#application.config.general.sitetitle#*
 
@@ -116,16 +116,16 @@ http://#cgi.SERVER_NAME#/index.cfm?objectid=#stobj.parentid#
 	<cfset var qSubscribers=queryNew("objectid") />
 
 	<cfquery datasource="#application.dsn#" name="qSubscribers">
-	SELECT DISTINCT objectid
+	SELECT DISTINCT email
 	FROM farBlogComment
 	WHERE parentid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#stobj.parentid#" />
+	AND email <> ''
 	AND bSubscribe = 1
 	</cfquery>
 	
 	<cfloop query="qSubscribers">
-		<cfmail to="modius@daemon.com.au" from="modius@gmail.com" subject="#application.config.general.sitetitle#: #left(stpost.title,"50")#" type="text">
-<cfoutput>
-There's been an update to the thread you subscribed to at *#application.config.general.sitetitle#*
+		<cfmail to="#qSubscribers.email#" from="#application.config.general.ADMINEMAIL#" subject="#application.config.general.sitetitle#: #left(stpost.title,"50")#" type="text">
+<cfoutput>There's been an update to the thread you subscribed to at *#application.config.general.sitetitle#*
 
 #stpost.title#
 -------------------------------------------------
