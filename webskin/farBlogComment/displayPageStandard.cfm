@@ -7,7 +7,9 @@
 <cfset unsubscribeuser(objectid=stobj.objectid) />
 
 <cfoutput>
-<div style="border: ##333 solid 3px; margin: 10% 30%; padding: 30px; background-color: ##ededed;">
+<div style="border: ##333 solid 3px; margin: 5% 30%; padding: 30px; background-color: ##ededed;">
+	<h3>#application.config.general.sitetitle#</h3>
+	<p>Unsubscribing <strong>#stobj.email#</strong> from:</p>
 	<blockquote>
 		<p><strong>#stpost.title#</strong><br /> #stpost.teaser#</p>
 	</blockquote>
