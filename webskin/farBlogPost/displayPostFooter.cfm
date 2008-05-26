@@ -1,17 +1,22 @@
 <cfsetting enablecfoutputonly="true" />
 
-<!--- tag library --->
+<!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
+<!--- @@License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php --->
+<!--- @@displayname: Display post footer --->
+<!--- @@Description: Shared footer for blog post full page displays --->
+<!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
+
+<!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
 <cfquery datasource="#application.dsn#" name="qComments">
-SELECT count(*) AS total
+SELECT COUNT(*) AS total
 FROM farBlogComment
-WHERE parentid = '#stobj.objectid#'
+WHERE parentID = <cfqueryparam value="#stObj.objectID#" cfsqltype="cf_sql_idstamp">
 </cfquery>
 
 <cfoutput>
-<p>Geoff Bowers : comments (#qComments.total#): </cfoutput><skin:buildlink objectid="#stobj.objectid#" linktext="permalink" /><cfoutput></p>
+<p>#application.config.farcryblog.authorName# : Comments (#qComments.total#) : </cfoutput><skin:buildlink objectID="#stObj.objectID#" linktext="permalink" /><cfoutput></p>
 </cfoutput>
-
 
 <cfsetting enablecfoutputonly="false" />

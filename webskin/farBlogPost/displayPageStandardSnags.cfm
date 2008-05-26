@@ -1,64 +1,46 @@
-<cfsetting enablecfoutputonly="yes">
-<!--- 
-|| LEGAL ||
-$Copyright: Daemon Pty Limited 1995-2007, http://www.daemon.com.au $
-$License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php$
+<cfsetting enablecfoutputonly="true" />
 
-|| DESCRIPTION || 
-$Description: farBlogPost -- standard page with snags and captions$
+<!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
+<!--- @@License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php --->
+<!--- @@displayname: Snag bag layout --->
+<!--- @@Description: Snag bag full page display for blog posts --->
+<!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
 
-|| DEVELOPER ||
-$Developer: Geoff Bowers (modius@daemon.com.au) $
---->
-<!--- @@displayname: Snag Bag Layout --->
-<!--- @@author: Geoff Bowers --->
-
-<!--- import tag library --->
+<!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 <cfimport taglib="../../tags" prefix="tag" />
 
-<cfmodule template="/farcry/projects/#application.applicationname#/webskin/includes/dmHeader.cfm" pageTitle="#stObj.title#">
+<skin:view objectID="#stObj.objectID#" typename="#stObj.typename#" webskin="displayHeaderStandard" pageTitle="#stObj.title#" />
 
 <cfoutput>
 <div class="item">
 	<div class="date">
-		<div>#dateformat(stobj.publishdate, "MMM")#</div>
-		<span>#dateformat(stobj.publishdate, "DD")#</span>
+		<div>#dateformat(stObj.publishDate, "MMM")#</div>
+		<span>#dateformat(stObj.publishDate, "DD")#</span>
 	</div>
 	<div class="content">
-		<h1></cfoutput><skin:buildlink objectid="#stobj.objectid#" linktext="#stObj.Title#" /><cfoutput></h1>
-		<div class="body">
-			#stObj.body#
-</cfoutput>	
-
-	<cfif arrayLen(stobj.aMedia)>
-		<cfset stExtended=getData(objectid=stobj.objectid, bArraysAsStructs=true) />
-		<cfloop from="1" to="#arrayLen(stExtended.aMedia)#" index="i">
-			<cfset oType=createobject("component", application.types[stExtended.aMedia[i].typename].typepath) />
-			<cfset HTML=oType.getView(objectid=stExtended.aMedia[i].data, template="displayImageWithCaption") />
-			<cfoutput>#HTML#</cfoutput>
-		</cfloop>
-	</cfif>	
-		
-			
-<cfoutput>			
-			<p>&nbsp;</p>
-			</cfoutput>
-			
-			<skin:view typename="farBlogPost" objectid="#stobj.objectid#" webskin="displayPostFooter" />
-			
-			<cfoutput>
-		</div>
+		<h1></cfoutput><skin:buildlink objectID="#stObj.objectID#" linktext="#stObj.Title#" /><cfoutput></h1>
+		<div class="body">#stObj.body#
 </cfoutput>
-		
-		<tag:adsense />
 
-		<tag:comments postid="#stobj.objectid#"/>
+		<cfif arraylen(stObj.aMedia)>
+			<cfset stExtended = getData(objectID=stObj.objectID, bArraysAsStructs=true) />
+			<cfloop from="1" to="#arraylen(stExtended.aMedia)#" index="i">
+				<skin:view objectID="#stExtended.aMedia[i].data#" typename="#stExtended.aMedia[i].typename#" webskin="displayImageWithCaption" />
+			</cfloop>
+		</cfif>
 
-<cfoutput>			
+		<cfoutput><p>&nbsp;</p></cfoutput>
+
+		<skin:view objectID="#stObj.objectID#" typename="farBlogPost" webskin="displayPostFooter" />
+
+		<cfoutput></div></cfoutput>
+
+		<skin:view objectID="#stObj.objectID#" typename="farBlogPost" webskin="displayComments" />
+
+<cfoutput>
 	</div>
 </div>
-
 
 <!-- dpSyntaxHiglighter activation code -->
 <script language="javascript" src="/js/dp.SyntaxHighlighter/Scripts/shCore.js"></script>
@@ -69,6 +51,6 @@ $Developer: Geoff Bowers (modius@daemon.com.au) $
 </script>
 </cfoutput>
 
-<cfmodule template="/farcry/projects/#application.applicationname#/webskin/includes/dmFooter.cfm">
+<skin:view objectID="#stObj.objectID#" typename="#stObj.typename#" webskin="displayFooterStandard" />
 
-<cfsetting enablecfoutputonly="no">
+<cfsetting enablecfoutputonly="false" />

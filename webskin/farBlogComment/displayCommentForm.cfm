@@ -1,76 +1,85 @@
 <cfsetting enablecfoutputonly="true" />
 
+<!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
+<!--- @@License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php --->
+<!--- @@displayname: Comment form --->
+<!--- @@Description: User-side comment form --->
+<!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
+
 <!--- import tag libraries --->
 <cfimport prefix="ft" taglib="/farcry/core/tags/formtools" />
+<cfimport prefix="skin" taglib="/farcry/core/tags/webskin" />
 
-<!------------------------------- 
+<!-------------------------------
 ACTION:
 -------------------------------->
 <!--- PERFORM SERVER SIDE VALIDATION --->
-<ft:serverSideValidation lrequiredfields="bCaptcha" />
+<ft:serverSideValidation />
 
-<ft:processform action="Post Comment" url="/index.cfm?#cgi.query_string#&commentAdded=true##thanks">
+<skin:buildlink objectID="#stObj.parentID#" r_url="returnURL" />
+
+<ft:processForm action="Post Comment" url="#returnURL#&commentAdded=true##thanks">
 
 	<!--- process action items --->
-	<ft:processformobjects typename="farBlogComment" r_stproperties="stprops">
+	<ft:processFormObjects typename="farBlogComment" r_stProperties="stProps">
 		<!--- convert description edit format --->
-		<cfset description = ActivateURL(htmleditformat(stprops.description)) />
+		<cfset description = activateURL(htmleditformat(stProps.description)) />
 
 		<cfscript>
 		// neutralise XS scripting
-		stprops.label=safetext(stprops.subject, "true");
-		stprops.subject=stprops.label;
-		stprops.description=description;
-		stprops.email=safetext(stprops.email, "true");
-		stprops.website=safetext(stprops.website, "true");
-		stprops.commenthandle=safetext(stprops.commenthandle, "true");
+		stProps.label = safetext(stProps.subject, "true");
+		stProps.subject = stProps.label;
+		stProps.description = description;
+		stProps.email = safetext(stProps.email, "true");
+		stProps.website = safetext(stProps.website, "true");
+		stProps.commentHandle = safetext(stProps.commentHandle, "true");
 		</cfscript>
-		
-		<cfif stobj.parentid eq "">
+
+		<cfif not len(stObj.parentID)>
 			<ft:break />
 		</cfif>
-		
-	</ft:processformobjects>
 
-</ft:processform>
+	</ft:processFormObjects>
+
+</ft:processForm>
 
 
-<!------------------------------- 
+<!-------------------------------
 VIEW:
 -------------------------------->
-<cfif NOT structkeyexists(URL, "commentAdded")>
-	
+<cfif NOT structkeyexists(url, "commentAdded")>
+
 	<!--- comments form --->
 	<cfoutput>
 	<a name="comment"></a>
 	</cfoutput>
-	
+
 	<ft:form action="##comment">
-		<ft:object stobject="#stobj#" lexcludefields="label,parentid" format="edit" legend="Comment Details" helptext="HTML not allowed.  Links will be automatically activated." />
-		<ft:farcrybutton value="Post Comment" />
+		<ft:object stObject="#stObj#" lExcludeFields="label,parentID" format="edit" legend="Comment Details" helptext="HTML not allowed.  Links will be automatically activated." />
+		<ft:farcryButton value="Post Comment" bSpamProtect="true" />
 	</ft:form>
 
 <cfelse>
-	
+
 	<cfoutput>
 	<a name="thanks" />
 	<h2>Thanks for your comment!</h2>
 	</cfoutput>
-	
+
 </cfif>
 
 <cfscript>
 /**
  * Removes potentially nasty HTML text.
  * Version 2 by Lena Aleksandrova - changes include fixing a bug w/ arguments and use of REreplace where REreplaceNoCase should have been used.
- * 
+ *
  * @param text 	 String to be modified. (Required)
  * @param strip 	 Boolean value (defaults to false) that determines if HTML should be stripped or just escaped out. (Optional)
  * @param badTags 	 A list of bad tags. Has a long default list. Consult source. (Optional)
  * @param badEvents 	 A list of bad HTML events. Has a long default list. Consult source. (Optional)
- * @return Returns a string. 
- * @author Nathan Dintenfass (nathan@changemedia.com) 
- * @version 3, March 19, 2003 
+ * @return Returns a string.
+ * @author Nathan Dintenfass (nathan@changemedia.com)
+ * @version 3, March 19, 2003
  */
 function safetext(text) {
 	//default mode is "escape"
@@ -80,11 +89,11 @@ function safetext(text) {
 	var badTags = "SCRIPT,OBJECT,APPLET,EMBED,FORM,LAYER,ILAYER,FRAME,IFRAME,FRAMESET,PARAM,META";
 	var badEvents = "onClick,onDblClick,onKeyDown,onKeyPress,onKeyUp,onMouseDown,onMouseOut,onMouseUp,onMouseOver,onBlur,onChange,onFocus,onSelect,javascript:";
 	var stripperRE = "";
-	
-	//set up variable to parse and while we're at it trim white space 
+
+	//set up variable to parse and while we're at it trim white space
 	var theText = trim(text);
 	//find the first open bracket to start parsing
-	var obracket = find("<",theText);		
+	var obracket = find("<",theText);
 	//var for badTag
 	var badTag = "";
 	//var for the next start in the parse loop
@@ -94,7 +103,7 @@ function safetext(text) {
 	if(arraylen(arguments) GT 2 and len(arguments[3])) badTags = arguments[3];
 	if(arraylen(arguments) GT 3 and len(arguments[4])) badEvents = arguments[4];
 	//the regular expression used to stip tags
-	stripperRE = "</?(" & listChangeDelims(badTags,"|") & ")[^>]*>";	
+	stripperRE = "</?(" & listChangeDelims(badTags,"|") & ")[^>]*>";
 	//Deal with "smart quotes" and other "special" chars from MS Word
 	theText = replaceList(theText,chr(8216) & "," & chr(8217) & "," & chr(8220) & "," & chr(8221) & "," & chr(8212) & "," & chr(8213) & "," & chr(8230),"',',"","",--,--,...");
 	//if escaping, run through the code bracket by bracket and escape the bad tags.
@@ -132,15 +141,15 @@ function safetext(text) {
  * This function takes URLs in a text string and turns them into links.
  * Version 2 by Lucas Sherwood, lucas@thebitbucket.net.
  * Version 3 Updated to allow for ;
- * 
+ *
  * @param string 	 Text to parse. (Required)
  * @param target 	 Optional target for links. Defaults to "". (Optional)
  * @param paragraph 	 Optionally add paragraphFormat to returned string. (Optional)
- * @return Returns a string. 
- * @author Joel Mueller (lucas@thebitbucket.netjmueller@swiftk.com) 
- * @version 3, August 11, 2004 
+ * @return Returns a string.
+ * @author Joel Mueller (lucas@thebitbucket.netjmueller@swiftk.com)
+ * @version 3, August 11, 2004
  */
-function ActivateURL(string) {
+function activateURL(string) {
 	var nextMatch = 1;
 	var objMatch = "";
 	var outstring = "";
@@ -148,7 +157,7 @@ function ActivateURL(string) {
 	var thisLink = "";
 	var	target = IIf(arrayLen(arguments) gte 2, "arguments[2]", DE(""));
 	var paragraph = IIf(arrayLen(arguments) gte 3, "arguments[3]", DE("false"));
-	
+
 	do {
 		objMatch = REFindNoCase("(((https?:|ftp:|gopher:)\/\/)|(www\.|ftp\.))[-[:alnum:]\?%,\.\/&##!;@:=\+~_]+[A-Za-z0-9\/]", string, nextMatch, true);
 		if (objMatch.pos[1] GT nextMatch OR objMatch.pos[1] EQ nextMatch) {
@@ -186,10 +195,10 @@ function ActivateURL(string) {
 			}
 		}
 	} while (nextMatch GT 0);
-		
+
 	// Now turn e-mail addresses into mailto: links.
 	outString = REReplace(outString, "([[:alnum:]_\.\-]+@([[:alnum:]_\.\-]+\.)+[[:alpha:]]{2,4})", "<A HREF=""mailto:\1"">\1</A>", "ALL");
-		
+
 	if (paragraph) {
 		outString = ParagraphFormat(outString);
 	}

@@ -1,54 +1,45 @@
-<!--- @@Copyright: Daemon Pty Limited 1995-2007, http://www.daemon.com.au --->
+<!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
 <!--- @@License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php --->
-<!--- @@displayname: FarCry Blog Post Component --->
-<!--- @@Description: farBlogPost Type --->
-<!--- @@Developer: Geoff Bowers (modius@daemon.com.au) --->
-<cfcomponent extends="farcry.core.packages.types.versions" displayname="Blog Post" hint="Blog post." bSchedule="true" bFriendly="true"
-	bObjectBroker="true" 
-	lObjectBrokerWebskins="display*">
-<!------------------------------------------------------------------------
-type properties
-------------------------------------------------------------------------->	
-<cfproperty ftseq="1" ftfieldset="General Details" ftwizardstep="Start" name="Title" type="string" hint="News title." required="no" default="" ftlabel="Title" ftvalidation="required" />
-<cfproperty ftseq="3" ftfieldset="General Details" ftwizardstep="Start" name="publishDate" type="date" hint="The date that a news object is sent live and appears on the public website" required="no" default="" ftDefaultType="Evaluate" ftDefault="now()" ftType="datetime" ftDateFormatMask="dd mmm yyyy" ftTimeFormatMask="hh:mm tt" ftToggleOffDateTime="false" ftlabel="Publish Date" />
-<cfproperty ftseq="5" ftfieldset="General Details" ftwizardstep="Start" name="displayMethod" type="string" hint="Display method to render." required="yes" default="display" fttype="webskin" ftprefix="displayPage" ftlabel="Content Template" />
-<cfproperty ftseq="7" ftfieldset="General Details" ftwizardstep="Start" name="bComment" type="boolean" hint="Flag for enabling comments." default="1" required="no" ftlabel="Enable Comments?" />
+<!--- @@displayname: Blog: Post --->
+<!--- @@Description: Blog post type component for the FarCry Blog plugin --->
+<!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
 
-<cfproperty ftseq="10" ftfieldset="Related Content" ftwizardstep="Blog Post" name="aMedia" type="array" hint="Mixed media content for this content." required="no" default="" ftJoin="dmImage,dmfile,dmflash" ftlabel="Media Library" />
-<cfproperty name="lMedia" type="string" hint="Mixed media content for this content." required="no" default="" fttype="arrayList" ftArrayField="aMedia" />
-<cfproperty ftseq="11" ftfieldset="Related Content" ftwizardstep="Blog Post" name="aRelatedPosts" type="array" hint="Related blog posts." required="no" default="" ftJoin="farBlogPost" ftlabel="Related Blog Posts" />
+<cfcomponent displayname="Blog Post" extends="farcry.core.packages.types.versions" bSchedule="true" bFriendly="true" bObjectBroker="true" lObjectBrokerWebskins="display*"
+	hint="Blog posts">
 
-<cfproperty ftseq="21" ftfieldset="Story Details" ftwizardstep="Blog Post" name="Body" type="longchar" hint="Main body of content." required="no" default="" ftType="RichText" ftlabel="Body Content" ftTemplateTypeList="dmImage,dmfile,dmflash,dmNavigation,dmHTML" />
-<cfproperty ftseq="22" ftfieldset="Story Details" ftwizardstep="Blog Post" name="teaserImage" type="UUID" hint="Teaser image to display." required="no" default="" fttype="uuid" ftjoin="dmimage" ftlabel="Teaser Image" />
-<cfproperty ftseq="23" ftfieldset="Story Details" ftwizardstep="Blog Post" name="Teaser" type="longchar" hint="Teaser text." required="no" default="" ftlabel="Story teaser" />
+<!--- properties --->
+<cfproperty ftSeq="1" ftFieldset="General Details" ftWizardStep="Start" name="Title" type="string" required="true" default="" hint="Blog post title." ftLabel="Title" ftValidation="required" />
+<cfproperty ftSeq="3" ftFieldset="General Details" ftWizardStep="Start" name="publishDate" type="date" required="false" default="" hint="The date that a blog post is sent live and appears on the public website" ftLabel="Publish Date" ftType="datetime" ftDefaultType="evaluate" ftDefault="now()" ftDateFormatMask="dd mmm yyyy" ftTimeFormatMask="hh:mm tt" ftToggleOffDateTime="false" />
+<cfproperty ftSeq="5" ftFieldset="General Details" ftWizardStep="Start" name="displayMethod" type="string" required="true" default="displayPageStandard" hint="Display method to render." ftLabel="Content Template" ftType="webskin" ftPrefix="displayPageStandard" ftDefault="displayPageStandard" />
+<cfproperty ftSeq="7" ftFieldset="General Details" ftWizardStep="Start" name="bComment" type="boolean" required="true" default="1" hint="Flag for enabling comments." ftLabel="Enable Comments?" />
 
-<cfproperty ftseq="30" ftfieldset="Categorisation" ftwizardstep="Categorisation" name="aCategories" type="array" hint="Blog categorisation." required="no" default="" fttype="array" ftjoin="farblogcategory" ftlabel="Blog Category" />
-<cfproperty ftseq="31" ftfieldset="Categorisation" ftwizardstep="Categorisation" name="catBlogPost" type="string" hint="Blog categorisation." required="no" default="" fttype="category" ftalias="farblogpost" ftlabel="Blog Category" />
+<cfproperty ftSeq="10" ftFieldset="Related Content" ftWizardStep="Blog Post" name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." ftLabel="Media Library" ftJoin="dmImage,dmFile,dmFlash" />
+<cfproperty name="lMedia" type="string" required="false" default="" hint="Mixed media content for this content." ftType="arrayList" ftArrayField="aMedia" />
+<cfproperty ftSeq="11" ftFieldset="Related Content" ftWizardStep="Blog Post" name="aRelatedPosts" type="array" required="false" default="" hint="Related blog posts." ftLabel="Related Blog Posts" ftJoin="farBlogPost" />
 
+<cfproperty ftSeq="21" ftFieldset="Story Details" ftWizardStep="Blog Post" name="Body" type="longchar" required="false" default="" hint="Main body of content." ftLabel="Body Content" ftType="richtext" ftTemplateTypeList="dmImage,dmFile,dmFlash,dmNavigation,dmHTML" />
+<cfproperty ftSeq="22" ftFieldset="Story Details" ftWizardStep="Blog Post" name="teaserImage" type="UUID" required="false" default="" hint="Teaser image to display." ftLabel="Teaser Image" ftType="UUID" ftJoin="dmImage" />
+<cfproperty ftSeq="23" ftFieldset="Story Details" ftWizardStep="Blog Post" name="Teaser" type="longchar" required="false" default="" hint="Teaser text." ftLabel="Teaser" />
+
+<cfproperty ftSeq="30" ftFieldset="Categorisation" ftWizardStep="Categorisation" name="aCategories" type="array" required="false" default="" hint="Blog categorisation." ftLabel="Blog Category" ftType="array" ftJoin="farBlogCategory" />
 
 <!--- system attribute --->
-<cfproperty name="status" type="string" hint="Status of the node (draft, pending, approved)." required="yes" default="draft" />
+<cfproperty name="status" type="string" required="true" default="draft" hint="Status of the node (draft, pending, approved)." />
 
-
-<!------------------------------------------------------------------------
-object methods 
-------------------------------------------------------------------------->	
-<cffunction name="getRecentPosts" access="public" output="false" hint="Return a query of recent x blog posts." returntype="query">
+<!--- methods --->
+<cffunction name="getRecentPosts" access="public" output="false" returntype="query" hint="Return a query of recent x blog posts.">
 	<cfargument name="maxrows" default="5" type="numeric" />
-	
-	<cfset var q=queryNew("objectid,title,publishdate") />
-	
+
+	<cfset var q = querynew("objectID, title, publishDate") />
+
 	<cfquery datasource="#application.dsn#" name="q" maxrows="#arguments.maxrows#">
-	SELECT objectid, title, publishdate
+	SELECT objectID, title, publishDate
 	FROM farBlogPost
 	WHERE status = 'approved'
-	ORDER BY publishdate DESC
+	ORDER BY publishDate DESC
 	</cfquery>
-	
+
 	<cfreturn q />
 </cffunction>
 
 </cfcomponent>
-
-
-

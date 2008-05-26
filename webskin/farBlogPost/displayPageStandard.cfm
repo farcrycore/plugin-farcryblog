@@ -1,64 +1,61 @@
 <cfsetting enablecfoutputonly="true" />
-<!--- @@Copyright: Daemon Pty Limited 1995-2007, http://www.daemon.com.au --->
+
+<!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
 <!--- @@License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php --->
-<!--- @@displayname: Standard Page --->
-<!--- @@Description: Blog Post standard full page display template. --->
-<!--- @@Developer: Geoff Bowers (modius@daemon.com.au) --->
+<!--- @@displayname: Standard page layout --->
+<!--- @@Description: Standard full page display for blog posts --->
+<!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
 
-<!--- import tag library --->
+<!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
-<cfimport taglib="../../tags" prefix="tag" />
 
-
-<!------------------------------- 
+<!-------------------------------
 VIEW
 -------------------------------->
-<cfmodule 
-	template="/farcry/projects/#application.applicationname#/webskin/includes/dmHeader.cfm" 
-	pageTitle="#stObj.title#">
-
+<skin:view objectID="#stObj.objectID#" typename="#stObj.typename#" webskin="displayHeaderStandard" pageTitle="#stObj.title#" />
 
 <cfoutput>
 <div class="item">
 	<div class="date">
-		<div>#dateformat(stobj.publishdate, "MMM")#</div>
-		<span>#dateformat(stobj.publishdate, "DD")#</span>
+		<div>#dateformat(stObj.publishDate, "MMM")#</div>
+		<span>#dateformat(stObj.publishDate, "DD")#</span>
 	</div>
-	
+
 	<div class="content">
-		<h1></cfoutput><skin:buildlink objectid="#stobj.objectid#" linktext="#stObj.Title#" /><cfoutput></h1>
-		
-		<div class="body">
-			#stObj.body#
-			</cfoutput>
-			
-			<!--- related blog posts --->
-			<skin:relatedcontent typename="farBlogPost" objectid="#stobj.objectid#" arrayProperty="aRelatedPosts" webskin="displayLink" rendertype="unordered" filter="farblogpost" r_html="relatedcontent" />
-			<cfif isDefined("relatedContent") AND len(relatedcontent)>
-				<cfoutput>
-				<h3>Related Blog Posts</h3>
-				#relatedcontent#
-				</cfoutput>
-			</cfif>
-			
-			<!--- post footer; author, comments, permalink --->
-			<skin:view typename="farBlogPost" objectid="#stobj.objectid#" webskin="displayPostFooter" />
-			
-			
-			<cfoutput>
-		</div>
+		<h1></cfoutput><skin:buildlink objectID="#stObj.objectID#" linktext="#stObj.title#" /><cfoutput></h1>
+
+		<div class="body">#stObj.body#
 </cfoutput>
-		
-<tag:adsense />
-<tag:comments postid="#stobj.objectid#" />
+
+		<!--- related blog posts --->
+		<skin:relatedContent objectID="#stObj.objectID#" typename="farBlogPost" webskin="displayLink" arrayProperty="aRelatedPosts" rendertype="unordered" filter="farBlogPost" r_html="relatedContent" />
+		<cfif structkeyexists(variables, "relatedContent") AND len(relatedContent)>
+			<cfoutput>
+			<h3>Related Blog Posts</h3>
+			#relatedContent#
+			</cfoutput>
+		</cfif>
+
+		<!--- post footer; author, comments, permalink --->
+		<skin:view objectID="#stObj.objectID#" typename="farBlogPost" webskin="displayPostFooter" />
+
+		<cfoutput></div></cfoutput>
+
+		<skin:view objectID="#stObj.objectID#" typename="farBlogPost" webskin="displayComments" />
 
 <cfoutput>
-
 	</div>
 </div>
 
+<!-- dpSyntaxHiglighter activation code -->
+<script language="javascript" src="/js/dp.SyntaxHighlighter/Scripts/shCore.js"></script>
+<script language="javascript" src="/js/dp.SyntaxHighlighter/Scripts/shBrushCSharp.js"></script>
+<script language="javascript" src="/js/dp.SyntaxHighlighter/Scripts/shBrushXml.js"></script>
+<script language="javascript">
+	dp.SyntaxHighlighter.HighlightAll('code');
+</script>
 </cfoutput>
 
-<cfmodule template="/farcry/projects/#application.applicationname#/webskin/includes/dmFooter.cfm">
+<skin:view objectID="#stObj.objectID#" typename="#stObj.typename#" webskin="displayFooterStandard" />
 
-<cfsetting enablecfoutputonly="no">
+<cfsetting enablecfoutputonly="false" />
