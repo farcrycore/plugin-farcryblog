@@ -13,17 +13,19 @@
 
 
 <cfoutput>
-<h3>Latest Comments</h3>
-<ul>
+<div>
+	<h3>Latest Comments</h3>
+	<ul>
 </cfoutput>
 
-<cfloop query="qRecentComments">
-	<skin:view typename="farBlogComment" objectid="#qRecentComments.objectid#" webskin="displayLink" r_html="htmlLink" />
-	<cfoutput><li>#htmlLink#</li></cfoutput>
-</cfloop>
+	<cfloop query="qRecentComments">
+		<skin:view typename="farBlogComment" objectid="#qRecentComments.objectid#" webskin="displayLink" r_html="htmlLink" />
+		<cfoutput><li>#htmlLink#</li></cfoutput>
+	</cfloop>
 
 <cfoutput>
-</ul>
+	</ul>
+</div>
 </cfoutput>
 
 <cfsetting enablecfoutputonly="false" />
