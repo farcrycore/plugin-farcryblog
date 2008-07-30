@@ -69,6 +69,7 @@
 	SELECT month(publishDate) as archiveMonth, year(publishDate) as archiveYear
 	FROM farBlogPost
 	GROUP BY month(publishDate), Year(publishDate)
+	HAVING farBlogPost.status = <cfqueryparam value="approved" cfsqltype="cf_sql_varchar" />
 	</cfquery>
 
 	<cfreturn qMonths />
@@ -83,6 +84,7 @@
 	FROM farBlogPost
 	WHERE month(publishDate) = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.archiveMonth#">
 	AND Year(publishDate) = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.archiveYear#">
+	AND status = <cfqueryparam value="approved" cfsqltype="cf_sql_varchar" />
 	</cfquery>
 
 	<cfreturn qArchivePosts />
