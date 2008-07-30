@@ -13,7 +13,7 @@
 		<h1>			
 			<skin:buildlink objectID="#stObj.objectID#" linktext="#stObj.title#" />
 		</h1>
-		<span class="date">#dateformat(stObj.publishDate, "DD MMM YYYY")#</div>
+		<span class="date">#dateformat(stObj.publishDate, "DD MMM YYYY")#</span>
 		<div class="body">
 			#stObj.body#
 	
