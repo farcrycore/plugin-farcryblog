@@ -19,9 +19,10 @@
 	columnList="title,dateproperty"
 	sortableColumns="title,dateproperty"
 	lFilterFields="title"
-	sqlOrderBy="dateproperty DESC"
-	module="listwebfeed.cfm"
-	sqlWhere="itemtype = 'farBlogPost'" />
+	sqlOrderBy="dateproperty DESC"	
+	sqlWhere="itemtype = 'farBlogPost'"
+	plugin="farcryblog"
+	module="listwebfeed.cfm" />
 
 <!--- page footer --->
 <admin:footer />
