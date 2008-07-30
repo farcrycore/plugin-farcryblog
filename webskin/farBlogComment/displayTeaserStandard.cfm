@@ -6,19 +6,17 @@
 <!--- @@Description: Display of a teaser for a blog comment content item in the FarCry Blog plugin --->
 <!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
 
-<cfif NOT len(stObj.commentHandle)>
-	<cfset stObj.commentHandle = "Secret Admirer" />
-</cfif>
-<cfif len(stObj.website)>
-	<cfset stObj.commentHandle = '<a href="#stObj.website#">#stObj.commentHandle#</a>' />
-</cfif>
+
+<cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
+
+<skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="displayCommentHandle" r_html="htmlCommentHandle" />
 
 <cfoutput>
 <div class="bubble">
 	<blockquote>
-		<p><strong>#stObj.subject#</strong><br /> #stObj.description#</p>
+		<p><strong>#stObj.subject#</strong><br />#stObj.description#</p>
 	</blockquote>
-	<cite><span><strong>#stObj.commentHandle#</strong> on #dateformat(stObj.dateTimeCreated)# #timeformat(stObj.dateTimeCreated)#</span></cite>
+	<cite><span><strong>#htmlCommentHandle#</strong> on #dateformat(stObj.dateTimeCreated)# #timeformat(stObj.dateTimeCreated)#</span></cite>
 	<hr />
 </div>
 </cfoutput>

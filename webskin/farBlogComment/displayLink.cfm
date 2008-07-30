@@ -9,6 +9,8 @@
 <!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
-<cfoutput>#stObj.commentHandle# on <skin:buildlink objectID="#stObj.parentID#" linktext="#stObj.subject#" /></cfoutput>
+<skin:view typename="farBlogComment" objectid="#stobj.objectid#" webskin="displayCommentHandle" r_html="htmlCommentHandle" />
+
+<cfoutput>#htmlCommentHandle# on <skin:buildlink objectID="#stObj.parentID#" linktext="#stObj.subject#" /></cfoutput>
 
 <cfsetting enablecfoutputonly="false" />

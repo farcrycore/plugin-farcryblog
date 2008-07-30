@@ -13,9 +13,8 @@
 <div class="teaser">
 	<h4>#stObj.label#</h4>
 	<p>#stObj.description#</p>
-	<div></cfoutput>
-		<skin:buildLink objectID="#stObj.objectID#"><cfoutput>more...</cfoutput></skin:buildLink>
-	<cfoutput>
+	<div>
+		<skin:buildLink objectID="#stObj.objectID#" linktext="more..." />	
 	</div>
 </div>
 </cfoutput>

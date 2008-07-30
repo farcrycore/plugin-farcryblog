@@ -29,35 +29,29 @@
 </cffunction>
 
 <cffunction name="getPostsByCategory" access="public" output="false" returntype="query" hint="Return a query of posts in a category.">
-	<cfargument name="objectID" required="true" type="UUID" />
+	<cfargument name="objectID" required="true" type="string" />
+	<cfargument name="maxrows" default="5" type="numeric" />	
 
-	<cfset var q = queryNew("objectID") />
-
-	<cfquery datasource="#application.dsn#" name="q">
-	SELECT p.objectID
-	FROM farBlogPost p
-	INNER JOIN farBlogPost_aCategories c
-	ON p.objectID = c.parentID
-		AND c.data = <cfqueryparam value="#arguments.objectID#" cfsqltype="cf_sql_idstamp">
-	WHERE p.status = 'approved'
-	ORDER BY p.publishDate DESC
-	</cfquery>
+	<cfset var q = getPostsByCategoryList(lObjectIDs="#arguments.objectid#",maxrows="#arguments.maxrows#") />
 
 	<cfreturn q />
 </cffunction>
 
 <cffunction name="getPostsByCategoryList" access="public" output="false" returntype="query" hint="Return a query of posts in a list of categories.">
 	<cfargument name="lObjectIDs" required="true" type="string" />
+	<cfargument name="maxrows" default="5" type="numeric" />	
 
 	<cfset var q = queryNew("objectID") />
 
-	<cfquery datasource="#application.dsn#" name="q">
-	SELECT p.objectID
+	<cfquery datasource="#application.dsn#" name="q" maxrows="#arguments.maxrows#">
+	SELECT distinct p.objectID, p.title, p.publishDate
 	FROM farBlogPost p
 	INNER JOIN farBlogPost_aCategories c
 	ON p.objectID = c.parentID
+	<cfif listLen(arguments.lObjectIDs)>
 		AND c.data IN (<cfqueryparam value="#arguments.lObjectIDs#" cfsqltype="cf_sql_varchar" list="true">)
-	WHERE p.status = 'approved'
+	</cfif>
+	WHERE p.status = <cfqueryparam value="approved" cfsqltype="cf_sql_varchar" />
 	ORDER BY p.publishDate DESC
 	</cfquery>
 
