@@ -12,5 +12,6 @@
 <cfproperty ftSeq="2" ftFieldset="Author Info" name="authorEmail" type="string" required="true" default="modius@daemon.com.au" hint="Email address of the blog author" ftLabel="Author Email" ftDefault="modius@daemon.com.au" ftValidation="required,validate-email" />
 
 <cfproperty ftSeq="10" ftFieldset="Blog Settings" name="blogTitle" type="string" required="true" default="Daemonite blog" hint="Title of the blog" ftLabel="Blog Title" ftDefault="Daemonite blog" ftValidation="required" />
+<cfproperty ftSeq="11" ftFieldset="Blog Settings" name="blogFooterHTML" type="longchar" ftType="richtext" default="" hint="html to appear in the footer" ftLabel="Blog Footer HTML" ftDefault="Valid <a href='http://validator.w3.org/check/referer'>XHTML</a> and <a href='http://jigsaw.w3.org/css-validator/check/referer'>CSS</a>.</p>" />
 
 </cfcomponent>
