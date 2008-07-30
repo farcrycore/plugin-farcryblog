@@ -27,12 +27,12 @@
 	<grid:col span="18">
 		<skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="#url.bodyView#" />
 
-		<con:container label="#stobj.objectID#_body" defaultMirrorLabel="#stobj.typename#_body">	
+		<con:container label="#stobj.objectID#_Body" defaultMirrorLabel="Body">	
 	
 	</grid:col>
 	<grid:col span="1" />
 	<grid:col span="5">
-		<con:container label="#stobj.objectID#_utility" defaultMirrorLabel="#stobj.typename#_utility">	
+		<con:container label="#stobj.objectID#_Utility" defaultMirrorLabel="Utility">	
 	</grid:col>
 	
 </grid:container>

@@ -41,7 +41,9 @@ VIEW:
 
 	<ft:form>
 		<ft:object stObject="#stObj#" lExcludeFields="label,parentID" format="edit" legend="Make a Comment" helptext="HTML not allowed.  Links will be automatically activated." />
-		<ft:farcryButton value="Post Comment" bSpamProtect="true" />
+		<ft:farcryButtonPanel>
+			<ft:button value="Post Comment" bSpamProtect="true" />
+		</ft:farcryButtonPanel>
 	</ft:form>
 
 <cfelse>

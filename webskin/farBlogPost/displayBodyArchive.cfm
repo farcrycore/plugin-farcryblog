@@ -11,7 +11,6 @@
 
 <cfset qArchivePosts = getArchivePosts(archiveMonth="#url.archiveMonth#", archiveYear="#url.archiveYear#") />
 
-
 <cfoutput>
 <h1>Blog Archive - #monthAsString(url.archiveMonth)# #url.archiveYear#</h1>
 <ul>

@@ -13,8 +13,9 @@
 
 
 <cfoutput>
-<h3>Recent Posts</h3>
-<ul>
+<div>
+	<h3>Recent Posts</h3>
+	<ul>
 </cfoutput>
 
 <cfloop query="qRecentPosts">
@@ -23,7 +24,8 @@
 </cfloop>
 
 <cfoutput>
-</ul>
+	</ul>
+</div>
 </cfoutput>
 
 <cfsetting enablecfoutputonly="false" />
