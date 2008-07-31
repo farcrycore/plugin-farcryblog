@@ -122,6 +122,8 @@
 	<cfreturn q />
 </cffunction>
 
+
+
 <cffunction name="getPostCategories" access="public" output="false" returntype="query" hint="Return a query of categories assigned to a blog post.">
 	<cfargument name="objectid" required="true" type="string" />
 
@@ -131,6 +133,23 @@
 	select distinct categoryID 
     from refCategories 
     where objectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
+	</cfquery>
+
+	<cfreturn q />
+</cffunction>
+
+<cffunction name="getActiveCategories" access="public" output="false" returntype="query" hint="Return a query of categories assigned to a blog post.">
+	<cfset var q = queryNew("objectID") />
+
+	<cfquery datasource="#application.dsn#" name="q">
+	SELECT c.objectid, c.categoryLabel, COUNT(c.objectid) AS assigned
+	FROM dmCategory c 
+		INNER JOIN refCategories p 
+			INNER JOIN farBlogPost bp
+			ON p.objectid = bp.objectid
+		ON c.objectid = p.categoryID
+	GROUP BY c.objectid, c.categoryLabel,bp.status
+	HAVING bp.status = 'approved'
 	</cfquery>
 
 	<cfreturn q />

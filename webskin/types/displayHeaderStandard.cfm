@@ -45,17 +45,7 @@
 					</cfoutput>
 				</grid:col>
 				
-				<grid:col span="6" bLast="true">
-					<cfoutput>
-						<div  id="search">
-							<form method="post" action="/index.cfm?objectID=#application.navid.search#">
-								<label for="criteria">Site Search:</label>
-								<input id="criteria" type="text" name="criteria"/>
-								<input class="f-submit" type="submit" value="Go"/>
-							</form>
-						</div>
-					</cfoutput>
-				</grid:col>
+				<grid:col span="6" bLast="true" />
 				
 			
 				<grid:col span="21" bLast="true">
