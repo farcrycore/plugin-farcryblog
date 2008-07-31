@@ -1,11 +1,8 @@
 <!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
-<!--- @@License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php --->
 <!--- @@displayname: Blog: Post --->
 <!--- @@Description: Blog post type component for the FarCry Blog plugin --->
-<!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
-
 <cfcomponent displayname="Blog Post" extends="farcry.core.packages.types.versions" bSchedule="true" bFriendly="true" bObjectBroker="true" lObjectBrokerWebskins="display*"
-	hint="Blog posts">
+	hint="Manage your blog posts, create new missives, edit the HTML of individual posts, categorise posts by topic and schedule posts for future dates.">
 
 <!--- properties --->
 <cfproperty ftSeq="1" ftFieldset="General Details" ftWizardStep="Start" name="Title" type="string" required="true" default="" hint="Blog post title." ftLabel="Title" ftValidation="required" />

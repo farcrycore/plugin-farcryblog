@@ -1,11 +1,8 @@
 <!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
-<!--- @@License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php --->
 <!--- @@displayname: Blog Settings --->
 <!--- @@Description: Configuration form component for the FarCry Blog plugin --->
-<!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
-
 <cfcomponent displayname="Blog Settings" extends="farcry.core.packages.forms.forms" output="false" key="farcryblog"
-	hint="Configuration form/data for the FarCry Blog plugin">
+	hint="Configure NearCry to work just the way you want it to.  Customise the details about your blog, the name of the author and more.">
 
 <!--- properties --->
 <cfproperty ftSeq="1" ftFieldset="Author Info" name="authorName" type="string" required="true" default="Geoff Bowers" hint="Name of the blog author" ftLabel="Author Name" ftDefault="Geoff Bowers" ftValidation="required" />

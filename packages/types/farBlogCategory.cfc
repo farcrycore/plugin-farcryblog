@@ -1,9 +1,6 @@
 <!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
-<!--- @@License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php --->
 <!--- @@displayname: Blog: Category type --->
 <!--- @@Description: Blog category type component for the FarCry Blog plugin --->
-<!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
-
 <cfcomponent displayname="Blog Category" extends="farcry.core.packages.types.types" output="false" bSchedule="true" bFriendly="true" bObjectBroker="true" hint="Blog categories">
 
 <!--- properties --->

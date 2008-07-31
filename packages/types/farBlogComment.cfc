@@ -1,10 +1,8 @@
 <!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
 <!--- @@displayname: Blog: Comment type --->
 <!--- @@Description: Blog comment type component for the FarCry Blog plugin --->
-
-
 <cfcomponent displayname="Blog Comment" extends="farcry.core.packages.types.types" output="false" bObjectBroker="true" lObjectBrokerWebskins="displayTeaserStandard:15,displayFormComment:0"
-	hint="Blog comments">
+	hint="Manage and review comments across your entire blog. (Comment moderation options coming soon.)">
 
 <!--- properties --->
 <cfproperty ftSeq="1" ftFieldset="Blog Comment" name="subject" type="string" required="false" default="" hint="Subject of comment." ftLabel="Subject" bLabel="true" />
