@@ -100,6 +100,7 @@
 	
 	<cfif structKeyExists(arguments.stProperties, "description")>
 		<cfset arguments.stProperties.description = activateURL(htmleditformat(arguments.stProperties.description)) />
+		<cfset arguments.stProperties.label = left(arguments.stProperties.description,50) />
 	</cfif>
 	
 	<cfset arguments.stProperties = super.beforeSave(stProperties=arguments.stProperties, stFields=arguments.stFields, stFormPost=arguments.stFormPost) />
