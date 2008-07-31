@@ -5,22 +5,23 @@
 	hint="Manage your blog posts, create new missives, edit the HTML of individual posts, categorise posts by topic and schedule posts for future dates.">
 
 <!--- properties --->
-<cfproperty ftSeq="1" ftFieldset="General Details" ftWizardStep="Start" name="Title" type="string" required="true" default="" hint="Blog post title." ftLabel="Title" ftValidation="required" />
-<cfproperty ftSeq="3" ftFieldset="General Details" ftWizardStep="Start" name="publishDate" type="date" required="false" default="" hint="The date that a blog post is sent live and appears on the public website" ftLabel="Publish Date" ftType="datetime" ftDefaultType="evaluate" ftDefault="now()" ftDateFormatMask="dd mmm yyyy" ftTimeFormatMask="hh:mm tt" ftToggleOffDateTime="false" />
-<cfproperty ftSeq="5" ftFieldset="General Details" ftWizardStep="Start" name="displayMethod" type="string" required="true" default="displayPageStandard" hint="Display method to render." ftLabel="Content Template" ftType="webskin" ftPrefix="displayPageStandard" ftDefault="displayPageStandard" />
-<cfproperty ftSeq="7" ftFieldset="General Details" ftWizardStep="Start" name="bComment" type="boolean" required="true" default="1" hint="Flag for enabling comments." ftLabel="Enable Comments?" />
+<cfproperty ftSeq="1" ftWizardStep="Start" ftFieldset="General Details" name="Title" type="string" required="true" default="" hint="Blog post title." ftLabel="Title" ftValidation="required" />
+<cfproperty ftSeq="3" ftWizardStep="Start" ftFieldset="General Details" name="publishDate" type="date" required="false" default="" hint="The date that a blog post is sent live and appears on the public website" ftLabel="Publish Date" ftType="datetime" ftDefaultType="evaluate" ftDefault="now()" ftDateFormatMask="dd mmm yyyy" ftTimeFormatMask="hh:mm tt" ftToggleOffDateTime="false" />
+<cfproperty ftSeq="5" ftWizardStep="Start" ftFieldset="General Details" name="displayMethod" type="string" required="true" default="displayPageStandard" hint="Display method to render." ftLabel="Content Template" ftType="webskin" ftPrefix="displayPageStandard" ftDefault="displayPageStandard" />
+<cfproperty ftSeq="7" ftWizardStep="Start" ftFieldset="General Details" name="bComment" type="boolean" required="true" default="1" hint="Flag for enabling comments." ftLabel="Enable Comments?" />
 
-<cfproperty ftSeq="10" ftFieldset="Media" ftWizardStep="Blog Post" name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." ftLabel="Media Library" ftJoin="dmImage,dmFile,dmFlash" />
+<cfproperty ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" name="catBlogPost" type="longchar" hint="Blog categorisation." ftLabel="Blog Category" ftType="category" ftAlias="farBlogPost" />
+
+<cfproperty ftSeq="21" ftWizardStep="Blog Post" ftFieldset="Blog Details" name="Body" type="longchar" required="false" default="" hint="Main body of content." ftLabel="Blog Post" ftType="richtext" ftTemplateTypeList="dmImage,dmFile,dmFlash,dmNavigation,dmHTML" />
+<cfproperty ftSeq="23" ftWizardStep="Blog Post" ftFieldset="Blog Details" name="Teaser" type="longchar" required="false" default="" hint="Teaser text." ftLabel="Teaser" />
+
+<cfproperty ftSeq="25" ftWizardStep="Blog Post" ftFieldset="Related Content" name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." ftLabel="Media Library" ftJoin="dmImage,dmFile,dmFlash" />
+<cfproperty ftSeq="26" ftWizardStep="Blog Post" ftFieldset="Related Content" name="bShowMediaInline" type="boolean" required="true" default="0" hint="Flag for showing media incline." ftLabel="Show Media Inline?" />
+<cfproperty ftSeq="27" ftWizardStep="Blog Post" ftFieldset="Related Content" name="aRelatedPosts" type="array" required="false" default="" hint="Related blog posts." ftLabel="Related Blog Posts" ftJoin="farBlogPost" />
+
+
+<!--- hidden attribute --->
 <cfproperty name="lMedia" type="string" required="false" default="" hint="Mixed media content for this content." ftType="arrayList" ftArrayField="aMedia" />
-<cfproperty ftSeq="15" ftFieldset="Media" ftWizardStep="Blog Post" name="bShowMediaInline" type="boolean" required="true" default="0" hint="Flag for showing media incline." ftLabel="Show Media Inline?" />
-
-<cfproperty ftSeq="15" ftFieldset="Related Content" ftWizardStep="Blog Post" name="aRelatedPosts" type="array" required="false" default="" hint="Related blog posts." ftLabel="Related Blog Posts" ftJoin="farBlogPost" />
-
-<cfproperty ftSeq="21" ftFieldset="Story Details" ftWizardStep="Blog Post" name="Body" type="longchar" required="false" default="" hint="Main body of content." ftLabel="Body Content" ftType="richtext" ftTemplateTypeList="dmImage,dmFile,dmFlash,dmNavigation,dmHTML" />
-<cfproperty ftSeq="22" ftFieldset="Story Details" ftWizardStep="Blog Post" name="teaserImage" type="UUID" required="false" default="" hint="Teaser image to display." ftLabel="Teaser Image" ftType="UUID" ftJoin="dmImage" />
-<cfproperty ftSeq="23" ftFieldset="Story Details" ftWizardStep="Blog Post" name="Teaser" type="longchar" required="false" default="" hint="Teaser text." ftLabel="Teaser" />
-
-<cfproperty ftSeq="30" ftFieldset="Categorisation" ftWizardStep="Categorisation" name="aCategories" type="array" required="false" default="" hint="Blog categorisation." ftLabel="Blog Category" ftType="array" ftJoin="farBlogCategory" />
 
 <!--- system attribute --->
 <cfproperty name="status" type="string" required="true" default="draft" hint="Status of the node (draft, pending, approved)." />
