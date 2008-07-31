@@ -90,22 +90,105 @@
 	<cffunction name="process" access="public" output="false" returntype="struct" hint="Empty process function">
 		<cfargument name="fields" type="struct" required="true" hint="The fields submitted" />
 		
-		<cfset var constructor = "" />
-		<cfset var stLoc = structnew() />
-		<cfset var oUA = createobject("component",application.stCOAPI.UpdateApp.packagepath) />
-		<cfset var stUA = structnew() />
-		<cfset var currentSkin = getCurrentSkin() />
-
-		<cffile action="read" file="#application.path.webroot#/farcryConstructor.cfm" variable="constructor" />
-		<cfset stLoc = refind("(?:'|""|,)#currentSkin#(?:'|""|,)",constructor,1,true) />
-		<cfset constructor = left(constructor,stLoc.pos[1]) & arguments.fields.skin & mid(constructor,stLoc.pos[1]+stLoc.len[1]-1,len(constructor)) />
-		<cffile action="write" file="#application.path.webroot#/farcryConstructor.cfm" output="#constructor#" />
-		
-		<cfset application.bInit = false />
-		
-		<extjs:bubble message="Skin changed" />
+		<cfset uninstallPlugin(getCurrentSkin()) />
+		<cfset installPlugin(arguments.fields.skin) />
 		
 		<cfreturn arguments.fields />
+	</cffunction>
+
+	<cffunction name="uninstallPlugin" access="public" returntype="boolean" description="Attempts to uninstall the specified plugin" output="false">
+		<cfargument name="plugin" type="string" required="true" hint="The plugin to remove" />
+		<cfargument name="bRemoveDirectory" type="boolean" required="true" default="true" hint="If a webroot directory exists for this plugin should it be removed?" />
+		
+		<cfset var constructor = "" />
+		<cfset var currentplugins = "" />
+		<cfset var stLoc = structnew() />
+		<cfset var currentSkin = getCurrentSkin() />
+
+		<cfif len(arguments.plugin)>
+			
+			<cftry>
+				<!--- Update constructor --->
+				<cffile action="read" file="#application.path.webroot#/farcryConstructor.cfm" variable="constructor" />
+				<cfset stLoc = refind("plugins ?= ?(?:'|"")([^'""]*)",constructor,1,true) />
+				<cfset currentplugins = mid(constructor,stLoc.pos[2],stLoc.len[2]) />
+				<cfset currentplugins = listdeleteat(currentplugins,listfindnocase(currentplugins,arguments.plugin)) />
+				<cfset constructor = left(constructor,stLoc.pos[2]-1) & currentplugins & mid(constructor,stLoc.pos[2]+stLoc.len[2],len(constructor)) />
+				<cffile action="write" file="#application.path.webroot#/farcryConstructor.cfm" output="#constructor#" />
+				
+				<!--- Remove skin www directory to webroot --->
+				<cfif arguments.removediretory and directoryexists("#application.path.webroot#/#arguments.plugin#") and directoryExists("#application.path.plugins#/#arguments.plugin#/www")>
+			 		<cfdirectory action="delete" directory="#application.path.webroot#/#arguments.plugin#" recurse="true" />
+				</cfif>
+				
+				<cfset application.bInit = false />
+				
+				<cfcatch>
+					<cfreturn false />
+				</cfcatch>
+			</cftry>
+		</cfif>
+		
+		<cfreturn true />
+	</cffunction>
+
+	<cffunction name="installPlugin" access="public" returntype="boolean" description="Attempts to install the specified plugin" output="false">
+		<cfargument name="plugin" type="string" required="true" hint="The plugin to install" />
+		<cfargument name="bCreateDirectory" type="boolean" required="true" default="true" hint="If this plugin has a www directory, should it be copied to the webroot" />
+		
+		<cfset var constructor = "" />
+		<cfset var currentplugins = "" />
+		<cfset var stLoc = structnew() />
+		<cfset var oZip = "" />
+		
+		<!--- <cftry> --->
+			<!--- Update constructor --->
+			<cffile action="read" file="#application.path.webroot#/farcryConstructor.cfm" variable="constructor" />
+			<cfset stLoc = refind("plugins ?= ?(?:'|"")([^'""]*)",constructor,1,true) />
+			<cfset currentplugins = mid(constructor,stLoc.pos[2],stLoc.len[2]) />
+			<cfset currentplugins = listappend(currentplugins,arguments.plugin) />
+			<cfset constructor = left(constructor,stLoc.pos[2]-1) & currentplugins & mid(constructor,stLoc.pos[2]+stLoc.len[2],len(constructor)) />
+			<cffile action="write" file="#application.path.webroot#/farcryConstructor.cfm" output="#constructor#" />
+			
+			<!--- Copy skin www directory to webroot --->
+			<cfif arguments.bCreateDirectory and not directoryexists("#application.path.webroot#/#arguments.plugin#") and directoryExists("#application.path.plugins#/#arguments.plugin#/www")>
+		 		<cfif not directoryExists("#application.path.webroot#/#arguments.plugin#")>
+					<cfdirectory action="create" directory="#application.path.webroot#/#arguments.plugin#" mode="777" />
+				</cfif>
+				<cfset oZip = createObject("component", "farcry.core.packages.farcry.zip") />
+				<cfset oZip.AddFiles(zipFilePath="#application.path.webroot#/plugin-webroot.zip", directory="#application.path.plugins#/#arguments.plugin#/www", recurse="true", compression=0, savePaths="false") />
+				<cfset oZip.Extract(zipFilePath="#application.path.webroot#/plugin-webroot.zip", extractPath="#application.path.webroot#/#arguments.plugin#", overwriteFiles="true") />
+				<cffile action="delete" file="#application.path.webroot#/plugin-webroot.zip" />
+				<cfset directoryRemoveSVN(source="#application.path.webroot#/#arguments.plugin#") />
+			</cfif>
+			
+			<cfset application.bInit = false />
+			
+			<!--- <cfcatch>
+				<cfreturn false />
+			</cfcatch>
+		</cftry> --->
+	
+		<cfreturn true />
+	</cffunction>
+	
+	<cffunction name="directoryRemoveSVN" access="public" returntype="void" description="Remove .svn folders from entire directory" output="true">
+		<cfargument name="source" required="true" type="string">
+	
+		<cfset var contents = querynew("empty") />
+			
+		<cfdirectory action="list" directory="#arguments.source#" name="contents">
+		
+		<cfloop query="contents">
+			<cfif contents.type eq "dir">
+				<cfif contents.name eq ".svn">
+					<cfdirectory action="delete" directory="#arguments.source#/#contents.name#" recurse="true" />
+				<cfelse>
+					<cfset directoryRemoveSVN(arguments.source & "/" & contents.name) />
+				</cfif>
+				
+			</cfif>
+		</cfloop>
 	</cffunction>
 
 	<cffunction name="getAvailableSkins" access="public" returntype="string" description="Returns skins available for selection" output="false">
