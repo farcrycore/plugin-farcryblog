@@ -12,8 +12,8 @@
 
 <!--- properties --->
 <cfproperty ftSeq="1" ftFieldset="Blog Posts" name="numberOfPosts" type="integer" required="true" default="10" hint="Number of blog posts to list." ftType="integer" ftLabel="Number of Posts" ftDefault="10" />
-<cfproperty ftSeq="2" ftFieldset="Blog Posts" name="aCategories" type="array" required="false" default="" hint="Blog categories used to filter listing of blog posts." ftType="array" ftJoin="farBlogCategory" ftLabel="Blog Category" />
-<cfproperty name="lCategories" type="longchar" required="false" default="" hint="List of blog categories from category array" ftType="arrayList" ftArrayField="aCategories" />
+<cfproperty ftSeq="2" ftFieldset="Blog Posts" name="catBlogPost" type="longchar" required="false" default="" hint="Blog categories used to filter listing of blog posts." ftType="category" ftAlias="farBlogPost" ftLabel="Blog Category" />
+
 
 
 

@@ -9,8 +9,8 @@
 <cfimport taglib="/farcry/core/tags/formtools/" prefix="ft" />
 <cfimport taglib="/farcry/core/tags/webskin/" prefix="skin" />
 
-<cfset oBlogCategory = createObject("component", application.stcoapi["farBlogCategory"].packagePath) />
-<cfset qRecentPosts = oBlogCategory.getPostsByCategoryList(lObjectIDs="#arraytolist(stObj.aCategories)#", maxRows="999") />
+<cfset oBlog = createObject("component", application.stcoapi["farBlogPost"].packagePath) />
+<cfset qRecentPosts = oBlog.getPostsByCategoryList(lCategoryIDs="#stObj.catBlogPost#", maxRows="999") />
 
 
 <ft:pagination

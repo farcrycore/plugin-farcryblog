@@ -88,4 +88,53 @@
 	<cfreturn qArchivePosts />
 </cffunction>
 
+
+
+<cffunction name="getPostsByCategory" access="public" output="false" returntype="query" hint="Return a query of posts in a category.">
+	<cfargument name="categoryID" required="true" type="string" />
+	<cfargument name="maxrows" default="5" type="numeric" />	
+
+	<cfset var q = getPostsByCategoryList(lCategoryIDs="#arguments.categoryID#",maxrows="#arguments.maxrows#") />
+
+	<cfreturn q />
+</cffunction>
+
+<cffunction name="getPostsByCategoryList" access="public" output="false" returntype="query" hint="Return a query of posts in a list of categories.">
+	<cfargument name="lCategoryIDs" required="true" type="string" />
+	<cfargument name="maxrows" default="5" type="numeric" />	
+
+	<cfset var q = queryNew("objectID") />
+
+	<cfquery datasource="#application.dsn#" name="q" maxrows="#arguments.maxrows#">
+	SELECT distinct objectID,title,publishDate
+	FROM farBlogPost p
+	WHERE status = <cfqueryparam value="approved" cfsqltype="cf_sql_varchar" />
+	<cfif len(arguments.lCategoryIDs)>
+		AND objectid in (
+			select distinct objectid 
+		    from refCategories 
+		    where categoryID IN (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lCategoryIDs#" list="true" />)
+		)
+	</cfif>
+	ORDER BY publishDate DESC
+	</cfquery>
+
+	<cfreturn q />
+</cffunction>
+
+<cffunction name="getPostCategories" access="public" output="false" returntype="query" hint="Return a query of categories assigned to a blog post.">
+	<cfargument name="objectid" required="true" type="string" />
+
+	<cfset var q = queryNew("objectID") />
+
+	<cfquery datasource="#application.dsn#" name="q">
+	select distinct categoryID 
+    from refCategories 
+    where objectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
+	</cfquery>
+
+	<cfreturn q />
+</cffunction>
+
+
 </cfcomponent>
