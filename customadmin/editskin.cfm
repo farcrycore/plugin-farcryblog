@@ -13,7 +13,7 @@
 <!--- set up page header --->
 <admin:header title="Blog Categories" />
 
-<ft:processform action="Change Blog Skin">
+<ft:processform action="Change Blog Skin" url="refresh">
 	<ft:processformobjects typename="skinSelector" />
 </ft:processform>
 

@@ -94,9 +94,10 @@
 		<cfset var stLoc = structnew() />
 		<cfset var oUA = createobject("component",application.stCOAPI.UpdateApp.packagepath) />
 		<cfset var stUA = structnew() />
-		
+		<cfset var currentSkin = getCurrentSkin() />
+
 		<cffile action="read" file="#application.path.webroot#/farcryConstructor.cfm" variable="constructor" />
-		<cfset stLoc = refind("(?:'|""|,)#getCurrentSkin()#(?:'|""|,)",constructor,1,true) />
+		<cfset stLoc = refind("(?:'|""|,)#currentSkin#(?:'|""|,)",constructor,1,true) />
 		<cfset constructor = left(constructor,stLoc.pos[1]) & arguments.fields.skin & mid(constructor,stLoc.pos[1]+stLoc.len[1]-1,len(constructor)) />
 		<cffile action="write" file="#application.path.webroot#/farcryConstructor.cfm" output="#constructor#" />
 		
