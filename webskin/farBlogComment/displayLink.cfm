@@ -11,6 +11,6 @@
 
 <skin:view typename="farBlogComment" objectid="#stobj.objectid#" webskin="displayCommentHandle" r_html="htmlCommentHandle" />
 
-<cfoutput>#htmlCommentHandle# on <skin:buildlink objectID="#stObj.parentID#" linktext="#stObj.subject#" /></cfoutput>
+<cfoutput>#htmlCommentHandle# on <skin:buildlink objectID="#stObj.parentID#" linktext="#stObj.label#" /></cfoutput>
 
 <cfsetting enablecfoutputonly="false" />

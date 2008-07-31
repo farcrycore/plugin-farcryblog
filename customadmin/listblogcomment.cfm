@@ -16,7 +16,7 @@
 <ft:objectAdmin
 	title="Blog Comments"
 	typename="farBlogComment"
-	columnList="subject,commentHandle,email,website,parentID,dateTimeCreated"
+	columnList="label,commentHandle,email,website,parentID,dateTimeCreated"
 	sortableColumns="subject,commentHandle,email,website,parentID,dateTimeCreated"
 	lFilterFields="subject,commentHandle,email,website"
 	sqlOrderBy="dateTimeCreated DESC"

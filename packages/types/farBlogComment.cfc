@@ -5,7 +5,6 @@
 	hint="Manage and review comments across your entire blog. (Comment moderation options coming soon.)">
 
 <!--- properties --->
-<cfproperty ftSeq="1" ftFieldset="Blog Comment" name="subject" type="string" required="false" default="" hint="Subject of comment." ftLabel="Subject" bLabel="true" />
 <cfproperty ftSeq="2" ftFieldset="Blog Comment" name="description" type="longchar" required="false" default="" hint="Comment description." ftLabel="Description" ftValidation="required" />
 <cfproperty ftSeq="3" ftFieldset="Blog Comment" name="commentHandle" type="string" required="false" default="" hint="Name or handle of poster."  ftLabel="Name" />
 <cfproperty ftSeq="4" ftFieldset="Blog Comment" name="email" type="string" required="false" default="" hint="Email address of poster." ftLabel="Email" ftValidation="validate-email" />
@@ -42,10 +41,10 @@
 <cffunction name="getComments" access="public" output="false" returntype="query" hint="Returns all comments that match a specific content reference.">
 	<cfargument name="parentID" required="true" type="UUID" hint="Object reference for the parent content item." />
 
-	<cfset var qComments = querynew("objectID, subject, description, commentHandle, dateTimeCreated") />
+	<cfset var qComments = querynew("objectID, description, commentHandle, dateTimeCreated") />
 
 	<cfquery datasource="#application.dsn#" name="qComments">
-	SELECT objectID, subject, description, commentHandle, dateTimeCreated
+	SELECT objectID, description, commentHandle, dateTimeCreated
 	FROM farBlogComment
 	WHERE parentID = <cfqueryparam value="#arguments.parentID#" cfsqltype="cf_sql_idstamp">
 	ORDER BY dateTimeCreated
@@ -57,10 +56,10 @@
 <cffunction name="getRecentComments" access="public" output="false" returntype="query" hint="Return a query of recent x blog comments.">
 	<cfargument name="maxrows" default="5" type="numeric" />
 
-	<cfset var q = querynew("objectID, subject, commentHandle, dateTimeCreated") />
+	<cfset var q = querynew("objectID, commentHandle, dateTimeCreated") />
 
 	<cfquery datasource="#application.dsn#" name="q" maxrows="#arguments.maxrows#">
-	SELECT objectID, subject, commentHandle, dateTimeCreated
+	SELECT objectID, commentHandle, dateTimeCreated
 	FROM farBlogComment
 	ORDER BY dateTimeCreated DESC
 	</cfquery>
@@ -93,7 +92,7 @@
 
 	<cfset var i = "" />
 	
-	<cfloop list="subject,description,email,website,commentHandle" index="i">
+	<cfloop list="description,email,website,commentHandle" index="i">
 		<cfif structKeyExists(arguments.stProperties, i)>
 			<cfset arguments.stProperties[i] = safetext(arguments.stProperties[i]) />
 		</cfif>
@@ -155,7 +154,6 @@ There's been an update to the post you made at *#application.config.farcryblog.b
 
 New Comment
 -------------------------------------------------
-#stObj.subject#
 #stObj.description#
 #stObj.commentHandle#
 
@@ -204,7 +202,6 @@ http://#cgi.SERVER_NAME##postURL#
 	
 	New Comment
 	-------------------------------------------------
-	#stObj.subject#
 	#stObj.description#
 	#stObj.commentHandle#
 	

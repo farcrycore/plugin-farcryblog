@@ -14,7 +14,7 @@
 <cfoutput>
 <div class="bubble">
 	<blockquote>
-		<p><strong>#stObj.subject#</strong><br />#stObj.description#</p>
+		<p>#stObj.description#</p>
 	</blockquote>
 	<cite><span><strong>#htmlCommentHandle#</strong> on #dateformat(stObj.dateTimeCreated)# #timeformat(stObj.dateTimeCreated)#</span></cite>
 	<hr />
