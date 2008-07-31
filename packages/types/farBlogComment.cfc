@@ -6,7 +6,7 @@
 
 <!--- properties --->
 <cfproperty ftSeq="1" ftFieldset="Blog Comment" name="subject" type="string" required="false" default="" hint="Subject of comment." ftLabel="Subject" bLabel="true" />
-<cfproperty ftSeq="2" ftFieldset="Blog Comment" name="description" type="longchar" required="false" default="" hint="Comment description." ftLabel="Description" />
+<cfproperty ftSeq="2" ftFieldset="Blog Comment" name="description" type="longchar" required="false" default="" hint="Comment description." ftLabel="Description" ftValidation="required" />
 <cfproperty ftSeq="3" ftFieldset="Blog Comment" name="commentHandle" type="string" required="false" default="" hint="Name or handle of poster."  ftLabel="Name" />
 <cfproperty ftSeq="4" ftFieldset="Blog Comment" name="email" type="string" required="false" default="" hint="Email address of poster." ftLabel="Email" ftValidation="validate-email" />
 <cfproperty ftSeq="5" ftFieldset="Blog Comment" name="website" type="string" required="false" default="" hint="Website address of poster." ftLabel="Website" ftType="url" />
