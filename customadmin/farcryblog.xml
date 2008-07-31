@@ -5,7 +5,6 @@
 			<menu id="blogTools" label="Blog Tools">
 				<menuitem id="blogPosts" sequence="10" label="Blog Posts" link="/admin/customadmin.cfm?module=listblogpost.cfm&amp;plugin=farcryblog" relatedtype="farBlogPost" />
 				<menuitem id="blogComments" sequence="20" label="Blog Comments" link="/admin/customadmin.cfm?module=listblogcomment.cfm&amp;plugin=farcryblog" relatedtype="farBlogComment" />
-				<menuitem id="blogCategories" sequence="30" label="Blog Categories" link="/admin/customadmin.cfm?module=listblogcategory.cfm&amp;plugin=farcryblog" relatedtype="farBlogCategory" />
 				<menuitem id="blogWebfeed" sequence="40" label="Blog Feeds" link="/admin/customadmin.cfm?module=listwebfeed.cfm&amp;plugin=farcryblog" relatedtype="farWebfeed" />
 				<menuitem id="blogChangeSkin" sequence="50" label="Change Skins" link="/admin/customadmin.cfm?module=editskin.cfm&amp;plugin=farcryblog" relatedtype="skinSelector" />
 			</menu>
