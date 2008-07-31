@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <webtop>
 	<section id="blogging" permission="MainNavAdminTab" label="Blogging">
-		<subsection id="blogContent" permission="MainNavAdminTab" sidebar="custom/sidebar.cfm" label="Blog Content" description="Blog content types">
+		<subsection id="blogContent" permission="MainNavAdminTab" sidebar="custom/sidebar.cfm" label="Blog Content">
 			<menu id="blogTools" label="Blog Tools">
 				<menuitem id="blogPosts" sequence="10" label="Blog Posts" link="/admin/customadmin.cfm?module=listblogpost.cfm&amp;plugin=farcryblog" relatedtype="farBlogPost" />
 				<menuitem id="blogComments" sequence="20" label="Blog Comments" link="/admin/customadmin.cfm?module=listblogcomment.cfm&amp;plugin=farcryblog" relatedtype="farBlogComment" />
