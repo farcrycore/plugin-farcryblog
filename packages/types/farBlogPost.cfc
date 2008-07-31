@@ -65,7 +65,7 @@
 	<cfquery datasource="#application.dsn#" name="qMonths">
 	SELECT month(publishDate) as archiveMonth, year(publishDate) as archiveYear
 	FROM farBlogPost
-	GROUP BY month(publishDate), Year(publishDate)
+	GROUP BY month(publishDate), Year(publishDate), status
 	HAVING farBlogPost.status = <cfqueryparam value="approved" cfsqltype="cf_sql_varchar" />
 	</cfquery>
 
