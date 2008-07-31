@@ -30,7 +30,11 @@
 			<skin:view typename="farBlogPost" objectID="#stObj.objectID#" webskin="displayListRelatedPosts" />
 
 <cfoutput>
-			<p>#application.config.farcryblog.authorName# : Comments (#getTotalComments(stobj.objectid)#) : <skin:buildlink objectID="#stObj.objectID#" linktext="permalink" /></p>		
+			<p>
+				#application.config.farcryblog.authorName# : 
+				Comments (#getTotalComments(stobj.objectid)#) : <skin:buildlink objectID="#stObj.objectID#" linktext="permalink" /> :
+				Categorised: </cfoutput><skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="displayListCategories" /><cfoutput>
+			</p>		
 		</div>
 </cfoutput>
 		

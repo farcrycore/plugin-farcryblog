@@ -54,7 +54,7 @@
 	<cfargument name="maxrows" default="5" type="numeric" />	
 	<cfargument name="lCategoryIDs" default="" type="string" />
 
-	<cfset var q = createObject("component", application.stcoapi["farBlogCategory"].packagePath).getPostsByCategoryList(lObjectIDs="#arguments.lCategoryIDs#", maxRows="#arguments.maxRows#") />
+	<cfset var q = getPostsByCategoryList(lCategoryIDs="#arguments.lCategoryIDs#", maxRows="#arguments.maxRows#") />
 
 	<cfreturn q />
 </cffunction>
