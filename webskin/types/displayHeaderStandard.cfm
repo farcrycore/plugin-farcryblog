@@ -72,7 +72,7 @@
 			<grid:col span="3" bLast="true">
 				<cfoutput>
 					<div id="poweredby">
-						<a href="http://www.farcrycms.org/">
+						<a href="http://www.farcrycore.org/">
 							<img alt="FarCry - Mollio" src="#application.url.webroot#/wsimages/mollio.gif"/>
 						</a>
 					</div>
