@@ -23,7 +23,7 @@
 
 <ft:form>
 	
-	<ft:object typename="skinSelector" lfields="skin" />
+	<ft:object typename="skinSelector" lfields="skin,bDirectories" />
 	
 	<ft:buttonpanel>
 		<ft:button value="Change Blog Skin" />

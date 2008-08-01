@@ -1,5 +1,7 @@
 <cfcomponent displayname="Skin Selector" hint="Provides interface and functionality for switching application skin plugin" extends="farcry.core.packages.forms.forms" output="false">
 	<cfproperty ftSeq="1" ftFieldset="" name="skin" type="string" default="skinskittlish" hint="The name of the skin plugin" ftLabel="Skin" ftType="list" ftShowLabel="false" ftEditMethod="editSkin" ftAjaxMethod="streamIcon" />
+	<cfproperty ftSeq="2" ftFieldset="" name="bDirectories" type="boolean" default="0" hint="Should www directores be copied and removed on installation / uninstallation?" ftLabel="Copy files to webroot?" ftType="boolean" />
+	
 	
 	<cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 	<cfimport taglib="/farcry/core/tags/extjs" prefix="extjs" />
@@ -90,8 +92,8 @@
 	<cffunction name="process" access="public" output="false" returntype="struct" hint="Empty process function">
 		<cfargument name="fields" type="struct" required="true" hint="The fields submitted" />
 		
-		<cfset uninstallPlugin(getCurrentSkin()) />
-		<cfset installPlugin(arguments.fields.skin) />
+		<cfset uninstallPlugin(getCurrentSkin(),arguments.fields.bDirectories) />
+		<cfset installPlugin(arguments.fields.skin,arguments.fields.bDirectories) />
 		
 		<cfreturn arguments.fields />
 	</cffunction>
