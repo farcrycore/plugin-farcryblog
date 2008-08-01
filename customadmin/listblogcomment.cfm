@@ -17,8 +17,8 @@
 	title="Blog Comments"
 	typename="farBlogComment"
 	columnList="label,commentHandle,email,website,parentID,dateTimeCreated"
-	sortableColumns="subject,commentHandle,email,website,parentID,dateTimeCreated"
-	lFilterFields="subject,commentHandle,email,website"
+	sortableColumns="commentHandle,email,website,parentID,dateTimeCreated"
+	lFilterFields="commentHandle,email,website"
 	sqlOrderBy="dateTimeCreated DESC"
 	plugin="farcryblog"
 	module="listblogcomment.cfm" />
