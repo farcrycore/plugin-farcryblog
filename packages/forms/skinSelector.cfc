@@ -119,7 +119,7 @@
 				<cffile action="write" file="#application.path.webroot#/farcryConstructor.cfm" output="#constructor#" />
 				
 				<!--- Remove skin www directory to webroot --->
-				<cfif arguments.removediretory and directoryexists("#application.path.webroot#/#arguments.plugin#") and directoryExists("#application.path.plugins#/#arguments.plugin#/www")>
+				<cfif arguments.bRemoveDirectory and directoryexists("#application.path.webroot#/#arguments.plugin#") and directoryExists("#application.path.plugins#/#arguments.plugin#/www")>
 			 		<cfdirectory action="delete" directory="#application.path.webroot#/#arguments.plugin#" recurse="true" />
 				</cfif>
 				
