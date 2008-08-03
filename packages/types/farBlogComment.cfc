@@ -13,6 +13,8 @@
 
 <cfproperty ftSeq="20" ftFieldset="Blog Comment" name="bSubscribe" type="boolean" required="true" default="0" hint="Flag for thread subscription." ftLabel="Subscribe to thread?" ftType="boolean" />
 
+<cfproperty ftSeq="30" ftFieldset="Blog Comment" name="profileID" type="UUID" required="false" default="" hint="A member profile if commentor is a member" ftLabel="MemberID" ftJoin="dmProfile" />
+
 
 
 <!--- IMPORT TAG LIBRARIES --->

@@ -19,11 +19,18 @@ START WEBSKIN
 <!--- ONLY ALLOW NEW COMMENTS IF COMMENTING TURNED ON. --->
 <cfif stobj.bcomment>
 	<!--- comments form --->
-	<cfset stProps = structnew() />
-	<cfset stProps.parentID = stObj.objectID />
-	<cfset stProps.bSubscribe = 0 />
+	<cfset stLocal.stProps = structnew() />
+	<cfset stLocal.stProps.parentID = stObj.objectID />
+	<cfset stLocal.stProps.bSubscribe = 0 />
+	<cfif application.security.isLoggedIn()>
+		<!--- Set this comment details for the member --->
+		<cfset stLocal.stProps.profileID = session.dmProfile.objectid />
+		<cfset stLocal.stProps.commentHandle = "#session.dmProfile.firstname# #session.dmProfile.lastname#" />
+		<cfset stLocal.stProps.email = session.dmProfile.emailAddress />
+	</cfif>
 	
-	<skin:view typename="farBlogComment" template="displayFormComment" stProps="#stProps#" />
+	
+	<skin:view typename="farBlogComment" template="displayFormComment" stProps="#stLocal.stProps#" />
 </cfif>
 
 <cfsetting enablecfoutputonly="false">

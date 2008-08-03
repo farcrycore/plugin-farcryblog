@@ -40,7 +40,7 @@ VIEW:
 <cfif NOT structkeyexists(url, "commentAdded")>
 
 	<ft:form>
-		<ft:object stObject="#stObj#" lExcludeFields="label,parentID" format="edit" legend="Make a Comment" helptext="HTML not allowed.  Links will be automatically activated." />
+		<ft:object stObject="#stObj#" lExcludeFields="label,parentID,profileID" format="edit" legend="Make a Comment" helptext="HTML not allowed.  Links will be automatically activated." />
 		<ft:farcryButtonPanel>
 			<ft:button value="Post Comment" bSpamProtect="true" />
 		</ft:farcryButtonPanel>
