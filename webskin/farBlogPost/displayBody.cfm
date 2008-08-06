@@ -31,10 +31,11 @@
 
 <cfoutput>
 			<p>
-				#application.config.farcryblog.authorName# : 
-				Comments (#getTotalComments(stobj.objectid)#) : <skin:buildlink objectID="#stObj.objectID#" linktext="permalink" /> :
-				Categorised: </cfoutput><skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="displayListCategories" /><cfoutput> :
-				Bookmarks: </cfoutput><skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="displayListBookmarks" /><cfoutput>
+				<skin:buildlink objectID="#stObj.objectID#" linktext="Permalink" /> :
+				Author: #application.config.farcryblog.authorName# : 
+				Comments (#getTotalComments(stobj.objectid)#) : 
+				Filed Under: </cfoutput><skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="displayListCategories" /><cfoutput>
+				<!--- Bookmarks: </cfoutput><skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="displayListBookmarks" /><cfoutput> --->
 			</p>		
 		</div>
 </cfoutput>
