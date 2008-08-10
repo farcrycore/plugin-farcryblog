@@ -1,15 +1,11 @@
 <cfsetting enablecfoutputonly="true">
-<!--- @@Copyright: Daemon Pty Limited 1995-2007, http://www.daemon.com.au --->
-<!--- @@License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php --->
+<!--- @@Copyright: Daemon Pty Limited 2002-2008, http://www.daemon.com.au --->
 <!--- @@displayname: Category List --->
 <!--- @@description: Displays list of Categories assigned to a blog post  --->
-<!--- @@author: Matthew Bryant (mbryant@daemon.com.au) --->
-
 
 <!------------------ 
 FARCRY IMPORT FILES
  ------------------>
-<cfimport taglib="/farcry/core/tags/formtools" prefix="ft" />
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
 <!------------------ 
@@ -21,7 +17,7 @@ START WEBSKIN
 <cfif qCategories.recordCount>
 	<cfloop query="qCategories">
 		<cfset catName = oCat.getCategoryNamebyID(categoryid="#qCategories.categoryID#") />
-		<skin:buildlink typename="dmCategory" objectid="#qCategories.categoryID#" linktext="#catName#" />
+		<skin:buildlink typename="dmCategory" objectid="#qCategories.categoryID#" linktext="#catName#" /><cfoutput>, </cfoutput>
 	</cfloop>
 </cfif>
 
