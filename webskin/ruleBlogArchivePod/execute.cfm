@@ -1,25 +1,15 @@
 <cfsetting enablecfoutputonly="true" />
-
-<!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
+<!--- @@Copyright: Daemon Pty Limited 2002-2008, http://www.daemon.com.au --->
 <!--- @@displayname: Execution of ruleBlogArchivePod --->
 <!--- @@Description:  --->
 
 <!--- import tag libraries --->
-<cfimport taglib="/farcry/core/tags/formtools/" prefix="ft" />
 <cfimport taglib="/farcry/core/tags/webskin/" prefix="skin" />
 
-
+<!--- grab archive links --->
 <cfset qArchiveLinks = createObject("component", application.stcoapi["farBlogPost"].packagePath).getArchiveLinks() />
-<cfoutput>
-<div>
-	<h3>Archive</h3>
-	<ul>
-	<cfloop query="qArchiveLinks">
-	  <li><skin:buildlink type="farBlogPost" view="displayPageStandard" urlParameters="bodyView=displayBodyArchive&archiveMonth=#qArchiveLinks.archiveMonth#&archiveYear=#qArchiveLinks.archiveYear#" linktext="#monthAsString(qArchiveLinks.archiveMonth)# #qArchiveLinks.archiveYear#" /></li>
-	</cfloop>
-	</ul>
-</div>
-</cfoutput>
+
+<skin:view objectid="#stobj.objectid#" typename="ruleBlogArchivePod" webskin="displayBody" qArchiveLinks="#qArchiveLinks#" />
 
 
 <cfsetting enablecfoutputonly="false" />
