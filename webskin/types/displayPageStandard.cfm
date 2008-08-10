@@ -1,5 +1,4 @@
 <cfsetting enablecfoutputonly="true" />
-
 <!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
 <!--- @@displayname: Standard 2 Column Layout --->
 <!--- @@Description: Standard full page display for all content types --->
@@ -17,12 +16,12 @@
 <cfparam name="url.bodyView" default="displayBody" />
 
 
-<!--- ---- --->
-<!--- VIEW --->
-<!--- ---- --->
+<!--------------
+ VIEW
+--------------->
 <skin:view objectID="#stObj.objectID#" typename="#stObj.typename#" webskin="displayHeaderStandard" />
 
-		
+
 <grid:container id="bd">
 	<grid:col span="18">
 		<skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="#url.bodyView#" />
@@ -36,7 +35,6 @@
 	</grid:col>
 	
 </grid:container>
-
 
 
 <skin:view objectID="#stObj.objectID#" typename="#stObj.typename#" webskin="displayFooterStandard" />
