@@ -37,6 +37,7 @@
 	SELECT objectid
 	FROM farBlogComment
 	WHERE parentid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#">
+	ORDER BY datetimecreated
 	</cfquery>
 
 	<cfreturn qComments>
