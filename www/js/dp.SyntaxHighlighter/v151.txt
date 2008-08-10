@@ -1,0 +1,7 @@
+dp.SyntaxHighlighter v1.5.1
+http://code.google.com/p/syntaxhighlighter/
+
+Added 9-Aug-2008
+
+Notes:
+uncompressed brushes removed for brevity.
