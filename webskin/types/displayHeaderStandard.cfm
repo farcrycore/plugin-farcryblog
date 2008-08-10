@@ -3,13 +3,14 @@
 <!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin">
 <cfimport taglib="/farcry/core/tags/grid" prefix="grid" />
+<cfimport taglib="/farcry/plugins/farcryblog/tags" prefix="blog" />
 
 <!--- params --->
-<cfparam name="stParam.pageTitle" default="">
+<cfparam name="stParam.pageTitle" default="#stobj.label#" type="string" />
 
-
+<!--- load blog specific js libraries --->
 <blog:dpSyntaxHighlighter />
-
+<blog:swfobject />
 
 <cfoutput>
 <html lang="en">
