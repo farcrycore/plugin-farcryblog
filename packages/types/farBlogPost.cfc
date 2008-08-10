@@ -68,6 +68,7 @@
 	FROM farBlogPost
 	GROUP BY month(publishDate), Year(publishDate), status
 	HAVING farBlogPost.status = <cfqueryparam value="approved" cfsqltype="cf_sql_varchar" />
+	ORDER BY archiveYear DESC, archiveMonth DESC
 	</cfquery>
 
 	<cfreturn qMonths />
