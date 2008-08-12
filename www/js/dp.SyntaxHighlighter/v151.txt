@@ -1,7 +1,15 @@
 dp.SyntaxHighlighter v1.5.1
-http://code.google.com/p/syntaxhighlighter/
+=============================
 
 Added 9-Aug-2008
+http://code.google.com/p/syntaxhighlighter/
 
-Notes:
-uncompressed brushes removed for brevity.
+
+Change Log
+-----------------------------
+20080809	uncompressed brushes removed for brevity
+20080811	added brush for ColdFusion; Alan Rother (alan.rother@gmail.com)
+20080811	patched to use code instead of pre; http://code.google.com/u/dunglas/
+			FindTagsByName(_75,_5f,"pre"); by FindTagsByName(_75,_5f,"code"); on line 373.
+			-- FindTagsByName(elements,name,'pre'); by FindTagsByName(elements,name,'code'); on line 147 (of compressed)
+			
