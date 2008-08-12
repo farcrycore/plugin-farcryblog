@@ -29,7 +29,7 @@ ACTION:
 <ft:processForm action="Post Comment" url="#returnURL#&commentAdded=true">
 
 	<!--- process action items --->
-	<ft:processFormObjects typename="farBlogComment" r_stProperties="stProps" />
+	<ft:processFormObjects objectid="#stobj.objectid#" r_stProperties="stProps" />
 
 </ft:processForm>
 

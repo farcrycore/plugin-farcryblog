@@ -30,7 +30,7 @@ START WEBSKIN
 	</cfif>
 	
 	
-	<skin:view typename="farBlogComment" template="displayFormComment" stProps="#stLocal.stProps#" />
+	<skin:view key="newComment" typename="farBlogComment" template="displayFormComment" stProps="#stLocal.stProps#" />
 </cfif>
 
 <cfsetting enablecfoutputonly="false">
