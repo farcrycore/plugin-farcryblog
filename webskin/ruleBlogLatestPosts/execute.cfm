@@ -16,7 +16,7 @@
 <ft:pagination
 	paginationID="#arguments.objectID#"
 	qRecordset="#qRecentPosts#"
-	typename="farBlog"
+	typename="farBlogPost"
 	pageLinks="10"
 	recordsPerPage="#stObj.numberOfPosts#"
 	top="false"
