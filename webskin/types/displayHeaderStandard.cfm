@@ -8,9 +8,6 @@
 <!--- params --->
 <cfparam name="stParam.pageTitle" default="#stobj.label#" type="string" />
 
-<!--- load blog specific js libraries --->
-<blog:dpSyntaxHighlighter />
-<blog:swfobject />
 
 <cfoutput>
 <html lang="en">
@@ -18,7 +15,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<cfif structKeyExists(stObj, "extendedMetaData") AND len(trim(stObj.extendedMetaData))><meta name="description" content="#trim(stObj.extendedMetaData)#" /></cfif>
 	<cfif structKeyExists(stObj, "metaKeywords") AND len(trim(stObj.metaKeywords))><meta name="keywords" content="#trim(stObj.metaKeywords)#" /></cfif>
-	<title>#application.config.general.sitetitle#: #stParam.pageTitle#</title>
+	<title><blog:config property="blogTitle" />:  #stParam.pageTitle#</title>
 
   	<!-- Framework CSS -->
 	<link rel="stylesheet" href="#application.url.webroot#/farcryblog/css/blueprint/grid.css" type="text/css" media="screen, projection" />
@@ -31,7 +28,6 @@
 
 	<script type="text/javascript" src="#application.url.webroot#/farcryblog/js/common.js"></script>
 	
-
 </head>
 <body>
 </cfoutput>
@@ -57,7 +53,6 @@
 						bIncludeHome="true">
 				</grid:col>
 			</grid:col>
-			
 
 			
 			<grid:col span="3" bLast="true">
@@ -69,9 +64,6 @@
 					</div>
 				</cfoutput>
 			</grid:col>
-			
-
-
 		
 		</grid:col>
 	</grid:container>

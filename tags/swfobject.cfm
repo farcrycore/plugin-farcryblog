@@ -3,21 +3,19 @@
 <!--- @@displayname: Load SWF Object Library --->
 <!--- @@description: Loads SWF object JS libraries for displaying Flash content.  --->
 
+<!--- import tag libraries --->
+<cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
+
 <cfif thisTag.executionMode EQ "end">
 	<cfsetting enablecfoutputonly="false">
 	<cfexit method="exittag" />
 </cfif>
 
-<!------------------ 
-FARCRY IMPORT FILES
- ------------------>
-<cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
-
 <skin:htmlHead id="swfobject">
 <cfoutput>
 <!-- swfobject activation code -->
-<!--- <script type="text/javascript" src="#application.url.webroot#/farcryblog/js/swfobject/swfobject.js"></script> --->
 <script type="text/javascript" src="#application.url.webroot#/webtop/js/swfobject.js"></script>
+<!--- <script type="text/javascript" src="#application.url.webroot#/farcryblog/js/swfobject/swfobject.js"></script> --->
 </cfoutput>
 </skin:htmlHead>
 

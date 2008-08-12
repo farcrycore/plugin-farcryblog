@@ -12,4 +12,6 @@
 <cfproperty ftSeq="11" ftFieldset="Blog Settings" name="blogAbout" type="longchar" ftType="richtext" default="" hint="html to appear in the 'about this blog pod'" ftLabel="About this Blog" ftDefault="The ramblings of a FarCry closet freak." />
 <cfproperty ftSeq="12" ftFieldset="Blog Settings" name="blogFooterHTML" type="longchar" ftType="richtext" default="" hint="html to appear in the footer" ftLabel="Blog Footer HTML" ftDefault="<p>Valid <a href='http://validator.w3.org/check/referer'>XHTML</a> and <a href='http://jigsaw.w3.org/css-validator/check/referer'>CSS</a>.</p>Any views and opinions expressed herein are those of the author(s) only. All trademarks, slogans, text or logo represented, used, or referred to in this site are the property of their respective owners." />
 
+<cfproperty ftSeq="12" ftFieldset="Blog Settings" name="blogLastMinute" type="longchar" ftType="textfield" default="" hint="Javascript to appear before closing body." ftLabel="Last Minute Javascript" fthint="Ideal for things like Google Analytics tracking codes." />
+
 </cfcomponent>
