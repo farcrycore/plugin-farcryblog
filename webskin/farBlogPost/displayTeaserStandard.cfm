@@ -1,22 +1,15 @@
 <cfsetting enablecfoutputonly="true" />
-
-<!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
+<!--- @@Copyright: Daemon Pty Limited 2002-2008, http://www.daemon.com.au --->
 <!--- @@displayname: Display post teaser --->
-<!--- @@Description: Standard teaser for blog posts --->
-<!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
+<!--- @@Description: Default farcryblog standard teaser for blog posts --->
 
 <!--- import tag libraries --->
-<cfimport taglib="/farcry/core/tags/formtools" prefix="ft" />
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
 
-
-
-
-
-<!--- ---- --->
-<!--- VIEW --->
-<!--- ---- --->
+<!-----------------------------
+ VIEW 
+------------------------------>
 <cfoutput>
 <div class="item">
 	<div class="date">
