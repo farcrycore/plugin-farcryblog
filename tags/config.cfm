@@ -15,6 +15,8 @@
 	<cfsavecontent variable="content">
 	<cfoutput>#application.config.farcryblog[attributes.property]#</cfoutput>
 	</cfsavecontent>
+<cfelse>
+	<cfexit method="exittag" />
 </cfif>
 </cfsilent>
 <cfoutput>#trim(content)#</cfoutput>
