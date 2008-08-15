@@ -14,7 +14,7 @@
 
 <!--- optional attributes --->
 <cfparam name="attributes.dpURL" default="#application.url.webroot#/farcryblog/js/dp.SyntaxHighlighter" />
-<cfparam name="attributes.brushes" default="shBrushCSharp,shBrushXml" />
+<cfparam name="attributes.brushes" default="shBrushColdFusion,shBrushXml,shBrushJScript,shBrushSql" />
 
 <skin:htmlHead id="dpSyntaxHiglighter">
 <cfoutput><!-- dpSyntaxHiglighter styles -->
