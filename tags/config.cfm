@@ -5,6 +5,7 @@
 
 <!--- run once only --->
 <cfif thisTag.executionMode EQ "end">
+	<cfsetting enablecfoutputonly="false" />
 	<cfexit method="exittag" />
 </cfif>
 
@@ -16,6 +17,7 @@
 	<cfoutput>#application.config.farcryblog[attributes.property]#</cfoutput>
 	</cfsavecontent>
 <cfelse>
+	<cfsetting enablecfoutputonly="false" />
 	<cfexit method="exittag" />
 </cfif>
 </cfsilent>
