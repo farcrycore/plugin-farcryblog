@@ -1,10 +1,8 @@
 <cfsetting enablecfoutputonly="true" />
-
 <!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
-<!--- @@License: Released Under the "Common Public License 1.0", http://www.opensource.org/licenses/cpl.php --->
+<!--- @@License: @LICENSE@ --->
 <!--- @@displayname: Manage blog categories --->
 <!--- @@Description: Blog category content type administration for the FarCry Blog plugin --->
-<!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
 
 <!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/admin/" prefix="admin" />
@@ -25,9 +23,9 @@
 	
 	<ft:object typename="skinSelector" lfields="skin,bDirectories" />
 	
-	<ft:buttonpanel>
+	<ft:buttonPanel>
 		<ft:button value="Change Blog Skin" />
-	</ft:buttonpanel>
+	</ft:buttonPanel>
 	
 </ft:form>
 
