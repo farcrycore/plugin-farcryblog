@@ -29,8 +29,7 @@ START WEBSKIN
 		<cfset stLocal.stProps.email = session.dmProfile.emailAddress />
 	</cfif>
 	
-	
-	<skin:view key="newComment" typename="farBlogComment" template="displayFormComment" stProps="#stLocal.stProps#" />
+	<skin:view key="#stObj.objectid#_Comment" typename="farBlogComment" template="displayFormComment" stProps="#stLocal.stProps#" />
 </cfif>
 
 <cfsetting enablecfoutputonly="false">
