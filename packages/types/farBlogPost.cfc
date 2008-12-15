@@ -7,7 +7,7 @@
 <!--- properties --->
 <cfproperty ftSeq="1" ftWizardStep="Start" ftFieldset="General Details" name="Title" type="string" required="true" default="" hint="Blog post title." ftLabel="Title" ftValidation="required" />
 <cfproperty ftSeq="3" ftWizardStep="Start" ftFieldset="General Details" name="publishDate" type="date" required="false" default="" hint="The date that a blog post is sent live and appears on the public website" ftLabel="Publish Date" ftType="datetime" ftDefaultType="evaluate" ftDefault="now()" ftDateFormatMask="dd mmm yyyy" ftTimeFormatMask="hh:mm tt" ftToggleOffDateTime="false" />
-<cfproperty ftSeq="5" ftWizardStep="Start" ftFieldset="General Details" name="displayMethod" type="string" required="true" default="displayPageStandard" hint="Display method to render." ftLabel="Content Template" ftType="webskin" ftPrefix="displayPageStandard" ftDefault="displayPageStandard" />
+<cfproperty ftSeq="5" ftWizardStep="Start" ftFieldset="General Details" name="displayMethod" type="string" required="true" default="displayPageStandard" hint="Display method to render." ftLabel="Content Template" ftType="webskin" ftPrefix="displayPage" ftDefault="displayPageStandard" />
 <cfproperty ftSeq="7" ftWizardStep="Start" ftFieldset="General Details" name="bComment" type="boolean" required="true" default="1" hint="Flag for enabling comments." ftLabel="Enable Comments?" />
 
 <cfproperty ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" name="catBlogPost" type="longchar" hint="Blog categorisation." ftLabel="Blog Category" ftType="category" ftAlias="farBlogPost" />
