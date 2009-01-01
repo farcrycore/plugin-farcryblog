@@ -8,11 +8,16 @@
 <!--- params --->
 <cfparam name="stParam.pageTitle" default="#stobj.label#" type="string" />
 
+<!--- Get SysInfo --->
+<cfset oSysInfo = createObject("component", "#application.packagepath#.farcry.sysinfo") />
+<cfset stCoreVersion = oSysInfo.getCoreVersion() />
 
 <cfoutput>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="FarCry Core #stCoreVersion.major#.#stCoreVersion.minor#.#stCoreVersion.patch#, FarCry Blog" />
+	<meta name="robots" content="index, follow" />
 	<cfif structKeyExists(stObj, "extendedMetaData") AND len(trim(stObj.extendedMetaData))><meta name="description" content="#trim(stObj.extendedMetaData)#" /></cfif>
 	<cfif structKeyExists(stObj, "metaKeywords") AND len(trim(stObj.metaKeywords))><meta name="keywords" content="#trim(stObj.metaKeywords)#" /></cfif>
 	<title><blog:config property="blogTitle" />:  #stParam.pageTitle#</title>
