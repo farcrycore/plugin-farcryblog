@@ -24,3 +24,4 @@
 </ul>
 </cfoutput>
 
+<cfsetting enablecfoutputonly="false" />
