@@ -7,6 +7,21 @@
 <cfimport taglib="/farcry/core/tags/admin/" prefix="admin" />
 <cfimport taglib="/farcry/core/tags/formtools" prefix="ft" />
 
+<!--- custom option: Publish Comment ---->
+<ft:processform action="Publish Comment">
+	<cfset oComment = createObject("component",application.stCoapi["farBlogComment"].packagePath) />
+	<cfset stComment = oComment.getData(objectID=form.selectedObjectID) />
+	<cfset stComment.bPublish = 1 />
+	<cfset oComment.setData(stProperties=stComment) />
+</ft:processform>
+
+<ft:processform action="Hide Comment">
+	<cfset oComment = createObject("component",application.stCoapi["farBlogComment"].packagePath) />
+	<cfset stComment = oComment.getData(objectID=form.selectedObjectID) />
+	<cfset stComment.bPublish = 0 />
+	<cfset oComment.setData(stProperties=stComment) />
+</ft:processform>
+
 <!--- set up custom cell renderers --->
 <cfscript>
 	aCustomColumns = arrayNew(1);
@@ -23,11 +38,12 @@
 <ft:objectAdmin
 	title="Blog Comments"
 	typename="farBlogComment"
-	columnList="parentID,dateTimeCreated"
+	columnList="bPublish,parentID,dateTimeCreated"
 	acustomcolumns="#aCustomColumns#"
-	sortableColumns="parentID,dateTimeCreated"
+	sortableColumns="parentID,bPublish,dateTimeCreated"
 	lFilterFields="commentHandle,email,website"
 	sqlOrderBy="dateTimeCreated DESC"
+	lCustomActions="Hide Comment,Publish Comment"
 	plugin="farcryblog"
 	module="listblogcomment.cfm" />
 

@@ -16,7 +16,7 @@
 <ft:objectAdmin
 	title="Blog Posts"
 	typename="farBlogPost"
-	columnList="title,publishDate,bComment"
+	columnList="title,publishDate,bComment,bAutoPublish"
 	sortableColumns="title,publishDate"
 	lFilterFields="title"
 	sqlOrderBy="publishDate DESC"

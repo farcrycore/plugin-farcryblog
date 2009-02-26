@@ -22,12 +22,19 @@ ACTION:
 <ft:serverSideValidation />
 
 <skin:buildlink objectID="#stObj.parentID#" r_url="returnURL" />
-
+	
 <ft:processForm action="Post Comment" url="#returnURL#?commentAdded=true">
-
 	<!--- process action items --->
-	<ft:processFormObjects objectid="#stobj.objectid#" r_stProperties="stProps" />
-
+	<ft:processFormObjects objectid="#stobj.objectid#" r_stProperties="stProps">
+		<cfset stPost = createObject("component",application.stCoapi["farBlogPost"].packagePath).getData(objectID=stObj.parentID) />
+		<cfif NOT stPost.bAutoPublish>
+			<cfset stProps.bPublish = 0 />
+		</cfif>
+		<!--- validate weblink --->
+		<cfif len(trim(stProps.website)) AND left(stProps.website,4) NEQ "http">
+			<cfset stProps.website = "http://#trim(stProps.website)#" />
+		</cfif>
+	</ft:processFormObjects>
 </ft:processForm>
 
 
@@ -37,7 +44,7 @@ VIEW:
 <cfif NOT structkeyexists(url, "commentAdded")>
 
 	<ft:form>
-		<ft:object stObject="#stObj#" lExcludeFields="label,parentID,profileID" format="edit" legend="Make a Comment" helptext="HTML not allowed.  Links will be automatically activated." />
+		<ft:object stObject="#stObj#" lExcludeFields="label,parentID,profileID,bPublish" format="edit" legend="Make a Comment" helptext="HTML not allowed.  Links will be automatically activated." />
 		<ft:farcryButtonPanel>
 			<ft:button value="Post Comment" bSpamProtect="true" />
 		</ft:farcryButtonPanel>

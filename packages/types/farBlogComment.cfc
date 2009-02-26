@@ -2,26 +2,22 @@
 <!--- @@displayname: Blog: Comment type --->
 <!--- @@Description: Blog comment type component for the FarCry Blog plugin --->
 <cfcomponent displayname="Blog Comment" extends="farcry.core.packages.types.types" output="false" bObjectBroker="true" lObjectBrokerWebskins="displayTeaserStandard:15,displayFormComment:0"
-	hint="Manage and review comments across your entire blog. (Comment moderation options coming soon.)">
+	hint="Manage and review comments across your entire blog.">
 
 <!--- properties --->
 <cfproperty ftSeq="2" ftFieldset="Blog Comment" name="description" type="longchar" required="false" default="" hint="Comment description." ftLabel="Description" ftValidation="required" />
 <cfproperty ftSeq="3" ftFieldset="Blog Comment" name="commentHandle" type="string" required="false" default="" hint="Name or handle of poster."  ftLabel="Name" />
 <cfproperty ftSeq="4" ftFieldset="Blog Comment" name="email" type="string" required="false" default="" hint="Email address of poster." ftLabel="Email" ftValidation="validate-email" />
-<cfproperty ftSeq="5" ftFieldset="Blog Comment" name="website" type="string" required="false" default="" hint="Website address of poster." ftLabel="Website" ftType="url" />
-<cfproperty ftSeq="6" ftFieldset="Blog Comment" name="parentID" type="UUID" required="false" default="" hint="Parent content object reference." ftLabel="Parent Blog Post" ftJoin="farBlogPost" />
+<cfproperty ftSeq="5" ftFieldset="Blog Comment" name="bPublish" type="boolean" required="true" default="1" hint="Flag for auto publishing comment" ftLabel="Published" />
+<cfproperty ftSeq="6" ftFieldset="Blog Comment" name="website" type="string" required="false" default="" hint="Website address of poster." ftLabel="Website" ftType="url" />
+<cfproperty ftSeq="7" ftFieldset="Blog Comment" name="parentID" type="UUID" required="false" default="" hint="Parent content object reference." ftLabel="Parent Blog Post" ftJoin="farBlogPost" />
 
 <cfproperty ftSeq="20" ftFieldset="Blog Comment" name="bSubscribe" type="boolean" required="true" default="0" hint="Flag for thread subscription." ftLabel="Subscribe to thread?" ftType="boolean" />
 
 <cfproperty ftSeq="30" ftFieldset="Blog Comment" name="profileID" type="UUID" required="false" default="" hint="A member profile if commentor is a member" ftLabel="MemberID" ftJoin="dmProfile" />
 
-
-
 <!--- IMPORT TAG LIBRARIES --->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
-
-
-
 
 <!--- methods --->
 <cffunction name="getParentPost" access="public" output="false" returntype="query" hint="Returns the parent blog post for a comment.">
@@ -30,11 +26,11 @@
 	<cfset var qPost = querynew("objectID, title") />
 
 	<cfquery datasource="#application.dsn#" name="qPost">
-	SELECT p.objectID, p.title
-	FROM farBlogPost p
-	INNER JOIN farBlogComment c
-		ON p.objectID = c.parentID
-		AND c.objectID = <cfqueryparam value="#arguments.objectID#" cfsqltype="cf_sql_idstamp">
+		SELECT p.objectID, p.title
+		FROM farBlogPost p
+		INNER JOIN farBlogComment c
+			ON p.objectID = c.parentID
+			AND c.objectID = <cfqueryparam value="#arguments.objectID#" cfsqltype="cf_sql_idstamp" />
 	</cfquery>
 
 	<cfreturn qPost />
@@ -46,10 +42,11 @@
 	<cfset var qComments = querynew("objectID, description, commentHandle, dateTimeCreated") />
 
 	<cfquery datasource="#application.dsn#" name="qComments">
-	SELECT objectID, description, commentHandle, dateTimeCreated
-	FROM farBlogComment
-	WHERE parentID = <cfqueryparam value="#arguments.parentID#" cfsqltype="cf_sql_idstamp">
-	ORDER BY dateTimeCreated
+		SELECT objectID, description, commentHandle, dateTimeCreated
+		FROM farBlogComment
+		WHERE 
+			parentID = <cfqueryparam value="#arguments.parentID#" cfsqltype="cf_sql_idstamp">
+		ORDER BY dateTimeCreated
 	</cfquery>
 
 	<cfreturn qComments />
@@ -61,9 +58,11 @@
 	<cfset var q = querynew("objectID, commentHandle, dateTimeCreated") />
 
 	<cfquery datasource="#application.dsn#" name="q" maxrows="#arguments.maxrows#">
-	SELECT objectID, commentHandle, dateTimeCreated
-	FROM farBlogComment
-	ORDER BY dateTimeCreated DESC
+		SELECT objectID, commentHandle, dateTimeCreated
+		FROM farBlogComment
+		WHERE
+			bPublish=1
+		ORDER BY dateTimeCreated DESC
 	</cfquery>
 
 	<cfreturn q />

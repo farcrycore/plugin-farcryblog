@@ -19,7 +19,7 @@ START WEBSKIN
 	<cfset stObj.commentHandle = "Secret Admirer" />
 </cfif>
 <cfif len(stObj.website)>
-	<cfset stObj.commentHandle = '<a href="#stObj.website#">#stObj.commentHandle#</a>' />
+	<cfset stObj.commentHandle = '<a href="#stObj.website#" target="_blank">#stObj.commentHandle#</a>' />
 </cfif>
 
 <cfoutput>#stObj.commentHandle#</cfoutput>
