@@ -13,23 +13,11 @@
 <!--- <p>#stobj.description#</p> --->
 </cfoutput>
 
-<cfset qCategoryBlogPosts = createObject("component", application.stcoapi["farBlogPost"].packagePath).getPostsByCategory(categoryid=stobj.objectid) />
+<cfset qCategoryBlogPosts = createObject("component", application.stcoapi["farBlogPost"].packagePath).getPostsByCategory(categoryid=stobj.objectid, maxrows=100) />
 
-<ft:pagination
-	paginationID="#arguments.objectID#"
-	qRecordSet="#qCategoryBlogPosts#"
-	typename="farBlogPost"
-	pageLinks="5"
-	recordsPerPage="10"
-	top="true"
-	bottom="true"
-	submissionType="url" 
-	renderType="inline" >
 
-	<ft:paginateLoop r_stObject="st" bTypeAdmin="false">
-		<skin:view typename="farBlogPost" objectid="#st.objectid#" webskin="displayTeaserArchive" />
-	</ft:paginateLoop>
-</ft:pagination>
-
+<skin:pagination qrecordset="#qCategoryBlogPosts#" recordsPerPage="10">
+	<skin:view typename="farBlogPost" objectid="#stobject.objectid#" webskin="displayTeaserArchive" />
+</skin:pagination>
 
 <cfsetting enablecfoutputonly="false" />
