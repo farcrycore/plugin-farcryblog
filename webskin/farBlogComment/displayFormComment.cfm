@@ -10,6 +10,7 @@
 <cfimport prefix="skin" taglib="/farcry/core/tags/webskin" />
 <cfimport prefix="extjs" taglib="/farcry/core/tags/extjs" />
 
+
 <cfif not len(stObj.parentID)>
 	<cfabort showerror="This comment does not have a blog post id set. It has been incorrectly called." />
 </cfif>
@@ -22,8 +23,14 @@ ACTION:
 <ft:serverSideValidation />
 
 <skin:buildlink objectID="#stObj.parentID#" r_url="returnURL" />
+
+<cfif returnURL contains "?">
+	<cfset returnURL = "#returnURL#&commentAdded=true" />
+<cfelse>
+	<cfset returnURL = "#returnURL#?commentAdded=true" />
+</cfif>
 	
-<ft:processForm action="Post Comment" url="#returnURL#?commentAdded=true">
+<ft:processForm action="Post Comment" url="#returnURL#">
 	<!--- process action items --->
 	<ft:processFormObjects objectid="#stobj.objectid#" r_stProperties="stProps">
 		<cfset stPost = createObject("component",application.stCoapi["farBlogPost"].packagePath).getData(objectID=stObj.parentID) />
