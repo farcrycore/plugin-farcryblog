@@ -5,38 +5,28 @@
 <!--- @@description:   --->
 <!--- @@author: Matthew Bryant (mbryant@daemon.com.au) --->
 
-
-<!------------------ 
-FARCRY IMPORT FILES
- ------------------>
-<cfimport taglib="/farcry/core/tags/formtools" prefix="ft" />
+<!---============================================---
+--              Import Tag Libraries              --
+---=============================================--->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
-<!------------------ 
-START WEBSKIN
- ------------------>
+<!---============================================---
+--                  Start Webskin                 --
+---=============================================--->
+<cfset qRecentPosts = getRecentPosts(maxRows="-1") />
+<cfset recordsPerPage = 20 />
+<cfset numberOfPageLinks = 10 />
 
-<!--- import tag libraries --->
-
-<cfset qRecentPosts = getRecentPosts(maxRows="999") />
-
-
-<ft:pagination
-	paginationID="#arguments.objectID#"
-	qRecordset="#qRecentPosts#"
-	typename="farBlogPost"
-	pageLinks="10"
-	recordsPerPage="20"
-	top="false"
-	bottom="true"
-	submissionType="url"
-	renderType="inline"
-	>
-
-	<ft:paginateLoop r_stObject="st" bTypeAdmin="false">
-		<skin:view objectid="#st.objectid#" webskin="displayTeaserStandard" alternateHTML="No display template found." />
-	</ft:paginateLoop>
-
-</ft:pagination>
+<cfif qRecentPosts.recordCount>
+  <cfif qRecentPosts.recordCount gt recordsPerPage>
+    <skin:pagination qRecordSet="#qRecentPosts#" recordsPerPage="#recordsPerPage#" pageLinks="#numberOfPageLinks#">
+      <skin:view typename="farBlogPost" objectid="#stObject.objectid#" template="displayTeaserStandard" alternateHTML="No display template found." />
+    </skin:pagination>
+  <cfelse>
+    <cfloop query="qRecentPosts">
+      <skin:view typename="farBlogPost" objectid="#qRecentPosts.objectid#" template="displayTeaserStandard" alternateHTML="No display template found." />
+    </cfloop>
+  </cfif>
+</cfif>
 
 <cfsetting enablecfoutputonly="false">
