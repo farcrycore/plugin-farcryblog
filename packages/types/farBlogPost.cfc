@@ -1,31 +1,69 @@
-<!--- @@Copyright: Daemon Pty Limited 1995-2008, http://www.daemon.com.au --->
+<!--- @@Copyright: Daemon Pty Limited 2002-2008, http://www.daemon.com.au --->
 <!--- @@displayname: Blog: Post --->
 <!--- @@Description: Blog post type component for the FarCry Blog plugin --->
 <cfcomponent displayname="Blog Post" extends="farcry.core.packages.types.versions" bSchedule="true" bFriendly="true" bObjectBroker="true" lObjectBrokerWebskins=""
 	hint="Manage your blog posts, create new missives, edit the HTML of individual posts, categorise posts by topic and schedule posts for future dates.">
 
 <!--- properties --->
-<cfproperty ftSeq="1" ftWizardStep="Start" ftFieldset="General Details" name="Title" type="string" required="true" default="" hint="Blog post title." ftLabel="Title" ftValidation="required" />
-<cfproperty ftSeq="3" ftWizardStep="Start" ftFieldset="General Details" name="publishDate" type="date" required="false" default="" hint="The date that a blog post is sent live and appears on the public website" ftLabel="Publish Date" ftType="datetime" ftDefaultType="evaluate" ftDefault="now()" ftDateFormatMask="dd mmm yyyy" ftTimeFormatMask="hh:mm tt" ftToggleOffDateTime="false" />
-<cfproperty ftSeq="5" ftWizardStep="Start" ftFieldset="General Details" name="displayMethod" type="string" required="true" default="displayPageStandard" hint="Display method to render." ftLabel="Content Template" ftType="webskin" ftPrefix="displayPage" ftDefault="displayPageStandard" />
-<cfproperty ftSeq="7" ftWizardStep="Start" ftFieldset="General Details" name="bComment" type="boolean" required="true" default="1" hint="Flag for enabling comments." ftLabel="Enable Comments" />
-<cfproperty ftSeq="8" ftWizardStep="Start" ftFieldset="General Details" name="bAutoPublish" type="boolean" required="true" default="1" hint="Flag for auto-publishing comments." ftLabel="Auto Publish Comments" />
+<cfproperty 
+	name="Title" type="string" required="true" default="" hint="Blog post title." 
+	ftSeq="1" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Title" ftValidation="required" />
 
-<cfproperty ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" name="catBlogPost" type="longchar" hint="Blog categorisation." ftLabel="Blog Category" ftType="category" ftAlias="farBlogPost" />
+<cfproperty 
+	name="publishDate" type="date" required="false" default="" hint="The date that a blog post is sent live and appears on the public website" 
+	ftSeq="3" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Publish Date" 
+	ftType="datetime" ftDefaultType="evaluate" ftDefault="now()" ftDateFormatMask="dd mmm yyyy" ftTimeFormatMask="hh:mm tt" ftToggleOffDateTime="false" />
 
-<cfproperty ftSeq="21" ftWizardStep="Blog Post" ftFieldset="Blog Details" name="Body" type="longchar" required="false" default="" hint="Main body of content." ftLabel="Blog Post" ftType="richtext" ftTemplateTypeList="dmImage,dmFile,dmFlash,dmNavigation,dmHTML" />
-<cfproperty ftSeq="23" ftWizardStep="Blog Post" ftFieldset="Blog Details" name="Teaser" type="longchar" required="false" default="" hint="Teaser text." ftLabel="Teaser" />
+<cfproperty 
+	name="displayMethod" type="string" required="true" default="displayPageStandard" hint="Display method to render." 
+	ftSeq="5" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Content Template" 
+	ftType="webskin" ftPrefix="displayPage" ftDefault="displayPageStandard" />
 
-<cfproperty ftSeq="25" ftWizardStep="Blog Post" ftFieldset="Related Content" name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." ftLabel="Media Library" ftJoin="dmImage,dmFile,dmFlash" />
-<cfproperty ftSeq="26" ftWizardStep="Blog Post" ftFieldset="Related Content" name="bShowMediaInline" type="boolean" required="true" default="0" hint="Flag for showing media incline." ftLabel="Show Media Inline?" />
-<cfproperty ftSeq="27" ftWizardStep="Blog Post" ftFieldset="Related Content" name="aRelatedPosts" type="array" required="false" default="" hint="Related blog posts." ftLabel="Related Blog Posts" ftJoin="farBlogPost" />
+<cfproperty 
+	name="bComment" type="boolean" required="true" default="1" hint="Flag for enabling comments."
+	ftSeq="7" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Enable Comments" />
+	
+<cfproperty
+	name="bAutoPublish" type="boolean" required="true" default="1" hint="Flag for auto-publishing comments." 
+	ftSeq="8" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Auto Publish Comments" />
+
+<cfproperty 
+	name="catBlogPost" type="longchar" hint="Blog categorisation." 
+	ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" ftLabel="Blog Category" 
+	ftType="category" ftAlias="farBlogPost" />
+
+<cfproperty
+	name="Body" type="longchar" required="false" default="" hint="Main body of content." 
+	ftSeq="21" ftWizardStep="Blog Post" ftFieldset="Blog Details" ftLabel="Blog Post" 
+	ftType="richtext" ftTemplateTypeList="dmImage,dmFile,dmFlash,dmNavigation,dmHTML" />
+
+<cfproperty 
+	name="Teaser" type="longchar" required="false" default="" hint="Teaser text." 
+	ftSeq="23" ftWizardStep="Blog Post" ftFieldset="Blog Details" ftLabel="Teaser" />
+
+<cfproperty 
+	name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." 
+	ftSeq="25" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Media Library" 
+	ftJoin="dmImage,dmFile,dmFlash" />
+
+<cfproperty 
+	name="bShowMediaInline" type="boolean" required="true" default="0" hint="Flag for showing media incline." 
+	ftSeq="26" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Show Media Inline?" />
+	
+<cfproperty 
+	name="aRelatedPosts" type="array" required="false" default="" hint="Related blog posts." 
+	ftSeq="27" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related Blog Posts" 
+	ftJoin="farBlogPost" />
 
 
 <!--- hidden attribute --->
-<cfproperty name="lMedia" type="string" required="false" default="" hint="Mixed media content for this content." ftType="arrayList" ftArrayField="aMedia" />
+<cfproperty 
+	name="lMedia" type="string" required="false" default="" hint="Mixed media content for this content." 
+	ftType="arrayList" ftArrayField="aMedia" />
 
 <!--- system attribute --->
-<cfproperty name="status" type="string" required="true" default="draft" hint="Status of the node (draft, pending, approved)." />
+<cfproperty 
+	name="status" type="string" required="true" default="draft" hint="Status of the node (draft, pending, approved)." />
 
 	<!--- methods --->
 	<cffunction name="getComments" access="public" output="false" returntype="query" hint="Returns a query of objectids of all the comments attached to the blogpostid passed in.">
@@ -88,6 +126,7 @@
 				month(publishDate) = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.archiveMonth#" />
 				AND Year(publishDate) = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.archiveYear#" />
 				AND status = <cfqueryparam value="approved" cfsqltype="cf_sql_varchar" />
+			ORDER BY publishdate DESC
 		</cfquery>
 
 		<cfreturn qArchivePosts />
@@ -156,5 +195,31 @@
 
 		<cfreturn q />
 	</cffunction>
+
+	<cfscript>
+	/**
+	* Abbreviates a given string to roughly the given length, stripping any tags, making sure the ending doesn't chop a word in two, and adding an ellipsis character at the end.
+	* Fix by Patrick McElhaney
+	* v3 by Ken Fricklas kenf@accessnet.net, takes care of too many spaces in text.
+	*
+	* @param string      String to use. (Required)
+	* @param len      Length to use. (Required)
+	* @return Returns a string.
+	* @author Gyrus (kenf@accessnet.netgyrus@norlonto.net)
+	* @version 3, September 6, 2005
+	*/
+	function abbreviate(string,len) {
+	    var newString = REReplace(string, "<[^>]*>", " ", "ALL");
+	    var lastSpace = 0;
+	    newString = REReplace(newString, " \s*", " ", "ALL");
+	    if (len(newString) gt len) {
+	        newString = left(newString, len-2);
+	        lastSpace = find(" ", reverse(newString));
+	        lastSpace = len(newString) - lastSpace;
+	        newString = left(newString, lastSpace) & " &##8230;";
+	    }    
+	    return newString;
+	}
+	</cfscript>
 
 </cfcomponent>
