@@ -28,7 +28,7 @@
 
 <cfproperty 
 	name="blogLastMinute" type="longchar" ftType="textfield" default="" hint="Javascript to appear before closing body."
-	ftSeq="12" ftFieldset="Blog Settings" ftLabel="Last Minute Javascript" 
+	ftSeq="13" ftFieldset="Blog Settings" ftLabel="Last Minute Javascript" 
 	fthint="Ideal for things like Google Analytics tracking codes." />
 
 </cfcomponent>
