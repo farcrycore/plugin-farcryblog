@@ -61,6 +61,10 @@
 	name="lMedia" type="string" required="false" default="" hint="Mixed media content for this content." 
 	ftType="arrayList" ftArrayField="aMedia" />
 
+<cfproperty ftSeq="50" ftWizardStep="Blog Post" ftFieldset="Blog" ftLabel="Blog" 
+	name="farBlogID" type="uuid" required="true" default="" hint="The blog this post is listed under"
+	ftType="uuid" ftJoin="farBlog" ftRenderType="list" />
+
 <!--- system attribute --->
 <cfproperty 
 	name="status" type="string" required="true" default="draft" hint="Status of the node (draft, pending, approved)." />
