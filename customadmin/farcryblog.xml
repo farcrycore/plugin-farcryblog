@@ -3,6 +3,7 @@
 	<section id="blogging" permission="MainNavAdminTab" label="Blogging">
 		<subsection id="blogContent" permission="MainNavAdminTab" sidebar="custom/sidebar.cfm" label="Blog Content">
 			<menu id="blogTools" label="Blog Tools">
+				<menuitem id="blogs" sequence="5" label="Blogs" link="/admin/customadmin.cfm?module=customlists/farBlog.cfm&amp;plugin=farcryblog" relatedtype="farBlog" />
 				<menuitem id="blogPosts" sequence="10" label="Blog Posts" link="/admin/customadmin.cfm?module=customlists/farBlogPost.cfm&amp;plugin=farcryblog" relatedtype="farBlogPost" />
 				<menuitem id="blogComments" sequence="20" label="Blog Comments" link="/admin/customadmin.cfm?module=customlists/farBlogComment.cfm&amp;plugin=farcryblog" relatedtype="farBlogComment" />
 				<menuitem id="blogWebfeed" sequence="40" label="Blog Feeds" link="/admin/customadmin.cfm?module=customlists/farWebfeed.cfm&amp;plugin=farcryblog" relatedtype="farWebfeed" />

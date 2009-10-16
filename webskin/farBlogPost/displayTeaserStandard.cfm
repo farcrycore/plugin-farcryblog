@@ -1,39 +1,25 @@
 <cfsetting enablecfoutputonly="true" />
-<!--- @@Copyright: Daemon Pty Limited 2002-2008, http://www.daemon.com.au --->
-<!--- @@displayname: Display post teaser --->
-<!--- @@Description: Default farcryblog standard teaser for blog posts --->
+<!--- @@displayname: Standard teaser --->
 
-<!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
+<cfset stLocal.stAuthor = application.fapi.getContentObject(objectid=stObj.dmProfileID,typename="dmProfile") />
+<cfset stLocal.qCategories = getPostCategories(objectid=stObj.objectid) />
 
-<!-----------------------------
- VIEW 
------------------------------->
 <cfoutput>
-<div class="item">
-	<div class="date">
-		<div>#dateformat(stObj.publishDate, "MMM")#</div>
-		<span>#dateformat(stObj.publishDate, "DD")#</span>
+	<div class="blog-post-teaserstandard">
+		<h2>#stObj.title#</h2>
+		<p class="blog-post-tagline">
+			<span class="blog-post-author">By #stLocal.stAuthor.firstname# #stLocal.stAuthor.lastname#</span>
+			<span class="blog-post-publishdate">#dateformat(stObj.publishDate,"ddd, dd mmmm yyyy")#</span>
+		</p>
+		<p class="blog-post-teaser">#stObj.teaser# [<skin:buildLink objectid="#stObj.objectid#">Read more</skin:buildLink>]</p>
+		<p class="blog-post-categories">
+			<cfloop query="stLocal.qCategories">
+				<skin:buildLink objectid="#stLocal.qCategories.categoryid#">#stLocal.qCategories.categoryLabel#</skin:buildLink>
+			</cfloop>
+		</p>
 	</div>
-	<div class="content">
-		<h1><skin:buildlink objectID="#stObj.objectID#" linktext="#stObj.title#" /></h1>
-		<div class="body">
-			<p>#stObj.teaser#</p>
-			
-			<cfif arraylen(stobj.aMedia)>
-				<skin:view objectid="#stobj.aMedia[1]#" webskin="displayMedia" alternateHTML="<p>--- No Media View of this item available ---</p>" />
-			</cfif>
-
-			<p><skin:buildlink objectID="#stObj.objectID#" linktext="More on this post..." /></p>
-
-			<p>#application.config.farcryblog.authorName# : Comments (#getTotalComments(stobj.objectid)#) : <skin:buildlink objectID="#stObj.objectID#" linktext="permalink" /></p>		
-
-		</div>
-
-	</div>
-</div>
 </cfoutput>
-
 
 <cfsetting enablecfoutputonly="false" />

@@ -65,11 +65,50 @@
 	name="farBlogID" type="uuid" required="true" default="" hint="The blog this post is listed under"
 	ftType="uuid" ftJoin="farBlog" ftRenderType="list" />
 
+<cfproperty ftSeq="51" ftWizardStep="Blog Post" ftFieldset="Blog" ftLabel="Author" 
+	name="dmProfileID" type="string" required="true" default="" hint="The blog this post is listed under"
+	ftType="list" ftJoin="dmProfile" ftListData="getAuthors" />
+
 <!--- system attribute --->
 <cfproperty 
 	name="status" type="string" required="true" default="draft" hint="Status of the node (draft, pending, approved)." />
 
 	<!--- methods --->
+	<cffunction name="getAuthors" access="public" output="false" returntype="string" hint="Returns the authors allowed for this object">
+		<cfargument name="objectid" type="uuid" required="true" hint="The post to get authors for" />
+		
+		<cfset var stPost = getData(objectid=arguments.objectid) />
+		<cfset var qAuthors = "" />
+		<cfset var result = "" />
+		
+		<cfif len(stPost.farBlogID)>
+			<cfquery datasource="#application.dsn#" name="qAuthors">
+				select		p.objectid,p.firstname,p.lastname
+				from		#application.dbowner#farBlog_aAuthors ba
+							inner join
+							#application.dbowner#dmProfile p
+							on ba.data=p.objectid
+				where		parentid=<cfqueryparam cfsqltype="cf_sql_varchar" value="#stPost.farBlogID#" />
+				order by	p.lastname,p.firstname
+			</cfquery>
+		<cfelse>
+			<cfquery datasource="#application.dsn#" name="qAuthors">
+				select		p.objectid,p.firstname,p.lastname
+				from		#application.dbowner#farBlog_aAuthors ba
+							inner join
+							#application.dbowner#dmProfile p
+							on ba.data=p.objectid
+				order by	p.lastname,p.firstname
+			</cfquery>
+		</cfif>
+		
+		<cfloop query="qAuthors">
+			<cfset result = listappend(result,"#qAuthors.objectid#:#qAuthors.firstname# #qAuthors.lastname#") />
+		</cfloop>
+		
+		<cfreturn result />
+	</cffunction>
+	
 	<cffunction name="getComments" access="public" output="false" returntype="query" hint="Returns a query of objectids of all the comments attached to the blogpostid passed in.">
 		<cfargument name="objectid" required="true" type="uuID" />
 		
@@ -174,9 +213,13 @@
 		<cfset var q = queryNew("objectID") />
 
 		<cfquery datasource="#application.dsn#" name="q">
-			select distinct categoryID 
-		    from refCategories 
-		    where objectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
+			select distinct r.categoryID,c.categoryLabel
+		    from 		refCategories r
+		    			inner join
+		    			dmCategory c
+		    			on r.categoryid=c.objectid
+		    where 		r.objectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
+		   	order by	c.categorylabel
 		</cfquery>
 
 		<cfreturn q />

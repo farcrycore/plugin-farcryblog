@@ -33,4 +33,44 @@
 		name="aAuthors" type="array" hint="Profiles allowed to create posts to this blog" ftvalidation="" 
 		fttype="array" ftJoin="dmProfile" fthint="Select users that can post to this blog" />
 	
+	
+	<cffunction name="getLatestPost" access="public" returntype="struct" output="false" hint="Returns the latest visible blog post, or an empty struct if none exists">
+		<cfargument name="objectid" type="uuid" required="true" hint="The blog to query" />
+		
+		<cfset var qPost = "" />
+		
+		<cfquery datasource="#application.dsn#" name="qPost" maxrows="1">
+			select		objectid
+			from		#application.dbowner#farBlogPost
+			where		farBlogID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
+						and publishDate<<cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#" />
+						and status in (<cfqueryparam cfsqltype="cf_sql_varchar" list="true" value="#request.mode.lValidStatus#" />)
+			order by	publishdate desc
+		</cfquery>
+		
+		<cfif qPost.recordcount>
+			<cfreturn application.fapi.getContentObject(objectid=qPost.objectid,typename="farBlogPost") />
+		<cfelse>
+			<cfreturn structnew() />
+		</cfif>
+	</cffunction>
+	
+	<cffunction name="getLatestPosts" access="public" returntype="query" output="false" hint="Returns the latest [X] blog posts as a query">
+		<cfargument name="objectid" type="uuid" required="true" hint="The blog to query" />
+		<cfargument name="maxposts" type="numeric" required="false" default="1000" hint="The maximum number of posts to return" />
+		
+		<cfset var qPost = "" />
+		
+		<cfquery datasource="#application.dsn#" name="qPost" maxrows="#arguments.maxposts#">
+			select		*
+			from		#application.dbowner#farBlogPost
+			where		farBlogID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
+						and publishDate<<cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#" />
+						and status in (<cfqueryparam cfsqltype="cf_sql_varchar" list="true" value="#request.mode.lValidStatus#" />)
+			order by	publishdate desc
+		</cfquery>
+		
+		<cfreturn qPost />
+	</cffunction>
+	
 </cfcomponent>
