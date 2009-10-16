@@ -44,8 +44,7 @@
 	lFilterFields="commentHandle,email,website"
 	sqlOrderBy="dateTimeCreated DESC"
 	lCustomActions="Hide Comment,Publish Comment"
-	plugin="farcryblog"
-	module="listblogcomment.cfm" />
+	plugin="farcryblog" />
 
 <!--- page footer --->
 <admin:footer />

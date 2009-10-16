@@ -21,8 +21,7 @@
 	lFilterFields="title"
 	sqlOrderBy="dateproperty DESC"	
 	sqlWhere="itemtype = 'farBlogPost'"
-	plugin="farcryblog"
-	module="listwebfeed.cfm" />
+	plugin="farcryblog" />
 
 <!--- page footer --->
 <admin:footer />

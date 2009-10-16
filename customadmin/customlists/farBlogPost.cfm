@@ -20,8 +20,7 @@
 	sortableColumns="title,publishDate"
 	lFilterFields="title"
 	sqlOrderBy="publishDate DESC"
-	plugin="farcryblog"
-	module="listblogpost.cfm" />
+	plugin="farcryblog" />
 
 <!--- page footer --->
 <admin:footer />
