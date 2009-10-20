@@ -10,16 +10,30 @@
 <cfimport taglib="/farcry/core/tags/admin/" prefix="admin" />
 <cfimport taglib="/farcry/core/tags/formtools" prefix="ft" />
 
+<!--- Admin page parameters --->
+<cfparam name="url.farBlogID" /><!--- Required --->
+<cfparam name="url.status" default="all" /><!--- Which posts to show --->
+
+<cfset stBlog = application.fapi.getContentObject(objectid=url.farBlogID,typename="farBlog") />
+
+<cfif url.status eq "all">
+	<cfset sqlWhere = "farBlogID='#url.farBlogID#'" />
+<cfelse>
+	<cfset sqlWhere = "farBlogID='#url.farBlogID#' and status in (#listqualify(url.status,'''')#)" />
+</cfif>
+
 <!--- set up page header --->
 <admin:header title="Blog Posts" />
 
 <ft:objectAdmin
-	title="Blog Posts"
+	title="#stBlog.title# Blog Posts"
 	typename="farBlogPost"
 	columnList="title,publishDate,bComment,bAutoPublish"
 	sortableColumns="title,publishDate"
 	lFilterFields="title"
 	sqlOrderBy="publishDate DESC"
+	sqlWhere="#sqlWhere#"
+	module="#urlencodedformat('customlists/farBlogPost.cfm&farBlogID=#url.farBlogID#&status=#url.status#')#"
 	plugin="farcryblog" />
 
 <!--- page footer --->

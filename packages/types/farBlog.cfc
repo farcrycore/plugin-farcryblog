@@ -14,7 +14,7 @@
 		fttype="image" ftDestination="/images/blog/header" fthint="This image will appear as the design element in your blog header."/>
 	<cfproperty ftseq="12" ftwizardstep="General Settings" ftfieldset="Banner and Images" ftlabel="Blog Teaser Image"
 		name="teaserImage" type="string" default="" hint="" ftvalidation="" 
-		fttype="image" ftDestination="/images/blog/teaser" fthint="This is a smaller version of the header image that will appear on teaser views of your blog."/>
+		fttype="image" ftDestination="/images/blog/teaser" ftImageWidth="64" ftImageHeight="64" ftAutoGenerateType="pad" fthint="This is a smaller version of the header image that will appear on teaser views of your blog."/>
 		
 	<cfproperty ftseq="21" ftwizardstep="General Settings" ftfieldset="Comments" ftlabel="Email Address"
 		name="email" type="string" default="" hint="" ftvalidation="" 
@@ -71,6 +71,74 @@
 		</cfquery>
 		
 		<cfreturn qPost />
+	</cffunction>
+	
+	<cffunction name="getBlogsByCurrentUser" access="public" returntype="query" output="false" hint="Returns the blogs the current user can see">
+		<cfset var qBlogs = "" />
+		
+		<cfquery datasource="#application.dsn#" name="qBlogs">
+			select		objectid
+			from		#application.dbowner#farBlog b
+			where		<cfif application.security.checkPermission(permission="farBlogAdmin")>
+							objectid in (
+								select	parentid
+								from	#application.dbowner#farBlog_aAuthors
+								where	data=<cfqueryparam cfsqltype="cf_sql_varchar" value="#session.dmProfile.objectid#" />
+							)
+						<cfelse>
+							1=1
+						</cfif>
+			order by	title
+		</cfquery>
+		
+		<cfreturn qBlogs />
+	</cffunction>
+	
+	<cffunction name="getAdminStats" access="public" returntype="struct" output="false" hint="Returns number of posts, pending posts, comments, and pending comments">
+		<cfargument name="objectid" type="uuid" required="true" hint="The blog to query" />
+		
+		<cfset var q = "" />
+		<cfset var stResult = structnew() />
+		
+		<cfquery datasource="#application.dsn#" name="q">
+			select		status,count(status) as total
+			from		#application.dbowner#farBlogPost
+			where		farBlogID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
+			group by	status
+		</cfquery>
+		
+		<cfset stResult.all_posts = 0 />
+		<cfset stResult.draft_posts = 0 />
+		<cfset stResult.pending_posts = 0 />
+		<cfset stResult.approved_posts = 0 />
+		<cfloop query="q">
+			<cfset stResult[q.status & "_posts"] = q.total />
+			<cfset stResult["all_posts"] = stResult["all_posts"] + q.total />
+		</cfloop>
+		
+		<cfquery datasource="#application.dsn#" name="q">
+			select		c.bPublish,count(bPublish) as total
+			from		#application.dbowner#farBlogPost p
+						inner join
+						#application.dbowner#farBlogComment c
+						on p.objectid=c.parentid
+			where		p.farBlogID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
+			group by	bPublish
+		</cfquery>
+		
+		<cfset stResult.all_comments = 0 />
+		<cfset stResult.pending_comments = 0 />
+		<cfset stResult.approved_comments = 0 />
+		<cfloop query="q">
+			<cfif q.bPublish eq 1>
+				<cfset stResult["approved_comments"] = q.total />
+			<cfelse>
+				<cfset stResult["pending_comments"] = q.total />
+			</cfif>
+			<cfset stResult["all_comments"] = stResult["all_comments"] + q.total />
+		</cfloop>
+		
+		<cfreturn stResult />
 	</cffunction>
 	
 </cfcomponent>
