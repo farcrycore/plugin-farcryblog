@@ -110,8 +110,11 @@
 	<cffunction name="process" access="public" output="false" returntype="struct" hint="Empty process function">
 		<cfargument name="fields" type="struct" required="true" hint="The fields submitted" />
 		
+		<cfif not >
 		<cfset uninstallPlugin(getCurrentSkin(),arguments.fields.bDirectories) />
-		<cfset installPlugin(arguments.fields.skin,arguments.fields.bDirectories) />
+		<cfif not arguments.fields.skin eq "none">
+			<cfset installPlugin(arguments.fields.skin,arguments.fields.bDirectories) />
+		</cfif>
 		
 		<cfreturn arguments.fields />
 	</cffunction>
