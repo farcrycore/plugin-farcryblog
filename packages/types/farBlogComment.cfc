@@ -174,33 +174,35 @@ Link back to the thread:
 <cffunction name="sendSubscriptionAlert" access="private" output="false" returntype="void">
 	<cfargument name="objectID" required="true" type="UUID" />
 
-	<cfset var stObj=getData(objectID=arguments.objectID) />
+	<cfset var stObj = getData(objectID=arguments.objectID) />
 	<cfset var oPost=createobject("component", application.stCOAPI["farBlogPost"].typepath) />
-	<cfset var stPost=oPost.getData(objectID=stObj.parentID) />
-	<cfset var postURL = "" />
-	<cfset var unsubscribeURL = "" />
+	<cfset var stPost = application.fapi.getContentObject(objectID=stObj.parentID,typename="farBlogPost") />
+	<cfset var stProfile = application.fapi.getContentObject(objectID=stPost.dmProfileID,typename="dmProfile") />
+	<cfset var stBlog = application.fapi.getContentObject(objectid=stPost.farBlogID,typename="farBlog") />
 	<cfset var qSubscribers=querynew("objectID") />
 	<cfset var lSubscribersSent = "" />
-
-	<skin:buildLink objectid="#stObj.parentID#" r_url="postURL" includeDomain="true" />
+	<cfset var senderEmail = "" />
 	
+	<cfif len(stProfile.emailaddress)>
+		<cfset senderEmail = stProfile.emailaddress />
+	<cfelse>
+		<cfset senderEmail = application.config.general.adminemail />
+	</cfif>
+
 	<cfquery datasource="#application.dsn#" name="qSubscribers">
-	SELECT objectID, email
-	FROM farBlogComment
-	WHERE parentID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#stObj.parentID#" />
-		AND email <> ''
-		AND bSubscribe = 1
-	ORDER BY dateTimeCreated DESC
+		SELECT 		objectID, email
+		FROM 		farBlogComment
+		WHERE 		parentID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#stObj.parentID#" />
+					AND email <> ''
+					AND bSubscribe = 1
+		ORDER BY 	dateTimeCreated DESC
 	</cfquery>
 
 	<cfloop query="qSubscribers">
 		<cfif not listfindnocase(lSubscribersSent, email)>
-
-			<skin:buildLink objectid="#qSubscribers.objectID#" r_url="unsubscribeURL" includeDomain="true" />
-			
 			<cftry>
-				<cfmail to="#qSubscribers.email#" from="#application.config.farcryblog.authorEmail#" subject="#application.config.farcryblog.blogTitle#: #left(stPost.title, "50")#" type="text">
-	<cfoutput>There's been an update to the thread you subscribed to at *#application.config.farcryblog.blogTitle#*
+				<cfmail to="#qSubscribers.email#" from="#senderEmail#" subject="#stBlog.title#: #left(stPost.title, "50")#" type="text">
+	<cfoutput>There's been an update to the thread you subscribed to at *#stBlog.title#*
 	
 	#stPost.title#
 	-------------------------------------------------
@@ -213,10 +215,10 @@ Link back to the thread:
 	
 	
 	Link back to the thread:
-	http://#postURL#
+	#application.fapi.getLink(objectid=stBlog.objectid,includedomain=true)#
 	
 	If you would like to unsubscribe from this thread follow the link below:
-	http://#unsubscribeURL#&bodyview=displayUnsubscribeUser
+	#application.fapi.getLink(objectid=qSubscribers.objectid,includedomain=true,bodyView="displayUnsubscribeUser")#
 	</cfoutput>
 				</cfmail>
 				<cfcatch type="any"><cftrace type="warning" text="Error sending Subscription alert to [#qSubscribers.email#]."></cfcatch>

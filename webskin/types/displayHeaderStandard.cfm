@@ -20,7 +20,7 @@
 	<meta name="robots" content="index, follow" />
 	<cfif structKeyExists(stObj, "extendedMetaData") AND len(trim(stObj.extendedMetaData))><meta name="description" content="#trim(stObj.extendedMetaData)#" /></cfif>
 	<cfif structKeyExists(stObj, "metaKeywords") AND len(trim(stObj.metaKeywords))><meta name="keywords" content="#trim(stObj.metaKeywords)#" /></cfif>
-	<title><blog:config property="blogTitle" />:  #stParam.pageTitle#</title>
+	<title>#application.config.general.sitetitle#:  #stParam.pageTitle#</title>
 
   	<!-- Framework CSS -->
 	<link rel="stylesheet" href="#application.url.webroot#/farcryblog/css/blueprint/grid.css" type="text/css" media="screen, projection" />

@@ -5,30 +5,32 @@
 <!--- @@author: Geoffrey Bowers on 2008-12-15 --->
 <!--- @@cacheStatus: 1 --->
 <!--- @@cacheTimeout: 15 --->
+<!--- @@fuAlias: blogrss --->
 
 <!--- deactivate the tray --->
 <cfset request.mode.ajax = true />
 
-<cfquery datasource="#application.dsn#" name="qPosts">
-SELECT TOP 30 objectid, publishDate, teaser, title
-FROM farBlogPost
-ORDER BY publishDate DESC
+<cfquery datasource="#application.dsn#" name="qPosts" maxrows="30">
+	SELECT  	objectid, publishDate, teaser, title
+	FROM 		#application.dbowner#farBlogPost
+	WHERE		status=<cfqueryparam cfsqltype="cf_sql_varchar" value="approved" /> and p.farBlogID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#stObj.objectid#" />
+	ORDER BY 	publishDate DESC
 </cfquery>
 
 <cfset qFeed = queryNew("title, content, publisheddate, rsslink") />
 <cfloop query="qposts">
 	<cfset queryaddrow(qFeed, 1) />
 	<cfset querysetcell(qFeed, "title", qPosts.title) />
-	<cfset querysetcell(qFeed, "content", abbreviate(qPosts.teaser, 300)) />
+	<cfset querysetcell(qFeed, "content", application.fc.lib.blog.abbreviate(qPosts.teaser, 300)) />
 	<cfset querysetcell(qFeed, "publisheddate", qPosts.publishDate) />
-	<cfset querysetcell(qFeed, "rsslink", "http://#cgi.HTTP_HOST#" & application.fapi.getLink(objectid=qPosts.objectid)) />
+	<cfset querysetcell(qFeed, "rsslink", application.fapi.getLink(objectid=qPosts.objectid,includedomain=true)) />
 </cfloop>
 
 <!--- Set the feed metadata. --->
 <cfset stprop = StructNew() />
-<cfset stprop.title = xmlFormat(application.fapi.getconfig(key="farcryblog", name="blogTitle")) />
-<cfset stprop.link = "http://#cgi.HTTP_HOST#/" />
-<cfset stprop.description = xmlFormat(application.fapi.getconfig(key="farcryblog", name="blogAbout")) />
+<cfset stprop.title = xmlFormat(stObj.title) />
+<cfset stprop.link = application.fapi.getLink(objectid=stObj.objectid,includedomain=true) />
+<cfset stprop.description = xmlFormat(stObj.teaser) />
 <cfset stprop.version = "rss_2.0" />
 
 <!--- Create the feed. --->
@@ -38,7 +40,7 @@ ORDER BY publishDate DESC
 	properties="#stProp#"
 	xmlvar="rssXML" />
 
-<cfcontent reset="true" /><cfoutput>#rssXML#</cfoutput>
+<cfcontent type="text/xml" reset="yes" variable="#tobinary(tobase64(rssXML))#" />
 
 
 <!---<cfdump var="#XMLParse(rssXML)#">--->

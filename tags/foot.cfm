@@ -15,6 +15,5 @@
 <!--- load blog specific js libraries --->
 <blog:dpSyntaxHighlighter />
 <blog:swfobject />
-<blog:config property="blogLastMinute" />
 
 <cfsetting enablecfoutputonly="false" />

@@ -7,6 +7,8 @@
 <!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
+<cfset localhost.stProfile = application.fapi.getContentObject(objectid=stObj.dmProfileID,typename="dmProfile") />
+
 <cfoutput>
 	<div class="content">
 		
@@ -32,7 +34,7 @@
 <cfoutput>
 			<p>
 				<skin:buildlink objectID="#stObj.objectID#" linktext="Permalink" /> :
-				Author: #application.config.farcryblog.authorName# : 
+				Author: #localhost.stProfile.firstname# #localhost.stProfile.lastname# : 
 				Comments (#getTotalComments(stobj.objectid)#) : 
 				Filed Under: </cfoutput><skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="displayListCategories" /><cfoutput>
 				<!--- Bookmarks: </cfoutput><skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="displayListBookmarks" /><cfoutput> --->

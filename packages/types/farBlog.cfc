@@ -1,4 +1,4 @@
-<cfcomponent name="farBlog" extends="farcry.core.packages.types.types" output="false" displayname="Blog" fualias="Blog" description="Blog Management">
+<cfcomponent name="farBlog" extends="farcry.core.packages.types.types" output="false" displayname="Blog" fualias="blog" description="Blog Management">
 	<cfproperty ftseq="1" ftwizardstep="General Settings" ftfieldset="Name and Description" ftlabel="Blog Title"
 		name="title" type="string" default="" hint="Blog Title." ftvalidation="required" 
 		fttype="string" fthint="This is the name of your blog"/>
@@ -139,6 +139,18 @@
 		</cfloop>
 		
 		<cfreturn stResult />
+	</cffunction>
+	
+	<cffunction name="getBlogs" access="public" returntype="query" output="false" hint="Returns a query of the blogs available in this site">
+		<cfset var q = "" />
+		
+		<cfquery datasource="#application.dsn#" name="q">
+			select		objectid,title
+			from		#application.dbowner#farBlog
+			order by	title
+		</cfquery>
+		
+		<cfreturn q />
 	</cffunction>
 	
 </cfcomponent>
