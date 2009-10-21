@@ -23,15 +23,13 @@
 <!--- <cfimport taglib="/farcry/core/tags/formtools/" prefix="ft" /> --->
 <cfimport taglib="/farcry/core/tags/webskin/" prefix="skin" />
 
-<cfoutput>
-	<h1>Blogs</h1>
-	<p>
-		Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam rutrum, lorem varius sodales iaculis,
-		purus purus tempor quam, eu cursus ante tortor in arcu. Cum sociis natoque penatibus et magnis dis
-		parturient montes, nascetur ridiculus mus. Morbi aliquet eleifend leo. Nunc porta, augue at tincidunt
-		euismod, pede est adipiscing massa, quis ullamcorper diam risus fermentum lorem
-	</p>
-</cfoutput>
+<cfif request.stObj.typename eq "dmInclude">
+	<cfoutput>
+		<h1>#request.stObj.title#</h1>
+	</cfoutput>
+<cfelse>
+	<cfoutput><h1>Blogs</h1></cfoutput>
+</cfif>
 
 <cfset qAllBlogs =  getAllBlogs()>
 <cfoutput><div class="blog-list"></cfoutput>

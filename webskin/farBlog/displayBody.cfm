@@ -10,7 +10,7 @@
 <cfoutput>
 	<div class="blog-post-list">
 		<skin:pagination query=stLocal.qPosts recordsPerPage=1 r_stObject="stCurrentBlogPost">
-			<div class="blog-post"><skin:view objectid="#stCurrentBlogPost.objectid#" webskin="displayTeaserStandard" /></div>
+			<div class="blog-post"><skin:view objectid="#stCurrentBlogPost.objectid#" typename="farBlogPost" webskin="displayTeaserStandard" /></div>
 		</skin:pagination>
 	</div>
 </cfoutput>
