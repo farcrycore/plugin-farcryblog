@@ -4,74 +4,184 @@
 <cfcomponent displayname="Blog Post" extends="farcry.core.packages.types.versions" bSchedule="true" bFriendly="true" bObjectBroker="true" lObjectBrokerWebskins=""
 	hint="Manage your blog posts, create new missives, edit the HTML of individual posts, categorise posts by topic and schedule posts for future dates.">
 
-<!--- properties --->
-<cfproperty 
-	name="Title" type="string" required="true" default="" hint="Blog post title." 
-	ftSeq="1" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Title" ftValidation="required" />
-
-<cfproperty 
-	name="publishDate" type="date" required="false" default="" hint="The date that a blog post is sent live and appears on the public website" 
-	ftSeq="3" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Publish Date" 
-	ftType="datetime" ftDefaultType="evaluate" ftDefault="now()" ftDateFormatMask="dd mmm yyyy" ftTimeFormatMask="hh:mm tt" ftToggleOffDateTime="false" />
-
-<cfproperty 
-	name="displayMethod" type="string" required="true" default="displayPageStandard" hint="Display method to render." 
-	ftSeq="5" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Content Template" 
-	ftType="webskin" ftPrefix="displayPage" ftDefault="displayPageStandard" />
-
-<cfproperty 
-	name="bComment" type="boolean" required="true" default="1" hint="Flag for enabling comments."
-	ftSeq="7" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Enable Comments" />
+	<!--- properties --->
+	<cfproperty 
+		name="Title" type="string" required="true" default="" hint="Blog post title." 
+		ftSeq="1" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Title" ftValidation="required" />
 	
-<cfproperty
-	name="bAutoPublish" type="boolean" required="true" default="1" hint="Flag for auto-publishing comments." 
-	ftSeq="8" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Auto Publish Comments" />
-
-<cfproperty 
-	name="catBlogPost" type="longchar" hint="Blog categorisation." 
-	ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" ftLabel="Blog Category" 
-	ftType="category" ftAlias="farBlogPost" />
-
-<cfproperty
-	name="Body" type="longchar" required="false" default="" hint="Main body of content." 
-	ftSeq="21" ftWizardStep="Blog Post" ftFieldset="Blog Details" ftLabel="Blog Post" 
-	ftType="richtext" ftTemplateTypeList="dmImage,dmFile,dmFlash,dmNavigation,dmHTML" />
-
-<cfproperty 
-	name="Teaser" type="longchar" required="false" default="" hint="Teaser text." 
-	ftSeq="23" ftWizardStep="Blog Post" ftFieldset="Blog Details" ftLabel="Teaser" />
-
-<cfproperty 
-	name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." 
-	ftSeq="25" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Media Library" 
-	ftJoin="dmImage,dmFile,dmFlash" />
-
-<cfproperty 
-	name="bShowMediaInline" type="boolean" required="true" default="0" hint="Flag for showing media incline." 
-	ftSeq="26" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Show Media Inline?" />
+	<cfproperty 
+		name="publishDate" type="date" required="false" default="" hint="The date that a blog post is sent live and appears on the public website" 
+		ftSeq="3" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Publish Date" 
+		ftType="datetime" ftDefaultType="evaluate" ftDefault="now()" ftDateFormatMask="dd mmm yyyy" ftTimeFormatMask="hh:mm tt" ftToggleOffDateTime="false" />
 	
-<cfproperty 
-	name="aRelatedPosts" type="array" required="false" default="" hint="Related blog posts." 
-	ftSeq="27" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related Blog Posts" 
-	ftJoin="farBlogPost" />
+	<cfproperty 
+		name="displayMethod" type="string" required="true" default="displayPageStandard" hint="Display method to render." 
+		ftSeq="5" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Content Template" 
+		ftType="webskin" ftPrefix="displayPage" ftDefault="displayPageStandard" />
+	
+	<cfproperty 
+		name="bComment" type="boolean" required="true" default="1" hint="Flag for enabling comments."
+		ftSeq="7" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Enable Comments" />
+		
+	<cfproperty
+		name="bAutoPublish" type="boolean" required="true" default="1" hint="Flag for auto-publishing comments." 
+		ftSeq="8" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Auto Publish Comments" />
+	
+	<cfproperty 
+		name="catBlogPost" type="longchar" hint="Blog categorisation." 
+		ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" ftLabel="Categories"
+		ftType="category" ftAlias="farBlogPost" />
+	
+	<cfproperty
+		name="Body" type="longchar" required="false" default="" hint="Main body of content." 
+		ftSeq="21" ftWizardStep="Blog Post" ftFieldset="Blog Details" ftLabel="Blog Post" 
+		ftType="richtext" ftTemplateTypeList="dmImage,dmFile,dmFlash,dmNavigation,dmHTML" />
+	
+	<cfproperty 
+		name="Teaser" type="longchar" required="false" default="" hint="Teaser text." 
+		ftSeq="23" ftWizardStep="Blog Post" ftFieldset="Blog Details" ftLabel="Teaser" />
+	
+	<cfproperty 
+		name="teaserImage" type="string" required="false" default="" hint="Teaser image." 
+		ftSeq="24" ftWizardStep="Blog Post" ftFieldset="Blog Details" ftLabel="Teaser Image"
+		ftType="image" ftDestination="/image/farBlogPost/teaser" ftImageWidth="64" ftImageHeight="64" ftAutoGenerateType="pad" />
+	
+	<cfproperty 
+		name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." 
+		ftSeq="25" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Media Library" 
+		ftJoin="dmImage,dmFile,dmFlash" />
+	
+	<cfproperty 
+		name="aObjectIDs" type="array" required="false" default="" hint="Related content." 
+		ftSeq="26" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related Internal Links" 
+		ftJoin="dmNavigation" />
+	
+	<cfproperty 
+		name="wddxRelatedLinks" type="longchar" required="false" default="" hint="" 
+		ftSeq="27" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related External Links" />
+	
+	<cfproperty 
+		name="bShowMediaInline" type="boolean" required="true" default="0" hint="Flag for showing media incline." 
+		ftSeq="28" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Show Media Inline?" />
+		
+	<cfproperty 
+		name="aRelatedPosts" type="array" required="false" default="" hint="Related blog posts." 
+		ftSeq="29" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related Blog Posts" 
+		ftJoin="farBlogPost" />
+	
+	
+	<!--- hidden attribute --->
+	<cfproperty 
+		name="lMedia" type="string" required="false" default="" hint="Mixed media content for this content." 
+		ftType="arrayList" ftArrayField="aMedia" />
+	
+	<cfproperty ftWizardStep="Blog Post" ftFieldset="Blog" ftLabel="Blog" 
+		name="farBlogID" type="uuid" required="true" default="" hint="The blog this post is listed under"
+		ftType="uuid" ftJoin="farBlog" ftRenderType="list" />
+	
+	<cfproperty ftWizardStep="Blog Post" ftFieldset="Blog" ftLabel="Author" 
+		name="dmProfileID" type="string" required="true" default="" hint="The blog this post is listed under"
+		ftType="list" ftJoin="dmProfile" ftListData="getAuthors" />
+	
+	<!--- system attribute --->
+	<cfproperty 
+		name="status" type="string" required="true" default="draft" hint="Status of the node (draft, pending, approved)." />
 
-
-<!--- hidden attribute --->
-<cfproperty 
-	name="lMedia" type="string" required="false" default="" hint="Mixed media content for this content." 
-	ftType="arrayList" ftArrayField="aMedia" />
-
-<cfproperty ftSeq="50" ftWizardStep="Blog Post" ftFieldset="Blog" ftLabel="Blog" 
-	name="farBlogID" type="uuid" required="true" default="" hint="The blog this post is listed under"
-	ftType="uuid" ftJoin="farBlog" ftRenderType="list" />
-
-<cfproperty ftSeq="51" ftWizardStep="Blog Post" ftFieldset="Blog" ftLabel="Author" 
-	name="dmProfileID" type="string" required="true" default="" hint="The blog this post is listed under"
-	ftType="list" ftJoin="dmProfile" ftListData="getAuthors" />
-
-<!--- system attribute --->
-<cfproperty 
-	name="status" type="string" required="true" default="draft" hint="Status of the node (draft, pending, approved)." />
+	
+	<!--- Custom property handlers --->
+	<cffunction name="ftEditwddxRelatedLinks" access="public" output="false" returntype="string" hint="his will return a string of formatted HTML text to enable the user to edit the data">
+		<cfargument name="typename" required="true" type="string" hint="The name of the type that this field is part of.">
+		<cfargument name="stObject" required="true" type="struct" hint="The object of the record that this field is part of.">
+		<cfargument name="stMetadata" required="true" type="struct" hint="This is the metadata that is either setup as part of the type.cfc or overridden when calling ft:object by using the stMetadata argument.">
+		<cfargument name="fieldname" required="true" type="string" hint="This is the name that will be used for the form field. It includes the prefix that will be used by ft:processform.">
+		
+		<cfset var html = "" />
+		<cfset var aLinks = arraynew(1) />
+		<cfset var i = 0 />
+		
+		<cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
+		
+		<cfif len(arguments.stMetadata.value) and iswddx(arguments.stMetadata.value)>
+			<cfwddx action="wddx2cfml" input="#arguments.stMetadata.value#" output="aLinks" />
+		</cfif>
+		
+		<skin:htmlHead library="jqueryjs" />
+		<skin:htmlHead><cfoutput>
+			<script type="text/javascript">
+				function addLinkItem(id,label,url){
+					var jLen = jQ("##"+id+"length");
+					var jAddLink = jQ("##"+id+"addlinks");
+					
+					jLen.val(parseInt(jLen.val())+1);
+					
+					jAddLink.before("<tr id='"+id+"link"+jLen.val()+"' class='relatedlink'><td><input type='text' name='"+id+"label"+jLen.val()+"' id='"+id+"label"+jLen.val()+"' value='"+label+"' /></td><td><input type='text' name='"+id+"url"+jLen.val()+"' id='"+id+"url"+jLen.val()+"' value='"+url+"' /></td><td style='text-align:right;'><a href='##' class='removelink' title='Remove' onclick='jQ(this).parents(\"tr.relatedlink\").remove();return false;'><img src='#application.url.webtop#/facade/icon.cfm?icon=delete&size=16' alt='Remove' /></a></td></tr>");
+				};
+			</script>
+		</cfoutput></skin:htmlHead>
+		
+		<cfsavecontent variable="html">
+			<cfoutput>
+				<input type="hidden" name="#arguments.fieldname#" value=" " />
+				<input type="hidden" name="#arguments.fieldname#length" id="#arguments.fieldname#length" value="0" />
+				<table id="#arguments.fieldname#links" class="relatedlinks" style="width:99%;">
+					<tr>
+						<th>Label</th>
+						<th>URL</th>
+						<th>&nbsp;</th>
+					</tr>
+					<cfloop from="1" to="#arraylen(aLinks)#" index="i">
+						<tr id='#arguments.fieldname#link#i#' class='relatedlink'>
+							<td><input type='text' name='#arguments.fieldname#label#i#' id='#arguments.fieldname#label#i#' value='#aLinks[i].label#' /></td>
+							<td><input type='text' name='#arguments.fieldname#url#i#' id='#arguments.fieldname#url#i#' value='#aLinks[i].url#' /></td>
+							<td style='text-align:right;'>
+								<a href='##' class='removelink' title='Remove' onclick='jQ(this).parents("tr.relatedlink").remove();return false;'>
+									<img src='#application.url.webtop#/facade/icon.cfm?icon=delete&size=16' alt='Remove' />
+								</a>
+							</td>
+						</tr>
+					</cfloop>
+					<tr id="#arguments.fieldname#addlinks" class="relatedlink">
+						<td><a href="##" class="addlink" onclick='addLinkItem("#arguments.fieldname#","","");return false;'><span>add link</span></a></td>
+						<td></td>
+						<td style="text-align:right;"><a href='##' class='addlink' title='Add' onclick='addLinkItem("#arguments.fieldname#","","");return false;'><img src='#application.url.webtop#/facade/icon.cfm?icon=add&size=16' alt='Add' /></a></td>
+					</tr>
+				</table>
+			</cfoutput>
+		</cfsavecontent>
+		
+		<cfreturn html />
+	</cffunction>
+	
+	<cffunction name="ftValidateWDDXRelatedLinks" access="public" output="true" returntype="struct" hint="This will return a struct with bSuccess and stError">
+		<cfargument name="stFieldPost" required="true" type="struct" hint="The fields that are relevent to this field type.">
+		<cfargument name="stMetadata" required="true" type="struct" hint="This is the metadata that is either setup as part of the type.cfc or overridden when calling ft:object by using the stMetadata argument.">
+		
+		<cfset var stResult = structnew() />
+		<cfset var aLinks = arraynew(1) />
+		<cfset var i = 0 />
+		<cfset var stLink = structnew() />
+		
+		<cfset stResult.bSuccess = true>
+		<cfset stResult.value = "">
+		<cfset stResult.stError = StructNew()>
+		
+		<cfif structkeyexists(arguments.stFieldPost.stSupporting,"length")>
+			<cfloop from="1" to="#arguments.stFieldPost.stSupporting.length#" index="i">
+				<cfif structkeyexists(arguments.stFieldPost.stSupporting,"label#i#") and len(arguments.stFieldPost.stSupporting["label#i#"]) and
+					  structkeyexists(arguments.stFieldPost.stSupporting,"url#i#") and len(arguments.stFieldPost.stSupporting["url#i#"])>
+					<cfset stLink = structnew() />
+					<cfset stLink.label = arguments.stFieldPost.stSupporting["label#i#"] />
+					<cfset stLink.url = arguments.stFieldPost.stSupporting["url#i#"] />
+					<cfset arrayappend(aLinks,stLink) />
+				</cfif>
+			</cfloop>
+			
+			<cfwddx action="cfml2wddx" input="#aLinks#" output="stResult.value" />
+		</cfif>
+		
+		<cfreturn stResult />
+	</cffunction>
+	
 
 	<!--- methods --->
 	<cffunction name="getAuthors" access="public" output="false" returntype="string" hint="Returns the authors allowed for this object">
@@ -107,6 +217,35 @@
 		</cfloop>
 		
 		<cfreturn result />
+	</cffunction>
+	
+	<cffunction name="getCommentStats" access="public" output="false" returntype="struct" hint="Returns stats about a post's comments">
+		<cfargument name="objectid" type="uuid" required="true" hint="The post to query" />
+		
+		<cfset var stResult = structnew() />
+		<cfset var q = "" />
+		
+		<cfset stResult.total = 0 />
+		<cfset stResult.pending = 0 />
+		<cfset stResult.approved = 0 />
+		
+		<cfquery datasource="#application.dsn#" name="q">
+			select		bPublish,count(bPublish) as total
+			from		#application.dbowner#farBlogComment
+			where		parentid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
+			group by	bPublish
+		</cfquery>
+		
+		<cfloop query="q">
+			<cfif q.bPublish>
+				<cfset stResult.approved = q.total />
+			<cfelse>
+				<cfset stResult.pending = q.total />
+			</cfif>
+			<cfset stResult.total = stResult.total + q.total />
+		</cfloop>
+		
+		<cfreturn stResult />
 	</cffunction>
 	
 	<cffunction name="getComments" access="public" output="false" returntype="query" hint="Returns a query of objectids of all the comments attached to the blogpostid passed in.">

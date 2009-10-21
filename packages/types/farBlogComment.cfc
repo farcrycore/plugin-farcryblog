@@ -142,13 +142,17 @@
 	<cfargument name="objectID" required="true" type="UUID" />
 
 	<cfset var stObj = getData(objectID=arguments.objectID) />
-	<cfset var oPost = createobject("component", application.stCOAPI["farBlogPost"].typepath) />
-	<cfset var stPost = oPost.getData(objectID=stObj.parentID) />
-	<cfset var postURL = application.factory.oFU.getFU(stObj.parentID) />
-
-	<cfmail to="#application.config.farcryblog.authorEmail#" from="#application.config.farcryblog.authorEmail#" subject="#application.config.farcryblog.blogTitle#: #left(stPost.title, "50")#" type="text">
+	<cfset var stPost = application.fapi.getContentObject(objectID=stObj.parentID,typename="farBlogPost") />
+	<cfset var stBlog = application.fapi.getContentObject(objectid=stPost.farBlogID,typename="farBlog") />
+	<cfset var stProfile = application.fapi.getContentObject(objectid=stPost.dmProfileID,typename="dmProfile") />
+	
+	<cfif not len(stProfile.emailaddress)>
+		<cfreturn />
+	</cfif>
+	
+	<cfmail to="#stProfile.emailaddress#" from="#application.config.general.adminemail#" subject="#stBlog.title#: #left(stPost.title, "50")#" type="text">
 <cfoutput>
-There's been an update to the post you made at *#application.config.farcryblog.blogTitle#*
+There's been an update to the post you made at *#stBlog.title#*
 
 #stPost.title#
 -------------------------------------------------
@@ -161,7 +165,7 @@ New Comment
 
 
 Link back to the thread:
-http://#cgi.SERVER_NAME##postURL#
+#application.fapi.getLink(objectid=stObj.parentID,includedomain=true)#
 </cfoutput>
 	</cfmail>
 

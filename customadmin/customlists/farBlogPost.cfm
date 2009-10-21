@@ -11,24 +11,74 @@
 <cfimport taglib="/farcry/core/tags/formtools" prefix="ft" />
 
 <!--- Admin page parameters --->
-<cfparam name="url.farBlogID" /><!--- Required --->
+<cfif isdefined("session.farBlogPostListBlog")>
+	<cfparam name="url.farBlogID" default="#session.farBlogPostListBlog#" /><!--- Required --->
+<cfelse>
+	<cfparam name="url.farBlogID" /><!--- Required --->
+</cfif>
+<cfset session.farBlogPostListBlog = url.farBlogID />
 <cfparam name="url.status" default="all" /><!--- Which posts to show --->
 
 <cfset stBlog = application.fapi.getContentObject(objectid=url.farBlogID,typename="farBlog") />
 
-<cfif url.status eq "all">
-	<cfset sqlWhere = "farBlogID='#url.farBlogID#'" />
-<cfelse>
-	<cfset sqlWhere = "farBlogID='#url.farBlogID#' and status in (#listqualify(url.status,'''')#)" />
-</cfif>
+<ft:processform action="Add">
+	<cfset oPost = application.fapi.getContentType(typename="farBlogPost") />
+	<cfset stNew = oPost.getData(objectid=createuuid()) />
+	<cfset stNew.farBlogID = url.farBlogID />
+	<cfset stNew.dmProfileID = session.dmProfile.objectid />
+	<cfset stNew.bComments = stBlog.bEnableComments />
+	<cfset stNew.bAutoPublish = stBlog.bPublishComments />
+	<cfset oPost.setData(stProperties=stNew,bSessionOnly=true) />
+	<cflocation url="#application.url.webtop#/conjuror/invocation.cfm?objectid=#stNew.objectid#&method=edit&ref=typeadmin&module=#url.module#&plugin=#url.plugin#&finishurl=" addtoken="false" />
+</ft:processform>
+
+<cfswitch expression="#url.status#">
+	<cfcase value="all">
+		<cfset sqlWhere = "farBlogID='#url.farBlogID#'" />
+		<cfset adminTitle = "All #stBlog.title# Blog Posts" />
+	</cfcase>
+	<cfcase value="draft">
+		<cfset sqlWhere = "farBlogID='#url.farBlogID#' and status in (#listqualify(url.status,'''')#)" />
+		<cfset adminTitle = "Draft #stBlog.title# Blog Posts" />
+	</cfcase>
+	<cfcase value="pending">
+		<cfset sqlWhere = "farBlogID='#url.farBlogID#' and (status in (#listqualify(url.status,'''')#) or objectid in (select versionID from #application.dbowner#farBlogPost where status in (#listqualify(url.status,'''')#)))" />
+		<cfset adminTitle = "Pending #stBlog.title# Blog Posts" />
+	</cfcase>
+	<cfcase value="approved">
+		<cfset sqlWhere = "farBlogID='#url.farBlogID#' and (status in (#listqualify(url.status,'''')#) or objectid in (select versionID from #application.dbowner#farBlogPost where status in (#listqualify(url.status,'''')#)))" />
+		<cfset adminTitle = "Approved #stBlog.title# Blog Posts" />
+	</cfcase>
+</cfswitch>
+
+<cfset aCustomColumns = arraynew(1) />
+
+<cfset stCol = structnew() />
+<cfset stCol.webskin = "cellDate" />
+<cfset stCol.heading = "Dates" />
+<cfset arrayappend(aCustomColumns,stCol) />
+
+<cfset arrayappend(aCustomColumns,"title") />
+
+<cfset arrayappend(aCustomColumns,"catBlogPost") />
+
+<cfset stCol = structnew() />
+<cfset stCol.webskin = "cellComments" />
+<cfset stCol.heading = "Comments" />
+<cfset arrayappend(aCustomColumns,stCol) />
+
+<cfset arrayappend(aCustomColumns,"dmProfileID") />
 
 <!--- set up page header --->
 <admin:header title="Blog Posts" />
 
+<cfoutput><p><a href="#application.url.webtop#/admin/customadmin.cfm?module=customlists/farBlog.cfm&plugin=farcryblog">Return to Blogs</a></p></cfoutput>
+
 <ft:objectAdmin
-	title="#stBlog.title# Blog Posts"
+	title="#adminTitle#"
 	typename="farBlogPost"
-	columnList="title,publishDate,bComment,bAutoPublish"
+	columnList="publishDate,title,catBlogPost,dmProfileID"
+	aCustomColumns="#aCustomColumns#"
 	sortableColumns="title,publishDate"
 	lFilterFields="title"
 	sqlOrderBy="publishDate DESC"
