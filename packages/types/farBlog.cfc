@@ -81,13 +81,13 @@
 			select		objectid
 			from		#application.dbowner#farBlog b
 			where		<cfif application.security.checkPermission(permission="farBlogAdmin")>
+							1=1
+						<cfelse>
 							objectid in (
 								select	parentid
 								from	#application.dbowner#farBlog_aAuthors
 								where	data=<cfqueryparam cfsqltype="cf_sql_varchar" value="#session.dmProfile.objectid#" />
 							)
-						<cfelse>
-							1=1
 						</cfif>
 			order by	title
 		</cfquery>

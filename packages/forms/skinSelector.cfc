@@ -17,6 +17,7 @@
 		<cfset var thisplugin = "" />
 		<cfset var oManifest = "" />
 		<cfset var index = 0 />
+		<cfset var selectedSkin = "" />
 		
 		<skin:htmlHead><cfoutput>
 			<style>
@@ -50,6 +51,9 @@
 				<cfset oManifest = getManifest(thisplugin) />
 				<cfif structkeyexists(oManifest,"type") and oManifest.type eq "skin">
 					<cfset index = index + 1 />
+					<cfif listcontainsnocase(application.plugins,thisplugin)>
+						<cfset selectedSkin = thisplugin />
+					</cfif>
 					<cfoutput>
 						<tr class="<cfif index mod 2>alt</cfif>">
 							<td class="radio" valign="middle">
@@ -68,7 +72,21 @@
 					</cfoutput>
 				</cfif>
 			</cfloop>
-			<cfoutput></table></cfoutput>
+			<cfoutput>
+					<tr class="<cfif index mod 2>alt</cfif>">
+						<td class="radio" valign="middle">
+							<input type="radio" name="#arguments.fieldname#" value="none"<cfif not len(selectedSkin)> checked="true"</cfif> />
+						</td>
+						<td class="description">
+							<h2>No Skin</h2>
+							<p>Only the default skins provided by the Blog plugin and your project will be used.</p>
+						</td>
+						<td class="screenshot">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</cfoutput>
 		</cfsavecontent>
 		
 		<cfreturn html />

@@ -4,7 +4,6 @@
 		<subsection id="blogContent" permission="MainNavAdminTab" sidebar="custom/sidebar.cfm" label="Blog Content">
 			<menu id="blogTools" label="Blog Tools">
 				<menuitem id="blogs" sequence="5" label="Blogs" link="/admin/customadmin.cfm?module=customlists/farBlog.cfm&amp;plugin=farcryblog" relatedtype="farBlog" />
-				<menuitem id="blogWebfeed" sequence="40" label="Blog Feeds" link="/admin/customadmin.cfm?module=customlists/farWebfeed.cfm&amp;plugin=farcryblog" relatedtype="farWebfeed" />
 				<menuitem id="blogChangeSkin" sequence="50" label="Change Skins" link="/admin/customadmin.cfm?module=utilities/editskin.cfm&amp;plugin=farcryblog" relatedtype="skinSelector" />
 			</menu>
 		</subsection>
