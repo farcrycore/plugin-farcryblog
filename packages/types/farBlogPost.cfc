@@ -87,7 +87,6 @@
 	<cfproperty 
 		name="status" type="string" required="true" default="draft" hint="Status of the node (draft, pending, approved)." />
 
-	
 	<!--- Custom property handlers --->
 	<cffunction name="ftEditwddxRelatedLinks" access="public" output="false" returntype="string" hint="his will return a string of formatted HTML text to enable the user to edit the data">
 		<cfargument name="typename" required="true" type="string" hint="The name of the type that this field is part of.">
@@ -248,6 +247,7 @@
 		<cfreturn stResult />
 	</cffunction>
 	
+	
 	<cffunction name="getComments" access="public" output="false" returntype="query" hint="Returns a query of objectids of all the comments attached to the blogpostid passed in.">
 		<cfargument name="objectid" required="true" type="uuID" />
 		
@@ -279,6 +279,20 @@
 
 		<cfset var q = getPostsByCategoryList(lCategoryIDs="#arguments.lCategoryIDs#", maxRows="#arguments.maxRows#") />
 
+		<cfreturn q />
+	</cffunction>
+	<cffunction name="getMostPopluarPosts" access="public" output="false" returntype="query" hint="Return a query of popular x blog posts.">
+		<cfargument name="maxrows" default="5" type="numeric" />
+		
+		<cfset var q = "" />
+		
+		<cfquery datasource="#application.dsn#" name="q" maxrows="#arguments.maxrows#">
+			select     	parentID as objectid, COUNT(*) as numComments
+			from       	farBlogComment
+			group by	parentID
+			order by	numComments desc			
+		</cfquery>	
+		
 		<cfreturn q />
 	</cffunction>
 
@@ -381,5 +395,5 @@
 
 		<cfreturn q />
 	</cffunction>
-
+	
 </cfcomponent>

@@ -18,6 +18,7 @@ START WEBSKIN
 
 <!--- ONLY ALLOW NEW COMMENTS IF COMMENTING TURNED ON. --->
 <cfif stobj.bcomment>
+
 	<!--- comments form --->
 	<cfset stLocal.stProps = structnew() />
 	<cfset stLocal.stProps.parentID = stObj.objectID />
@@ -29,7 +30,14 @@ START WEBSKIN
 		<cfset stLocal.stProps.email = session.dmProfile.emailAddress />
 	</cfif>
 	
-	<skin:view key="#stObj.objectid#_Comment" typename="farBlogComment" template="displayFormComment" stProps="#stLocal.stProps#" />
+	
+	<cfset stNewComment = application.fapi.getNewContentObject(	typename="farBlogComment",
+																key="#stObj.objectid#_NewComment",
+																stProperties=stLocal.stProps) />
+																
+	
+	<skin:view stobject="#stNewComment#" webskin="displayFormComment" />
+	
 </cfif>
 
 <cfsetting enablecfoutputonly="false">

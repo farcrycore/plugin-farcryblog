@@ -9,6 +9,9 @@
 
 <cfset localhost.stProfile = application.fapi.getContentObject(objectid=stObj.dmProfileID,typename="dmProfile") />
 
+
+<skin:view typename="farBlog" objectid="#stobj.farBlogID#" webskin="displayBanner" />
+
 <cfoutput>
 	<div class="content">
 		
