@@ -5,6 +5,8 @@
 <!--- @@Description: User-side comment form --->
 <!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
 
+<!--- @@cacheStatus: 0 --->
+
 <!--- import tag libraries --->
 <cfimport prefix="ft" taglib="/farcry/core/tags/formtools" />
 <cfimport prefix="skin" taglib="/farcry/core/tags/webskin" />
@@ -25,12 +27,12 @@ ACTION:
 <skin:buildlink objectID="#stObj.parentID#" r_url="returnURL" />
 
 <cfif returnURL contains "?">
-	<cfset returnURL = "#returnURL#&commentAdded=true" />
+	<cfset postReturnURL = "#returnURL#&commentAdded=true" />
 <cfelse>
-	<cfset returnURL = "#returnURL#?commentAdded=true" />
+	<cfset postReturnURL = "#returnURL#?commentAdded=true" />
 </cfif>
 	
-<ft:processForm action="Post Comment" url="#returnURL#">
+<ft:processForm action="Post Comment" url="#postReturnURL#">
 	<!--- process action items --->
 	<ft:processFormObjects objectid="#stobj.objectid#" r_stProperties="stProps">
 		<cfset stPost = createObject("component",application.stCoapi["farBlogPost"].packagePath).getData(objectID=stObj.parentID) />
@@ -42,7 +44,18 @@ ACTION:
 			<cfset stProps.website = "http://#trim(stProps.website)#" />
 		</cfif>
 	</ft:processFormObjects>
+	
+	<extjs:bubble title="Comment Posted" bAutoHide="false">
+		<cfoutput><p>Thank you for your comment</p></cfoutput>
+		
+		<cfif NOT stPost.bAutoPublish>
+			<cfoutput><p>Comments on this post are moderated and so you will not see your comment until it is reviewed by a moderator.</p></cfoutput>
+		</cfif>
+	</extjs:bubble>
 </ft:processForm>
+
+
+<ft:processForm action="Cancel" url="#returnURL#" />
 
 
 <!-------------------------------
@@ -50,10 +63,11 @@ VIEW:
 -------------------------------->
 <cfif NOT structkeyexists(url, "commentAdded")>
 
-	<ft:form>
+	<ft:form name="postComment">
 		<ft:object stObject="#stObj#" lExcludeFields="label,parentID,profileID,bPublish" format="edit" legend="Make a Comment" helptext="HTML not allowed.  Links will be automatically activated." />
 		<ft:farcryButtonPanel>
 			<ft:button value="Post Comment" bSpamProtect="true" />
+			<ft:button value="Cancel" validate="false" />
 		</ft:farcryButtonPanel>
 	</ft:form>
 

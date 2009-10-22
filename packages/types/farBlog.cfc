@@ -63,6 +63,7 @@
 		<cffunction name="getLatestPosts" access="public" returntype="query" output="false" hint="Returns the latest [X] blog posts as a query">
 			<cfargument name="objectid" type="uuid" required="true" hint="The blog to query" />
 			<cfargument name="maxposts" type="numeric" required="false" default="1000" hint="The maximum number of posts to return" />
+			<cfargument name="category" type="string" required="false" default="" hint="Filtering by the blog category.">
 			
 			<cfset var qPost = "" />
 			
@@ -72,6 +73,9 @@
 				where		farBlogID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
 							and publishDate<<cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#" />
 							and status in (<cfqueryparam cfsqltype="cf_sql_varchar" list="true" value="#request.mode.lValidStatus#" />)
+							<cfif len(arguments.category)>
+								AND lCategories like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.category#%">
+							</cfif>
 				order by	publishdate desc
 			</cfquery>
 			
@@ -190,5 +194,27 @@
 			<cfreturn q />
 		</cffunction>
 		
+	<cffunction name="ftValidatelCategories" access="public" returntype="struct" output="false" hint="Strips out any whitespace between list items">
+		<cfargument name="ObjectID" required="true" type="UUID" hint="The objectid of the object that this field is part of.">
+		<cfargument name="Typename" required="true" type="string" hint="the typename of the objectid.">
+		<cfargument name="stFieldPost" required="true" type="struct" hint="The fields that are relevent to this field type.">
+		<cfargument name="stMetadata" required="true" type="struct" hint="This is the metadata that is either setup as part of the type.cfc or overridden when calling ft:object by using the stMetadata argument.">
 		
+		<cfset var stResult = structNew()>		
+		<cfset var trimList = "" />				
+		<cfset var i = "" />		
+		<cfset stResult.bSuccess = true>
+		<cfset stResult.value = "" />
+		<cfset stResult.stError = StructNew()>
+		
+		<cfloop list="#arguments.stFieldPost.Value#" index="i">
+			<cfset trimList = listAppend(trimList,trim(i)) />
+		</cfloop>	
+		
+		<cfset stResult.value = trimList />
+		
+		<cfreturn stResult />
+		
+	</cffunction>
+	
 	</cfcomponent>

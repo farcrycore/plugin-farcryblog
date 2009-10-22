@@ -10,10 +10,12 @@
 <skin:view typename="#stobj.typename#" objectid="#stobj.objectid#" webskin="displayCommentHandle" r_html="htmlCommentHandle" />
 
 <cfoutput>
-<div class="bubble" id="comment-#stobj.objectid#">
+<div class="bubble">
 	<p>
-	#stObj.description#
-	<br /><cite><span><strong>#htmlCommentHandle#</strong> on #dateformat(stObj.dateTimeCreated)# #timeformat(stObj.dateTimeCreated)#</span></cite>
+	#left(stObj.description,50)#...
+	<br />
+	<cite><span><strong>#htmlCommentHandle#</strong> on #dateformat(stObj.dateTimeCreated)# #timeformat(stObj.dateTimeCreated)#</span></cite>
+	<skin:buildLink type="farBlogPost" objectid="#stobj.parentID#" anchor="comment-#stobj.objectid#" linktext="show" />
 	</p>
 </div>
 </cfoutput>

@@ -2,36 +2,35 @@
 <!--- @@displayname: Standard landing page --->
 
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
+<cfimport taglib="/farcry/core/tags/grid" prefix="grid" />
+
+<!--- ENVIRONMENT VARIABLES --->
 
 <cfset stLocal.qPosts = getLatestPosts(objectid=stObj.objectid) />
 
-<skin:view objectid="#stObj.objectid#" typeName="#stObj.typeName#" webskin="displayBanner" />
+
+<grid:div style="float:left;width:25%;">
+	<skin:view objectid="#stObj.objectid#" typeName="#stObj.typeName#" webskin="displayPodColumn" />
+</grid:div>
+
+<grid:div style="float:left;width:75%;">
+	<grid:div style="padding:5px;">	
+		
+		<cfoutput>
+			<div class="blog-post-list">
+				<skin:pagination query=stLocal.qPosts recordsPerPage=10 r_stObject="stCurrentBlogPost">
+					<div class="blog-post"><skin:view objectid="#stCurrentBlogPost.objectid#" typename="farBlogPost" webskin="displayTeaserStandard" /></div>
+				</skin:pagination>
+			</div>
+		</cfoutput>
+	</grid:div>
+</grid:div>
+
 			
-<cfoutput>
-	<div class="blog-post-list">
-		<skin:pagination query=stLocal.qPosts recordsPerPage=1 r_stObject="stCurrentBlogPost">
-			<div class="blog-post"><skin:view objectid="#stCurrentBlogPost.objectid#" typename="farBlogPost" webskin="displayTeaserStandard" /></div>
-		</skin:pagination>
-	</div>
-</cfoutput>
 
 
 
-<skin:view typename="farBlog" objectid="#stobj.objectid#" webskin="displayPodSubscribe" />
 
-<skin:view typename="farBlog" objectid="#stobj.objectid#" webskin="displayPodTellYourFriends" />
-
-<skin:view typename="farBlog" objectid="#stobj.objectid#" webskin="displayTypePodBlogCategories" />
-
-<skin:view typename="farBlogComment" webskin="displayTypePodLatestComments" />
-
-<skin:view typename="farBlogPost" webskin="displayTypePodRecentPosts" />
-
-<skin:view typename="farBlogPost" webskin="displayTypePodMostPopular" />
-
-<skin:view typename="farBlog" webskin="displayTypePodRelatedLinks" />
-
-<skin:view typename="farBlog" webskin="displayTypePodLatestEntries" />
 
 
 <cfsetting enablecfoutputonly="false" />

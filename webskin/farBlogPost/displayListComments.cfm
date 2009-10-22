@@ -14,16 +14,18 @@
 <!--- data providers --->
 <cfset qComments = getComments(objectid=stObj.objectID) />
 
+<cfoutput>
+<h3>Reader Comments</h3>
+</cfoutput>
+
+<cfoutput><p>#qComments.recordCount# comments posted. <skin:buildLink type="#stobj.typename#" objectid="#stobj.objectid#" urlParameters="postComment=1" anchor="postComment" linktext="Post Comment" /></p></cfoutput>
+
+
+	
 <cfif qComments.recordcount>
-
-	<cfoutput>
-	<h3>Reader Comments</h3>
-	</cfoutput>
-
 	<cfloop query="qComments">
 		<skin:view objectID="#qComments.objectID#" typename="farBlogComment" webskin="displayTeaserStandard" />
 	</cfloop>
-
 </cfif>
 
 

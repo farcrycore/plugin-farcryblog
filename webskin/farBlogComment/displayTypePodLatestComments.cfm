@@ -15,7 +15,7 @@
 <div class="blog-pod">
 	<h3>Latest Comments</h3>
 	<cfloop query="qLatestComments">
-		<skin:view typename="farBlogComment" objectid="#qLatestComments.objectid#" webskin="displayTeaserStandard" />
+		<skin:view typename="farBlogComment" objectid="#qLatestComments.objectid#" webskin="displayTeaserPod" />
 	</cfloop>
 </div>
 </cfoutput>
