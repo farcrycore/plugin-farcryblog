@@ -44,6 +44,8 @@
 	
 	<ft:object typename="farBlog" ObjectID="#stobj.objectID#" format="edit" lFields="aAuthors" Legend="Authors" />
 	
+	<ft:object typename="farBlog" ObjectID="#stobj.objectID#" format="edit" lFields="lCategories" Legend="Categorisation" />
+	
 	<ft:farcryButtonPanel>
 		<ft:button value="Save" color="orange" /> 
 		<ft:button value="Cancel" validate="false" />

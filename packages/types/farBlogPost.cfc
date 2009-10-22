@@ -31,6 +31,15 @@
 		name="catBlogPost" type="longchar" hint="Blog categorisation." 
 		ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" ftLabel="Categories"
 		ftType="category" ftAlias="farBlogPost" />
+		
+		
+	<cfproperty 
+		name="lCategories" type="longchar" hint="Blog categorisation." 
+		ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" ftLabel="Categories"
+		ftType="list" 
+			ftListData="getBlogPostCategories" ftListDataTypename="farBlogPost"
+			ftSelectMultiple="true" />
+		
 	
 	<cfproperty
 		name="Body" type="longchar" required="false" default="" hint="Main body of content." 
@@ -396,4 +405,20 @@
 		<cfreturn q />
 	</cffunction>
 	
+	<cffunction name="getBlogPostCategories" access="public" returntype="string" output="false" hint="Returns a list of categories for a blog">
+		<cfargument name="objectid" required="true" />
+		
+		<cfset var stBlogPost = getData(arguments.objectid) />
+		<cfset var stBlog = "" />
+		<cfset var lBlogCategories = "" />
+		
+		<cfif len(stBlogPost.farBlogID)>
+			<cfset stBlog = application.fapi.getContentObject(typename="farBlog", objectid="#stBlogPost.farBlogID#") />
+			<cfif listLen(stBlog.lCategories)>
+				<cfset lBlogCategories = stBlog.lCategories />
+			</cfif>
+		</cfif>
+		
+		<cfreturn lBlogCategories />
+	</cffunction>
 </cfcomponent>
