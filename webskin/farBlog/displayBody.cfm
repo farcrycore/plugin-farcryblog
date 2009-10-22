@@ -21,7 +21,7 @@
 
 <skin:view typename="farBlog" objectid="#stobj.objectid#" webskin="displayPodTellYourFriends" />
 
-<skin:view typename="dmCategory" webskin="displayTypePodBlogCategories" />
+<skin:view typename="farBlog" objectid="#stobj.objectid#" webskin="displayTypePodBlogCategories" />
 
 <skin:view typename="farBlogComment" webskin="displayTypePodLatestComments" />
 
