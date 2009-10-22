@@ -6,7 +6,7 @@
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
 <ft:processForm action="Save" Exit="true">
-	<ft:processFormObjects typename="farBlog" />
+	<ft:processFormObjects typename="farBlogPost" />
 	<cfset setLock(objectid=stObj.objectid,locked=false) />
 </ft:processForm>
 
@@ -30,7 +30,7 @@
 		</div>
 		</cfoutput>
 	</cfif>
-	<ft:object typename="farBlogPost" ObjectID="#stobj.objectID#" format="edit" lFields="publishdate,displayname,bComments,bAutoPublish" IncludeFieldSet="false" />
+	<ft:object typename="farBlogPost" ObjectID="#stobj.objectID#" format="edit" lFields="publishdate,displayname,email,bComments,bAutoPublish,bEmailNotification" IncludeFieldSet="false" />
 	
 	
 	<ft:object typename="farBlogPost" ObjectID="#stobj.objectID#" format="edit" lFields="body,teaser,teaserImage,catBlogPost" Legend="Copy" />

@@ -26,8 +26,13 @@
 	<cfset stNew = oPost.getData(objectid=createuuid()) />
 	<cfset stNew.farBlogID = url.farBlogID />
 	<cfset stNew.dmProfileID = session.dmProfile.objectid />
+	<cfset stNew.email = stBlog.email />
+	<cfif not listcontains(stNew.email,session.dmProfile.emailaddress)>
+		<cfset stNew.email = listappend(stNew.email,session.dmProfile.emailaddress) />
+	</cfif>
 	<cfset stNew.bComments = stBlog.bEnableComments />
 	<cfset stNew.bAutoPublish = stBlog.bPublishComments />
+	<cfset stNew.bEmailNotification = stBlog.bEmailNotification />
 	<cfset oPost.setData(stProperties=stNew,bSessionOnly=true) />
 	<cflocation url="#application.url.webtop#/conjuror/invocation.cfm?objectid=#stNew.objectid#&method=edit&ref=typeadmin&module=#url.module#&plugin=#url.plugin#&finishurl=" addtoken="false" />
 </ft:processform>

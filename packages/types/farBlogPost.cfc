@@ -19,6 +19,10 @@
 		ftSeq="5" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Content Template" 
 		ftType="webskin" ftPrefix="displayPage" ftDefault="displayPageStandard" />
 	
+	<cfproperty ftseq="6" type="string" ftfieldset="General Details" ftlabel="Email Address"
+		name="email" default="" hint="" ftvalidation="" ftWatch="dmProfileID"
+		fttype="string" fthint="You will be sent a notification to this email address when comments are made."/>
+	
 	<cfproperty 
 		name="bComment" type="boolean" required="true" default="1" hint="Flag for enabling comments."
 		ftSeq="7" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Enable Comments" />
@@ -26,6 +30,10 @@
 	<cfproperty
 		name="bAutoPublish" type="boolean" required="true" default="1" hint="Flag for auto-publishing comments." 
 		ftSeq="8" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Auto Publish Comments" />
+	
+	<cfproperty ftseq="9" type="boolean" ftfieldset="General Details" ftlabel="Email Notification"
+		name="bEmailNotification" default="0" hint="Only used if bEnablecomments is true" ftvalidation="" 
+		fttype="list" ftList="1:Email me a notification when ever a comment is posted,0:Do not notify me" ftrendertype="radio" fthint=""/>
 	
 	<cfproperty 
 		name="catBlogPost" type="longchar" hint="Blog categorisation." 
@@ -53,7 +61,7 @@
 	<cfproperty 
 		name="teaserImage" type="string" required="false" default="" hint="Teaser image." 
 		ftSeq="24" ftWizardStep="Blog Post" ftFieldset="Blog Details" ftLabel="Teaser Image"
-		ftType="image" ftDestination="/image/farBlogPost/teaser" ftImageWidth="64" ftImageHeight="64" ftAutoGenerateType="pad" />
+		ftType="image" ftDestination="/images/farBlogPost/teaser" ftImageWidth="64" ftImageHeight="64" ftAutoGenerateType="pad" />
 	
 	<cfproperty 
 		name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." 
@@ -190,6 +198,25 @@
 		<cfreturn stResult />
 	</cffunction>
 	
+	<cffunction name="ftEditEmail" access="public" output="false" returntype="string" hint="his will return a string of formatted HTML text to enable the user to edit the data">
+		<cfargument name="typename" required="true" type="string" hint="The name of the type that this field is part of.">
+		<cfargument name="stObject" required="true" type="struct" hint="The object of the record that this field is part of.">
+		<cfargument name="stMetadata" required="true" type="struct" hint="This is the metadata that is either setup as part of the type.cfc or overridden when calling ft:object by using the stMetadata argument.">
+		<cfargument name="fieldname" required="true" type="string" hint="This is the name that will be used for the form field. It includes the prefix that will be used by ft:processform.">
+		
+		<cfset var stProfile = structnew() />
+		
+		<cfif structkeyexists(arguments.stObject,"dmProfileID")>
+			<cfset stProfile = application.fapi.getContentObject(objectid=arguments.stObject.dmProfileID,typename="dmProfile") />
+			<cfif len(stProfile.emailaddress) and not listcontains(arguments.stMetadata.value,stProfile.emailaddress)>
+				<cfset arguments.stMetadata.value = listappend(arguments.stMetadata.value,stProfile.emailaddress) />
+				<cfset arguments.stObject.email = arguments.stMetadata.value />
+			</cfif>
+		</cfif>
+		
+		<cfreturn application.formtools[arguments.stMetadata.ftType].oFactory.edit(argumentCollection=arguments) />
+	</cffunction>
+	
 
 	<!--- methods --->
 	<cffunction name="getAuthors" access="public" output="false" returntype="string" hint="Returns the authors allowed for this object">
@@ -199,25 +226,21 @@
 		<cfset var qAuthors = "" />
 		<cfset var result = "" />
 		
-		<cfif len(stPost.farBlogID)>
-			<cfquery datasource="#application.dsn#" name="qAuthors">
-				select		p.objectid,p.firstname,p.lastname
-				from		#application.dbowner#farBlog_aAuthors ba
-							inner join
-							#application.dbowner#dmProfile p
-							on ba.data=p.objectid
-				where		parentid=<cfqueryparam cfsqltype="cf_sql_varchar" value="#stPost.farBlogID#" />
-				order by	p.lastname,p.firstname
-			</cfquery>
-		<cfelse>
-			<cfquery datasource="#application.dsn#" name="qAuthors">
-				select		p.objectid,p.firstname,p.lastname
-				from		#application.dbowner#farBlog_aAuthors ba
-							inner join
-							#application.dbowner#dmProfile p
-							on ba.data=p.objectid
-				order by	p.lastname,p.firstname
-			</cfquery>
+		<cfquery datasource="#application.dsn#" name="qAuthors">
+			select		objectid,firstname,lastname
+			from		#application.dbowner#dmProfile
+			where		objectid in (
+							select	data
+							from	#application.dbowner#farBlog_aAuthors
+							<cfif len(stPost.farBlogID)>
+								where	parentid=<cfqueryparam cfsqltype="cf_sql_varchar" value="#stPost.farBlogID#" />
+							</cfif>
+						)
+			order by	lastname,firstname
+		</cfquery>
+		
+		<cfif application.security.checkPermission(permission="farBlogAdmin") or application.fapi.hasRole("sysadmin")>
+			<cfset result = "#session.dmProfile.objectid#:#session.dmProfile.firstname# #session.dmProfile.lastname#">
 		</cfif>
 		
 		<cfloop query="qAuthors">

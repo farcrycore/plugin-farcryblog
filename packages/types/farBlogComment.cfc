@@ -150,7 +150,8 @@
 		<cfreturn />
 	</cfif>
 	
-	<cfmail to="#stProfile.emailaddress#" from="#application.config.general.adminemail#" subject="#stBlog.title#: #left(stPost.title, "50")#" type="text">
+	<cfif stPost.bEmailNotification>
+	<cfmail to="#stPost.email#" from="#application.config.general.adminemail#" subject="#stBlog.title#: #left(stPost.title, "50")#" type="text">
 <cfoutput>
 There's been an update to the post you made at *#stBlog.title#*
 
@@ -168,6 +169,7 @@ Link back to the thread:
 #application.fapi.getLink(objectid=stObj.parentID,includedomain=true)#
 </cfoutput>
 	</cfmail>
+	</cfif>
 
 </cffunction>
 

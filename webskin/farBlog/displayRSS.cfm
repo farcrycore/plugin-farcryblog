@@ -5,7 +5,7 @@
 <!--- @@author: Geoffrey Bowers on 2008-12-15 --->
 <!--- @@cacheStatus: 1 --->
 <!--- @@cacheTimeout: 15 --->
-<!--- @@fuAlias: blogrss --->
+<!--- @@fuAlias: rss --->
 
 <!--- deactivate the tray --->
 <cfset request.mode.ajax = true />
@@ -13,7 +13,7 @@
 <cfquery datasource="#application.dsn#" name="qPosts" maxrows="30">
 	SELECT  	objectid, publishDate, teaser, title
 	FROM 		#application.dbowner#farBlogPost
-	WHERE		status=<cfqueryparam cfsqltype="cf_sql_varchar" value="approved" /> and p.farBlogID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#stObj.objectid#" />
+	WHERE		status=<cfqueryparam cfsqltype="cf_sql_varchar" value="approved" /> and farBlogID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#stObj.objectid#" />
 	ORDER BY 	publishDate DESC
 </cfquery>
 
