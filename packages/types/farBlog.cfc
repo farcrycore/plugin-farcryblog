@@ -84,7 +84,7 @@
 		<cfquery datasource="#application.dsn#" name="qBlogs">
 			select		objectid
 			from		#application.dbowner#farBlog b
-			where		<cfif application.security.checkPermission(permission="farBlogAdmin")>
+			where		<cfif application.security.checkPermission(permission="farBlogAdmin") or application.security.hasRole("sysadmin")>
 							1=1
 						<cfelse>
 							objectid in (
