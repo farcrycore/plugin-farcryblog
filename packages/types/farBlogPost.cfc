@@ -138,7 +138,7 @@
 		<cfsavecontent variable="html">
 			<cfoutput>
 				<input type="hidden" name="#arguments.fieldname#" value=" " />
-				<input type="hidden" name="#arguments.fieldname#length" id="#arguments.fieldname#length" value="0" />
+				<input type="hidden" name="#arguments.fieldname#length" id="#arguments.fieldname#length" value="#arraylen(aLinks)#" />
 				<table id="#arguments.fieldname#links" class="relatedlinks" style="width:99%;">
 					<tr>
 						<th>Label</th>
