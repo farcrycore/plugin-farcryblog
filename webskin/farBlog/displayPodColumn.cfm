@@ -5,7 +5,7 @@
 <cfimport taglib="/farcry/core/tags/grid" prefix="grid" />
 
 
-<grid:div style="padding:5px;border-right:1px solid black;">	
+<grid:div>	
 	<skin:view objectid="#stObj.objectid#" typeName="#stObj.typeName#" webskin="displayBanner" />
 
 	<skin:view typename="farBlog" objectid="#stobj.objectid#" webskin="displayPodSubscribe" />
