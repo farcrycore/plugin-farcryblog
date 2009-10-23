@@ -17,6 +17,12 @@ FARCRY IMPORT FILES
 START WEBSKIN
  ------------------>
 
-<skin:location url="/webtop/conjuror/invocation.cfm?objectid=DCFBE4C0-BE6A-11DE-9597001D7D03D22D&typename=farConfig&method=edit&ref=typeadmin&module=customlists/configBlog.cfm&amp;plugin=farcryblog" />
+<cfquery datasource="#application.dsn#" name="qConfig">
+	select	objectid
+	from	#application.dbowner#farConfig
+	where	configkey=<cfqueryparam cfsqltype="cf_sql_varchar" value="farcryblog" />
+</cfquery>
+
+<skin:location url="/webtop/conjuror/invocation.cfm?objectid=#qConfig.objectid[1]#&typename=farConfig&method=edit&ref=typeadmin&module=customlists/configBlog.cfm&amp;plugin=farcryblog" />
 
 <cfsetting enablecfoutputonly="false">
