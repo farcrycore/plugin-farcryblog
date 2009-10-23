@@ -6,9 +6,9 @@
 <cfoutput>
 	<div class="blog-header">
 		
-		<h1>
+		<h2>
 			<skin:buildLink objectid="#stObj.objectid#" typename="#stObj.typeName#">#stObj.title#</skin:buildLink>
-		</h1>
+		</h2>
 		<cfif len(stObj.headerImage)>
 			<img src="#stObj.headerImage#" class="blog-header-image" alt="#stObj.title#" />
 		</cfif>
