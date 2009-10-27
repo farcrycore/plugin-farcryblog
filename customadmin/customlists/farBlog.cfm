@@ -31,7 +31,7 @@
 <cfoutput>
 	<p>To edit your spam protection setting go to Admin > Edit Config > Spam Protection.</p>
 	<h1>Blogs</h1>
-	<p><a href="#application.url.webtop#/conjuror/invocation.cfm?objectid=#createuuid()#&typename=farBlog&method=edit&ref=typeadmin&module=customlists/farBlog.cfm&plugin=farcryblog">Add a new blog...</p>
+	<cfif application.security.checkPermission("blogAdmin")><p><a href="#application.url.webtop#/conjuror/invocation.cfm?objectid=#createuuid()#&typename=farBlog&method=edit&ref=typeadmin&module=customlists/farBlog.cfm&plugin=farcryblog">Add a new blog...</p></cfif>
 	<table class="blog-admin-list">
 </cfoutput>
 
