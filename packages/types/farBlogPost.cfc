@@ -117,53 +117,88 @@
 		
 		<cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 		
+		<cfparam name="arguments.stMetadata.ftLabelHeader" default="Label" />
+		<cfparam name="arguments.stMetadata.ftURLHeader" default="URL" />
+		
 		<cfif len(arguments.stMetadata.value) and iswddx(arguments.stMetadata.value)>
 			<cfwddx action="wddx2cfml" input="#arguments.stMetadata.value#" output="aLinks" />
 		</cfif>
 		
-		<skin:htmlHead library="jqueryjs" />
-		<skin:htmlHead><cfoutput>
-			<script type="text/javascript">
-				function addLinkItem(id,label,url){
-					var jLen = jQ("##"+id+"length");
-					var jAddLink = jQ("##"+id+"addlinks");
-					
-					jLen.val(parseInt(jLen.val())+1);
-					
-					jAddLink.before("<tr id='"+id+"link"+jLen.val()+"' class='relatedlink'><td><input type='text' name='"+id+"label"+jLen.val()+"' id='"+id+"label"+jLen.val()+"' value='"+label+"' /></td><td><input type='text' name='"+id+"url"+jLen.val()+"' id='"+id+"url"+jLen.val()+"' value='"+url+"' /></td><td style='text-align:right;'><a href='##' class='removelink' title='Remove' onclick='jQ(this).parents(\"tr.relatedlink\").remove();return false;'><img src='#application.url.webtop#/facade/icon.cfm?icon=delete&size=16' alt='Remove' /></a></td></tr>");
-				};
-			</script>
-		</cfoutput></skin:htmlHead>
-		
-		<cfsavecontent variable="html">
-			<cfoutput>
-				<input type="hidden" name="#arguments.fieldname#" value=" " />
-				<input type="hidden" name="#arguments.fieldname#length" id="#arguments.fieldname#length" value="#arraylen(aLinks)#" />
-				<table id="#arguments.fieldname#links" class="relatedlinks" style="width:99%;">
-					<tr>
-						<th>Label</th>
-						<th>URL</th>
-						<th>&nbsp;</th>
-					</tr>
-					<cfloop from="1" to="#arraylen(aLinks)#" index="i">
-						<tr id='#arguments.fieldname#link#i#' class='relatedlink'>
-							<td><input type='text' name='#arguments.fieldname#label#i#' id='#arguments.fieldname#label#i#' value='#aLinks[i].label#' /></td>
-							<td><input type='text' name='#arguments.fieldname#url#i#' id='#arguments.fieldname#url#i#' value='#aLinks[i].url#' /></td>
-							<td style='text-align:right;'>
-								<a href='##' class='removelink' title='Remove' onclick='jQ(this).parents("tr.relatedlink").remove();return false;'>
-									<img src='#application.url.webtop#/facade/icon.cfm?icon=delete&size=16' alt='Remove' />
-								</a>
-							</td>
+		<cfif findnocase("webkit",cgi.user_agent)>
+			
+			<cfsavecontent variable="html">
+				<cfoutput>
+					<input type="hidden" name="#arguments.fieldname#" value=" " />
+					<input type="hidden" name="#arguments.fieldname#length" id="#arguments.fieldname#length" value="#arraylen(aLinks)+3#" />
+					<table id="#arguments.fieldname#links" class="relatedlinks" style="width:99%;">
+						<tr>
+							<th>#arguments.stMetadata.ftLabelHeader#</th>
+							<th>#arguments.stMetadata.ftURLHeader#</th>
+							<cfif not findnocase("safari",cgi.user_agent)><th>&nbsp;</th></cfif>
 						</tr>
-					</cfloop>
-					<tr id="#arguments.fieldname#addlinks" class="relatedlink">
-						<td><a href="##" class="addlink" onclick='addLinkItem("#arguments.fieldname#","","");return false;'><span>add link</span></a></td>
-						<td></td>
-						<td style="text-align:right;"><a href='##' class='addlink' title='Add' onclick='addLinkItem("#arguments.fieldname#","","");return false;'><img src='#application.url.webtop#/facade/icon.cfm?icon=add&size=16' alt='Add' /></a></td>
-					</tr>
-				</table>
-			</cfoutput>
-		</cfsavecontent>
+						<cfloop from="1" to="#arraylen(aLinks)#" index="i">
+							<tr id='#arguments.fieldname#link#i#' class='relatedlink'>
+								<td><input type='text' name='#arguments.fieldname#label#i#' id='#arguments.fieldname#label#i#' value='#aLinks[i].label#' /></td>
+								<td><input type='text' name='#arguments.fieldname#url#i#' id='#arguments.fieldname#url#i#' value='#aLinks[i].url#' /></td>
+							</tr>
+						</cfloop>
+						<cfloop from="#arraylen(aLinks)+1#" to="#arraylen(aLinks)+3#" index="i">
+							<tr id='#arguments.fieldname#link#i#' class='relatedlink'>
+								<td><input type='text' name='#arguments.fieldname#label#i#' id='#arguments.fieldname#label#i#' value='' /></td>
+								<td><input type='text' name='#arguments.fieldname#url#i#' id='#arguments.fieldname#url#i#' value='' /></td>
+							</tr>
+						</cfloop>
+					</table>
+				</cfoutput>
+			</cfsavecontent>
+			
+		<cfelse>
+		
+			<skin:htmlHead library="jqueryjs" />
+			<skin:htmlHead><cfoutput>
+				<script type="text/javascript">
+					function addLinkItem(id,label,url){
+						var jLen = jQ("##"+id+"length");
+						var jAddLink = jQ("##"+id+"addlinks");
+						
+						jLen.val(parseInt(jLen.val())+1);
+						
+						jAddLink.before("<tr id='"+id+"link"+jLen.val()+"' class='relatedlink'><td><input type='text' name='"+id+"label"+jLen.val()+"' id='"+id+"label"+jLen.val()+"' value='"+label+"' /></td><td><input type='text' name='"+id+"url"+jLen.val()+"' id='"+id+"url"+jLen.val()+"' value='"+url+"' /></td><td style='text-align:right;'><a href='##' class='removelink' title='Remove' onclick='jQ(this).parents(\"tr.relatedlink\").remove();return false;'><img src='#application.url.webtop#/facade/icon.cfm?icon=delete&size=16' alt='Remove' /></a></td></tr>");
+					};
+				</script>
+			</cfoutput></skin:htmlHead>
+			
+			<cfsavecontent variable="html">
+				<cfoutput>
+					<input type="hidden" name="#arguments.fieldname#" value=" " />
+					<input type="hidden" name="#arguments.fieldname#length" id="#arguments.fieldname#length" value="#arraylen(aLinks)+3#" />
+					<table id="#arguments.fieldname#links" class="relatedlinks" style="width:99%;">
+						<tr>
+							<th>#arguments.stMetadata.ftLabelHeader#</th>
+							<th>#arguments.stMetadata.ftURLHeader#</th>
+							<cfif not findnocase("safari",cgi.user_agent)><th>&nbsp;</th></cfif>
+						</tr>
+						<cfloop from="1" to="#arraylen(aLinks)#" index="i">
+							<tr id='#arguments.fieldname#link#i#' class='relatedlink'>
+								<td><input type='text' name='#arguments.fieldname#label#i#' id='#arguments.fieldname#label#i#' value='#aLinks[i].label#' /></td>
+								<td><input type='text' name='#arguments.fieldname#url#i#' id='#arguments.fieldname#url#i#' value='#aLinks[i].url#' /></td>
+								<td style='text-align:right;'>
+									<a href='##' class='removelink' title='Remove' onclick='jQ(this).parents("tr.relatedlink").remove();return false;'>
+										<img src='#application.url.webtop#/facade/icon.cfm?icon=delete&size=16' alt='Remove' />
+									</a>
+								</td>
+							</tr>
+						</cfloop>
+						<tr id="#arguments.fieldname#addlinks" class="relatedlink">
+							<td><a href="##" class="addlink" onclick='addLinkItem("#arguments.fieldname#","","");return false;'><span>add link</span></a></td>
+							<td></td>
+							<td style="text-align:right;"><a href='##' class='addlink' title='Add' onclick='addLinkItem("#arguments.fieldname#","","");return false;'><img src='#application.url.webtop#/facade/icon.cfm?icon=add&size=16' alt='Add' /></a></td>
+						</tr>
+					</table>
+				</cfoutput>
+			</cfsavecontent>
+			
+		</cfif>
 		
 		<cfreturn html />
 	</cffunction>
