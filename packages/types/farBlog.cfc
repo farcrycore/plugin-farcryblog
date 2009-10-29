@@ -113,6 +113,7 @@
 			select		status,count(status) as total
 			from		#application.dbowner#farBlogPost
 			where		farBlogID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.objectid#" />
+						and versionID=''
 			group by	status
 		</cfquery>
 		
