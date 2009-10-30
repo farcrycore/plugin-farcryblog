@@ -11,7 +11,7 @@
 		c) it matches the nominated categories.">
 
 <!--- properties --->
-<cfproperty ftSeq="1" ftFieldset="Blog Posts" name="numberOfPosts" type="integer" required="true" default="10" hint="Number of blog posts to list." ftType="integer" ftLabel="Number of Posts" ftDefault="10" />
+<cfproperty ftSeq="1" ftFieldset="Blog Posts" name="numberOfPosts" type="integer" required="true" default="10" hint="Number of blog posts to list." ftType="integer" ftLabel="Post Per Page" ftDefault="10" />
 <cfproperty ftSeq="2" ftFieldset="Blog Posts" name="catBlogPost" type="longchar" required="false" default="" hint="Blog categories used to filter listing of blog posts." ftType="category" ftAlias="farBlogPost" ftLabel="Blog Category" />
 
 
