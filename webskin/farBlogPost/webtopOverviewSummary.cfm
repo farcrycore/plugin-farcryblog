@@ -44,7 +44,7 @@ START WEBSKIN
 		<dd><cfif len(stObj.farBlogID)>
 				#stBlog.title#: 
 				<a href="#application.url.webtop#/admin/customadmin.cfm?module=customlists/farBlogPost.cfm&plugin=farcryblog&farBlogID=#stObj.farBlogID#&status=all">Posts #stStats.all_posts#</a>
-				<cfif application.security.checkPermission(type="farBlog",permission="Approve") or application.fapi.hasRole("sysadmin")><a href="#application.url.webtop#/admin/customadmin.cfm?module=customlists/farBlogPost.cfm&plugin=farcryblog&farBlogID=#stObj.farBlogID#&status=pending">Posts Awaiting Approval #stStats.pending_posts#</a></cfif>
+				<cfif application.security.checkPermission(type="farBlogPost",permission="Approve") or application.fapi.hasRole("sysadmin")><a href="#application.url.webtop#/admin/customadmin.cfm?module=customlists/farBlogPost.cfm&plugin=farcryblog&farBlogID=#stObj.farBlogID#&status=pending">Posts Awaiting Approval #stStats.pending_posts#</a></cfif>
 			<cfelse>
 			<em>unknown</em></cfif>
 		</dd>
