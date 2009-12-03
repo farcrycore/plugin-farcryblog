@@ -14,7 +14,12 @@
 		</td>
 		<td class="blog-admin-manage">
 			<h2>#stObj.title#</h2>
-			<cfif application.security.checkPermission(permission="farBlogAdmin") or application.fapi.hasRole("sysadmin")><span class="blog-admin-settings"><a href="#application.url.webtop#/conjuror/invocation.cfm?objectid=#stObj.objectid#&method=edit&ref=typeadmin&module=#url.module#&plugin=#url.plugin#&finishurl=">Edit General Settings</a></span></cfif>
+			<cfif application.security.checkPermission(permission="farBlogAdmin") or application.fapi.hasRole("sysadmin")>
+				<span class="blog-admin-settings">
+					<a href="#application.url.webtop#/conjuror/invocation.cfm?objectid=#stObj.objectid#&method=edit&ref=typeadmin&module=#url.module#&plugin=#url.plugin#&finishurl=">Edit General Settings</a>
+					<a href="#application.fapi.fixURL(addvalues='delete=#stObj.objectid#')#" onclick="return window.confirm('Deleting this blog will also delete related blog posts. Do you want to continue?')">Delete</a>
+				</span>
+			</cfif>
 			<div class="blog-admin-actions">
 				<a href="#application.url.webtop#/admin/customadmin.cfm?module=customlists/farBlogPost.cfm&plugin=farcryblog&farBlogID=#stObj.objectid#&status=all">Posts #stStats.all_posts#</a>
 				<cfif application.security.checkPermission(type="farBlogPost",permission="Approve") or application.fapi.hasRole("sysadmin")><a href="#application.url.webtop#/admin/customadmin.cfm?module=customlists/farBlogPost.cfm&plugin=farcryblog&farBlogID=#stObj.objectid#&status=pending">Posts Awaiting Approval #stStats.pending_posts#</a></cfif>
