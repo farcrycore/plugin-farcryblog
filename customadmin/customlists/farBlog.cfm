@@ -11,6 +11,31 @@
 <cfimport taglib="/farcry/core/tags/formtools" prefix="ft" />
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
+<cfif isdefined("url.delete") and len(url.delete)>
+	<!--- Delete blog --->
+	<cfset oBlog = application.fapi.getContentType(typename="farBlog") />
+	<cfset stDeletingObject = oBlog.getData(objectid=url.delete) />
+	<cfset stResult = oBlog.delete(objectid=url.delete) />
+	
+	<!--- Delete related posts --->
+	<cfquery datasource="#application.dsn#" name="qPosts">
+		select		objectID
+		from 		#application.dbowner#farBlogPost p
+	</cfquery>
+	<cfset oPost = application.fapi.getContentType(typename="farBlogPost") />
+	<cfloop query="qPosts">
+		<cfset oPost.delete(objectid=q.objectid) />
+	</cfloop>
+	
+	<cfif isDefined("stResult.bSuccess") AND not stResult.bSuccess>
+		<extjs:bubble title="Error deleting - #stDeletingObject.label#" bAutoHide="true">
+			<cfoutput>#stResult.message#</cfoutput>
+		</extjs:bubble>
+	<cfelse>
+		<extjs:bubble title="Deleted - #stDeletingObject.label#, and #qPosts.recordcount# post/s" bAutoHide="false" />
+	</cfif>
+</cfif>
+
 <cfset qBlogs = application.fapi.getContentType(typename="farBlog").getBlogsByCurrentUser() />
 
 <!--- set up page header --->
