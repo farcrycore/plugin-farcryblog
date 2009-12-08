@@ -8,7 +8,7 @@
 
 <cfoutput>
 	<div class="blog-post-teaserstandard">
-		<h2>#stObj.title# teaser</h2>
+		<h2><skin:buildLink objectid="#stObj.objectid#">#stObj.title# teaser</skin:buildLink></h2>
 		<p class="blog-post-tagline">
 			<span class="blog-post-author">By #stLocal.stAuthor.firstname# #stLocal.stAuthor.lastname#</span>
 			<span class="blog-post-publishdate">#dateformat(stObj.publishDate,"ddd, dd mmmm yyyy")#</span>
