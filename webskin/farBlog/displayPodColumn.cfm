@@ -20,8 +20,6 @@
 	
 	<skin:view typename="farBlogPost" webskin="displayTypePodMostPopular" />
 	
-	<skin:view typename="farBlog" webskin="displayTypePodRelatedSites" />
-	
 	<skin:view typename="farBlog" webskin="displayTypePodLatestEntries" />		
 </grid:div>
 
