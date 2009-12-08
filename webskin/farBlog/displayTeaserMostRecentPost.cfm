@@ -1,5 +1,5 @@
 <cfsetting enablecfoutputonly="true" />
-<!--- @@displayname: Teaser with most popular post --->
+<!--- @@displayname: Teaser with most recent post --->
 
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
