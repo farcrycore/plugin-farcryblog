@@ -66,6 +66,7 @@
 	<cfproperty 
 		name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." 
 		ftSeq="25" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Media Library" 
+		ftAllowAdd="true"
 		ftJoin="dmImage,dmFile,dmFlash" />
 	
 	<cfproperty 
