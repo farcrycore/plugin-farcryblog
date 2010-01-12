@@ -4,6 +4,8 @@
 <!--- @@displayname: Execute --->
 <!--- @@Description: Execute webskin for ruleLatestBlogPostsPod. --->
 
+<!--- @@cacheStatus: 1 --->
+<!--- @@cacheTypeWatch: farBlogPost --->
 
 <!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/webskin/" prefix="skin" />

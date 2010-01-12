@@ -3,6 +3,8 @@
 <!--- @@displayname: Blog: Execute Post Rule --->
 <!--- @@Description: Execute webskin for ruleBlogPost, a paginated display of post teasers in reverse order of publication date. --->
 
+<!--- @@cacheStatus: 1 --->
+<!--- @@cacheTypeWatch: farBlogPost --->
 
 <!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/formtools/" prefix="ft" />
