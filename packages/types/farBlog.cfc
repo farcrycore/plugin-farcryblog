@@ -14,7 +14,7 @@
 		fttype="image" ftDestination="/images/blog/header" fthint="This image will appear as the design element in your blog header."/>
 	<cfproperty ftseq="12" ftwizardstep="General Settings" ftfieldset="Banner and Images" ftlabel="Blog Teaser Image"
 		name="teaserImage" type="string" default="" hint="" ftvalidation="" 
-		fttype="image" ftDestination="/images/blog/teaser" ftImageWidth="64" ftImageHeight="64" ftAutoGenerateType="pad" fthint="This is a smaller version of the header image that will appear on teaser views of your blog."/>
+		fttype="image" ftDestination="/images/blog/teaser" ftImageWidth="100" ftImageHeight="80" ftAutoGenerateType="pad" fthint="This is a smaller version of the header image that will appear on teaser views of your blog."/>
 		
 	<cfproperty ftseq="21" ftwizardstep="General Settings" ftfieldset="Comments" ftlabel="Email Address"
 		name="email" type="string" default="" hint="" ftvalidation="" 
