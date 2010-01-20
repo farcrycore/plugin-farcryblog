@@ -61,7 +61,7 @@
 	<cfproperty 
 		name="teaserImage" type="string" required="false" default="" hint="Teaser image." 
 		ftSeq="24" ftWizardStep="Blog Post" ftFieldset="Blog Details" ftLabel="Teaser Image"
-		ftType="image" ftDestination="/images/farBlogPost/teaser" ftImageWidth="64" ftImageHeight="64" ftAutoGenerateType="pad" />
+		ftType="image" ftDestination="/images/farBlogPost/teaser" ftImageWidth="100" ftImageHeight="80" ftAutoGenerateType="pad" />
 	
 	<cfproperty 
 		name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." 
