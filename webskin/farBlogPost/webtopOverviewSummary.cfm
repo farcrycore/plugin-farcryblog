@@ -35,7 +35,7 @@ START WEBSKIN
 	
 	<cfif len(stObj.farBlogID)>
 		<cfset stBlog = application.fapi.getContentType(typename="farBlog").getData(objectid=stObj.farBlogID) />
-		<cfset stStats = application.fapi.getContentType(typename="farBlog").getAdminStats(objectid=stObj.farBlogID) />
+		<cfset stStats = application.fapi.getContentType(typename="farBlog").getAdminStats(objectid=stObj.farBlogID, typename=stObj.typename) />
 	</cfif>
 	
 	<cfoutput>
