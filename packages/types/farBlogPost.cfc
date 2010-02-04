@@ -486,4 +486,23 @@
 		<cfreturn lBlogCategories />
 	</cffunction>
 
+	<cffunction name="getPostByCategory" access="public" returntype="query" output="false" hint="Returns a list of categories for a blog">
+		<cfargument name="blogCatID" required="true" type="UUID" />
+		<cfargument name="blogID" required="true" type="UUID" />		
+
+		<cfset var qPosts = queryNew("") />
+		
+		<cfquery datasource="#application.dsn#" name="qPosts">
+			SELECT b.objectID
+			FROM farBlogPost_aCategories a
+				INNER JOIN farBlogPost b
+				ON a.parentID = b.objectID
+			WHERE 
+				a.data = '#arguments.blogCatID#' AND
+				b.farBlogID = '#arguments.blogID#'
+		</cfquery>
+		
+		<cfreturn qPosts />
+	</cffunction>
+
 </cfcomponent>
