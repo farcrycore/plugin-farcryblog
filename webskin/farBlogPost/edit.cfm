@@ -32,8 +32,7 @@
 	</cfif>
 	<ft:object typename="farBlogPost" ObjectID="#stobj.objectID#" format="edit" lFields="publishdate,displayname,email,bComments,bAutoPublish,bEmailNotification" IncludeFieldSet="false" />
 	
-	
-	<ft:object typename="farBlogPost" ObjectID="#stobj.objectID#" format="edit" lFields="body,teaser,teaserImage,catBlogPost,lCategories" Legend="Copy" />
+	<ft:object typename="farBlogPost" ObjectID="#stobj.objectID#" format="edit" lFields="body,teaser,teaserImage,aCategories" Legend="Copy" />
 	
 	<ft:object typename="farBlogPost" ObjectID="#stobj.objectID#" format="edit" lFields="aObjectIDs,wddxRelatedLinks,aRelatedPosts" Legend="Relationships" />
 	

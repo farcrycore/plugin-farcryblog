@@ -33,22 +33,27 @@
 	
 	<cfproperty ftseq="9" type="boolean" ftfieldset="General Details" ftlabel="Email Notification"
 		name="bEmailNotification" default="0" hint="Only used if bEnablecomments is true" ftvalidation="" 
-		fttype="list" ftList="1:Email me a notification when ever a comment is posted,0:Do not notify me" ftrendertype="radio" fthint=""/>
-	
+		ftWizardStep="Start" fttype="list" ftList="1:Email me a notification when ever a comment is posted,0:Do not notify me" ftrendertype="radio" fthint=""/>
+
+
 	<cfproperty 
 		name="catBlogPost" type="longchar" hint="Blog categorisation." 
 		ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" ftLabel="Categories"
 		ftType="category" ftAlias="farBlogPost" />
-		
-		
+
 	<cfproperty 
 		name="lCategories" type="longchar" hint="Blog categorisation." 
 		ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" ftLabel="Categories"
 		ftType="list" 
 			ftListData="getBlogPostCategories" ftListDataTypename="farBlogPost"
 			ftSelectMultiple="true" />
-		
-	
+
+	<cfproperty 
+		name="aCategories" type="array" ftType="array" hint="Blog categorisation." 
+		ftSeq="10" ftWizardStep="Start" ftFieldset="Categorisation" ftJoin="farBlogCategory" ftSelectMultiple="true" ftLabel="Categories" />
+
+
+
 	<cfproperty
 		name="Body" type="longchar" required="false" default="" hint="Main body of content." 
 		ftSeq="21" ftWizardStep="Blog Post" ftFieldset="Blog Details" ftLabel="Blog Post" 
@@ -65,26 +70,26 @@
 	
 	<cfproperty 
 		name="aMedia" type="array" required="false" default="" hint="Mixed media content for this content." 
-		ftSeq="25" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Media Library" 
+		ftSeq="26" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Media Library" 
 		ftAllowAdd="true"
 		ftJoin="dmImage,dmFile,dmFlash" />
 	
 	<cfproperty 
 		name="aObjectIDs" type="array" required="false" default="" hint="Related content." 
-		ftSeq="26" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related Internal Links" 
+		ftSeq="27" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related Internal Links" 
 		ftJoin="dmNavigation" />
 	
 	<cfproperty 
 		name="wddxRelatedLinks" type="longchar" required="false" default="" hint="" 
-		ftSeq="27" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related External Links" />
+		ftSeq="28" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related External Links" />
 	
 	<cfproperty 
 		name="bShowMediaInline" type="boolean" required="true" default="0" hint="Flag for showing media incline." 
-		ftSeq="28" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Show Media Inline?" />
+		ftSeq="29" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Show Media Inline?" />
 		
 	<cfproperty 
 		name="aRelatedPosts" type="array" required="false" default="" hint="Related blog posts." 
-		ftSeq="29" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related Blog Posts" 
+		ftSeq="30" ftWizardStep="Blog Post" ftFieldset="Related Content" ftLabel="Related Blog Posts" 
 		ftJoin="farBlogPost" />
 	
 	
@@ -480,4 +485,5 @@
 		
 		<cfreturn lBlogCategories />
 	</cffunction>
+
 </cfcomponent>
