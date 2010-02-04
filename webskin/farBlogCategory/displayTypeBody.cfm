@@ -18,7 +18,7 @@ FARCRY IMPORT FILES
 		</cfoutput>
 
 		<cfloop query="qCategories">
-			<skin:buildLink bodyView="displayTypeBodyByCategory" type="farBlogPost" urlParameters="cat=#objectID#&blog=#stParam.blogID#">
+			<skin:buildLink bodyView="displayTypeBodyByCategory" type="farBlogPost" urlParameters="cat=#qCategories.objectID#&blog=#stParam.blogID#">
 				<cfoutput><li>#title# <cfif NOT len(stParam.postID)>(#total#)</cfif></li></cfoutput>
 			</skin:buildLink>
 		
