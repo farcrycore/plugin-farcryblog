@@ -13,19 +13,22 @@ FARCRY IMPORT FILES
 
 <cfset qCategories = getCategories(postID=stParam.postID,blogID=stParam.blogID) />
 
-<cfoutput>
-	<ul>
-		</cfoutput>
+<cfif qCategories.recordCount>
 
-		<cfloop query="qCategories">
-			<skin:buildLink bodyView="displayTypeBodyByCategory" type="farBlogPost" urlParameters="cat=#qCategories.objectID#&blog=#stParam.blogID#">
-				<cfoutput><li>#title# <cfif NOT len(stParam.postID)>(#total#)</cfif></li></cfoutput>
-			</skin:buildLink>
-		
-		</cfloop>
-
-		<cfoutput>
-	</ul>
-</cfoutput>
+	<cfoutput>
+		<ul>
+			</cfoutput>
+	
+			<cfloop query="qCategories">
+				<skin:buildLink bodyView="displayTypeBodyByCategory" type="farBlogPost" urlParameters="cat=#qCategories.objectID#&blog=#stParam.blogID#">
+					<cfoutput><li>#title# <cfif NOT len(stParam.postID)>(#total#)</cfif></li></cfoutput>
+				</skin:buildLink>
+			</cfloop>
+	
+			<cfoutput>
+		</ul>
+	</cfoutput>
+	
+</cfif>
 
 <cfsetting enablecfoutputonly="false">

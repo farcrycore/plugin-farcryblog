@@ -45,7 +45,7 @@
 				</cfif>
 			ORDER BY a.title ASC
 		</cfquery>
-		
+
 		<cfreturn qCategories />
 	</cffunction>
 	
