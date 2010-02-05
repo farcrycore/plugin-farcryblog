@@ -159,17 +159,15 @@
 			</cfsavecontent>
 			
 		<cfelse>
-		
-			<skin:htmlHead library="jqueryjs" />
 			<skin:htmlHead><cfoutput>
 				<script type="text/javascript">
 					function addLinkItem(id,label,url){
-						var jLen = jQ("##"+id+"length");
-						var jAddLink = jQ("##"+id+"addlinks");
+						var jLen = $j("##"+id+"length");
+						var jAddLink = $j("##"+id+"addlinks");
 						
 						jLen.val(parseInt(jLen.val())+1);
 						
-						jAddLink.before("<tr id='"+id+"link"+jLen.val()+"' class='relatedlink'><td><input type='text' name='"+id+"label"+jLen.val()+"' id='"+id+"label"+jLen.val()+"' value='"+label+"' /></td><td><input type='text' name='"+id+"url"+jLen.val()+"' id='"+id+"url"+jLen.val()+"' value='"+url+"' /></td><td style='text-align:right;'><a href='##' class='removelink' title='Remove' onclick='jQ(this).parents(\"tr.relatedlink\").remove();return false;'><img src='#application.url.webtop#/facade/icon.cfm?icon=delete&size=16' alt='Remove' /></a></td></tr>");
+						jAddLink.before("<tr id='"+id+"link"+jLen.val()+"' class='relatedlink'><td><input type='text' name='"+id+"label"+jLen.val()+"' id='"+id+"label"+jLen.val()+"' value='"+label+"' /></td><td><input type='text' name='"+id+"url"+jLen.val()+"' id='"+id+"url"+jLen.val()+"' value='"+url+"' /></td><td style='text-align:right;'><a href='##' class='removelink' title='Remove' onclick='$j(this).parents(\"tr.relatedlink\").remove();return false;'><img src='#application.url.webtop#/facade/icon.cfm?icon=delete&size=16' alt='Remove' /></a></td></tr>");
 					};
 				</script>
 			</cfoutput></skin:htmlHead>
@@ -189,7 +187,7 @@
 								<td><input type='text' name='#arguments.fieldname#label#i#' id='#arguments.fieldname#label#i#' value='#aLinks[i].label#' /></td>
 								<td><input type='text' name='#arguments.fieldname#url#i#' id='#arguments.fieldname#url#i#' value='#aLinks[i].url#' /></td>
 								<td style='text-align:right;'>
-									<a href='##' class='removelink' title='Remove' onclick='jQ(this).parents("tr.relatedlink").remove();return false;'>
+									<a href='##' class='removelink' title='Remove' onclick='$j(this).parents("tr.relatedlink").remove();return false;'>
 										<img src='#application.url.webtop#/facade/icon.cfm?icon=delete&size=16' alt='Remove' />
 									</a>
 								</td>

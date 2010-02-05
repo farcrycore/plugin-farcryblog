@@ -16,24 +16,21 @@
 
 <admin:header />
 
-<skin:htmlHead library="jqueryjs" />
-<skin:htmlHead><cfoutput>
-	<script type="text/javascript">
-		jQ(function(){
-			jOthers = jQ("input[name$=bPublishComments],input[name$=bEmailNotification]");
-			function disableOthers(disabled){
-				jOthers.attr("disabled",disabled);
-			};
-			disableOthers(
-				jQ("input[name$=bEnableComments]").bind("click",function(){
-					disableOthers(this.value==0);
-				})
-				
-				.filter(":checked").val()==0
-			);
-		});
-	</script>
-</cfoutput></skin:htmlHead>
+<skin:onReady>
+	<cfoutput>
+		jOthers = $j("input[name$=bPublishComments],input[name$=bEmailNotification]");
+		function disableOthers(disabled){
+			jOthers.attr("disabled",disabled);
+		};
+		disableOthers(
+			$j("input[name$=bEnableComments]").bind("click",function(){
+				disableOthers(this.value==0);
+			})
+			
+			.filter(":checked").val()==0
+		);
+	</cfoutput>
+</skin:onReady>
 
 <ft:form>
 	<ft:object typename="farBlog" ObjectID="#stobj.objectID#" format="edit" lFields="title,tagline,teaser" Legend="Name and Description" />

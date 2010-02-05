@@ -32,11 +32,11 @@
 	<cfproperty ftseq="31" ftwizardstep="General Settings" ftfieldset="Authors" ftlabel="Allowed Authors"
 		name="aAuthors" type="array" hint="Profiles allowed to create posts to this blog" ftvalidation="" 
 		fttype="array" ftJoin="dmProfile" fthint="Select users that can post to this blog" />
-		
+		<!---
 	<cfproperty ftseq="50" ftwizardstep="General Settings" ftfieldset="Categorisation" ftlabel="Blog Categories"
 		name="lCategories" type="longchar" hint="List of categories that can be assigned to each blog post" ftvalidation="" 
 		fttype="longchar" fthint="Type in a list of categories you want to allow to be assigned to your blog posts." />
-	
+	--->
 	
 		<cffunction name="getLatestPost" access="public" returntype="struct" output="false" hint="Returns the latest visible blog post, or an empty struct if none exists">
 			<cfargument name="objectid" type="uuid" required="true" hint="The blog to query" />
