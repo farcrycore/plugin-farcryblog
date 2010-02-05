@@ -11,27 +11,37 @@
 		<cfquery datasource="#application.dsn#" name="qCategories">
 			SELECT DISTINCT a.title, a.objectID, b.total
 			FROM farBlogCategory a
-				INNER JOIN 
-				(
-					SELECT data, COUNT(data) AS total
-					FROM farBlogPost_aCategories
-					<cfif isValid("UUID",arguments.postID)>
-						WHERE parentID = '#arguments.postID#'
-					</cfif>
-					GROUP BY data
-				) b
-				ON a.objectID = b.data				
 				INNER JOIN farBlogPost_aCategories d
 				ON a.objectID = d.data
 				INNER JOIN farBlogPost c
 				ON c.objectID = d.parentID
+				INNER JOIN 
+				(
+					SELECT data, COUNT(data) AS total
+					FROM farBlogPost_aCategories 
+					WHERE 1 = 1 
+					<cfif isValid("UUID",arguments.postID)>
+						AND parentID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.postID#" />
+					</cfif>
+					<cfif isValid("UUID",arguments.blogID)>
+						AND parentID IN ( 
+							SELECT objectID
+							FROM farBlogPost
+							WHERE 
+								farBlogID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.blogID#" /> AND
+								status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#request.lvalidstatus#" />
+						)
+					</cfif>
+					GROUP BY data
+				) b
+				ON a.objectID = b.data				
 			WHERE
 				1 = 1
 				<cfif isValid("UUID",arguments.postID)>
-					AND d.parentID = '#arguments.postID#' 
+					AND d.parentID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.postID#" />
 				</cfif>
 				<cfif isValid("UUID",arguments.blogID)>
-					AND c.farBlogID = '#arguments.blogID#'
+					AND c.farBlogID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.blogID#" />
 				</cfif>
 			ORDER BY a.title ASC
 		</cfquery>
