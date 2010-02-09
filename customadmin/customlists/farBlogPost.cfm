@@ -65,7 +65,14 @@
 
 <cfset arrayappend(aCustomColumns,"title") />
 
-<cfset arrayappend(aCustomColumns,"catBlogPost") />
+<cfset stCategories = structnew() />
+<cfset stCategories.title = "Categories" />
+<cfset stCategories.webskin = "displayCategoryAdmin" />
+<cfset stCategories.sortable = false />
+<cfset stCategories.property = "aCategories" />
+
+<cfset arrayappend(aCustomColumns,stCategories) />
+
 
 <cfset stCol = structnew() />
 <cfset stCol.webskin = "cellComments" />
@@ -82,9 +89,9 @@
 <ft:objectAdmin
 	title="#adminTitle#"
 	typename="farBlogPost"
-	columnList="publishDate,title,catBlogPost,dmProfileID"
+	columnList="publishDate,title,dmProfileID"
 	aCustomColumns="#aCustomColumns#"
-	sortableColumns="title,publishDate"
+	sortableColumns="title"
 	lFilterFields="title"
 	sqlOrderBy="publishDate DESC"
 	sqlWhere="#sqlWhere#"
