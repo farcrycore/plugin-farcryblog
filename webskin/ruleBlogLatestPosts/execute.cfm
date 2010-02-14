@@ -14,8 +14,18 @@
 <cfset qRecentPosts = oBlog.getPostsByCategoryList(lCategoryIDs="#stObj.catBlogPost#", maxRows="999") />
 
 
-<skin:pagination qrecordset="#qRecentPosts#" recordsPerPage="#stObj.numberOfPosts#">
-	<skin:view typename="farBlogPost" objectid="#stobject.objectid#" webskin="displayTeaserStandard" />
-</skin:pagination>
+		<ft:form>	
+			<skin:pagination 
+				paginationID="latestNews"
+				qRecordSet="#qRecentPosts#"
+				typename="farBlogPost"
+				pageLinks="10"
+				recordsPerPage="#stObj.numberOfPosts#" 
+				Top="false" 
+				Bottom="true"
+				renderType="inline" r_stObject="stNews"> 
+					<skin:view objectid="#stNews.objectid#" typename="farBlogPost" webskin="displayTeaserStandard" />
+			</skin:pagination>
+		</ft:form>	
 
 <cfsetting enablecfoutputonly="false" />
