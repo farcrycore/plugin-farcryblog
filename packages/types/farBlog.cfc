@@ -1,4 +1,4 @@
-<cfcomponent name="farBlog" extends="farcry.core.packages.types.types" output="false" displayname="Blog" fualias="blog" description="Blog Management">
+<cfcomponent name="farBlog" extends="farcry.core.packages.types.types" output="false" displayname="Blog" bFriendly="true" fualias="blog" description="Blog Management">
 	<cfproperty ftseq="1" ftwizardstep="General Settings" ftfieldset="Name and Description" ftlabel="Blog Title"
 		name="title" type="string" default="" hint="Blog Title." ftvalidation="required" 
 		fttype="string" fthint="This is the name of your blog"/>
