@@ -41,6 +41,7 @@
 	
 	<ft:object typename="farBlog" ObjectID="#stobj.objectID#" format="edit" lFields="aAuthors" Legend="Authors" />
 	
+	<ft:object typename="farBlog" ObjectID="#stobj.objectID#" format="edit" lFields="seq" Legend="Sequencing" />
 	
 	<ft:farcryButtonPanel>
 		<ft:button value="Save" color="orange" /> 
