@@ -6,7 +6,7 @@
 
 	<!--- properties --->
 	<cfproperty 
-		name="Title" type="string" required="true" default="" hint="Blog post title." 
+		name="Title" type="string" fttype="string" required="true" default="" hint="Blog post title.." 
 		ftSeq="1" ftWizardStep="Start" ftFieldset="General Details" ftLabel="Title" ftValidation="required" />
 	
 	<cfproperty 
