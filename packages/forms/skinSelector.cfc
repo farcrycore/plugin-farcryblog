@@ -4,7 +4,7 @@
 	
 	
 	<cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
-	<cfimport taglib="/farcry/core/tags/extjs" prefix="extjs" />
+
 	
 	<cffunction name="editSkin" access="public" returntype="string" description="Provides the UI for editing the plugin skin" output="false">
 		<cfargument name="typename" required="true" type="string" hint="The name of the type that this field is part of.">

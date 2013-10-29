@@ -5,6 +5,7 @@
 
 <!--- @@cacheStatus: 1 --->
 <!--- @@cacheTypeWatch: farBlogPost --->
+<!--- @@cacheTimeout: 2 --->
 
 <!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/formtools/" prefix="ft" />
