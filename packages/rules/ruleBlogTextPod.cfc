@@ -3,8 +3,8 @@
 <!--- @@displayname: Utility: Plain Text Block --->
 <!--- @@Description: Publishing rule for rendering a block of user definable text/markup in the container. --->
 <!--- @@Developer: Geoff Bowers (modius@daemon.com.au) --->
-<cfcomponent displayname="Utility: Plain Text Block" extends="farcry.core.packages.rules.rules" 
-	hint="Publishing rule for rendering a block of user definable text/markup in the container.">
+<cfcomponent displayname="Utility: Blog Text Pod" extends="farcry.core.packages.rules.rules" 
+	hint="Publishing rule for rendering a block of user definable text/markup in the container." bObjectBroker="true">
 
 <!--- rule object properties --->
 <cfproperty ftseq="1" ftfieldset="Text Rule" name="title" type="string" hint="Title for text rule; not displayed in the container." required="no" default="" ftlabel="Admin Title"
